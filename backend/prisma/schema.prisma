@@ -1,13 +1,292 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+}
+
+// ─────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  DOCTOR
+  PATIENT
+  ADMIN
+}
+
+enum Rights {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum BloodGroup {
+  A
+  B
+  AB
+  O
+}
+
+enum RhFactor {
+  POSITIVE
+  NEGATIVE
+}
+
+enum EntryType {
+  VISIT             
+  RESEARCH_ORDERED  
+  RESEARCH_REVIEW   
+}
+
+enum ResearchStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  ERROR
+}
+
+enum FileStatus {
+  PENDING
+  PROCESSED
+  ERROR
+}
+
+enum DiseaseStatus {
+  ACTIVE
+  RECOVERED
+  CHRONIC
+}
+
+enum AllergyReactionSeverity {
+  MILD
+  MODERATE
+  SEVERE
+}
+
+enum AllergenCategory {
+  FOOD
+  DRUG
+  ENVIRONMENTAL
+  INSECT
+  OTHER
+}
+
+// ─────────────────────────────────────────
+// PERSON
+// ─────────────────────────────────────────
+
+model Person {
+  id           Int      @id @default(autoincrement())
+  last_name    String   @db.VarChar(100)
+  first_name   String   @db.VarChar(100)
+  middle_name  String?  @db.VarChar(100)
+  birth_date   DateTime @db.Date
+  gender       Gender
+  contact_info String?  @db.VarChar(255)
+  role         Role
+
+  account Account?
+  doctor  Doctor?
+  patient Patient?
+}
+
+// ─────────────────────────────────────────
+// ACCOUNT
+// ─────────────────────────────────────────
+
+model Account {
+  id         Int      @id @default(autoincrement())
+  person_id  Int      @unique
+  email      String   @unique @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  rights     Rights   @default(USER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────
+// DOCTOR
+// ─────────────────────────────────────────
+
+model Doctor {
+  id             Int    @id @default(autoincrement())
+  person_id      Int    @unique
+  specialization String @db.VarChar(255)
+
+  person          Person          @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  records         Record[]
+  doctor_patients DoctorPatient[]
+}
+
+// ─────────────────────────────────────────
+// PATIENT 
+// ─────────────────────────────────────────
+
+model Patient {
+  id                Int @id @default(autoincrement())
+  person_id         Int @unique
+  medical_record_id Int @unique
+
+  person         Person        @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  medical_record MedicalRecord @relation(fields: [medical_record_id], references: [id])
+
+  doctor_patients DoctorPatient[]
+}
+
+// ─────────────────────────────────────────
+// DOCTOR_PATIENT 
+// ─────────────────────────────────────────
+
+model DoctorPatient {
+  patient_id Int
+  doctor_id  Int
+
+  patient Patient @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  doctor  Doctor  @relation(fields: [doctor_id], references: [id], onDelete: Cascade)
+
+  @@id([patient_id, doctor_id])
+}
+
+// ─────────────────────────────────────────
+// MEDICAL RECORD 
+// ─────────────────────────────────────────
+
+model MedicalRecord {
+  id          Int         @id @default(autoincrement())
+  blood_group BloodGroup?
+  rh_factor   RhFactor?
+  created_at  DateTime    @default(now())
+
+  patient           Patient?
+  records           Record[]
+  patient_diseases  PatientDisease[]
+  patient_allergies PatientAllergy[]
+  researches        Research[]
+  research_files    ResearchFile[]
+}
+
+// ─────────────────────────────────────────
+// RECORD 
+// ─────────────────────────────────────────
+
+model Record {
+  id                Int       @id @default(autoincrement())
+  medical_record_id Int
+  doctor_id         Int
+  visit_date        DateTime  @db.Date
+  entry_type        EntryType
+  complaints        String?   @db.Text
+  doctor_conclusion String?   @db.Text
+  treatment_plan    String?   @db.Text
+  plan_text         String?   @db.Text
+  research_id       Int?
+
+  medical_record MedicalRecord @relation(fields: [medical_record_id], references: [id], onDelete: Cascade)
+  doctor         Doctor        @relation(fields: [doctor_id], references: [id])
+  research       Research?     @relation(fields: [research_id], references: [id])
+}
+
+// ─────────────────────────────────────────
+// RESEARCH
+// ─────────────────────────────────────────
+
+model Research {
+  id                Int            @id @default(autoincrement())
+  medical_record_id Int
+  research_type     String         @db.VarChar(255)
+  status            ResearchStatus @default(PENDING)
+  extracted_text    String?        @db.LongText
+  results           String?        @db.Text
+  created_at        DateTime       @default(now())
+  processed_at      DateTime?
+
+  medical_record MedicalRecord  @relation(fields: [medical_record_id], references: [id], onDelete: Cascade)
+  research_files ResearchFile[]
+  records        Record[]
+}
+
+// ─────────────────────────────────────────
+// RESEARCH FILE 
+// ─────────────────────────────────────────
+
+model ResearchFile {
+  id                Int        @id @default(autoincrement())
+  medical_record_id Int
+  research_id       Int?
+  file_path         String     @db.VarChar(500)
+  status            FileStatus @default(PENDING)
+  created_at        DateTime   @default(now())
+  processed_at      DateTime?
+
+  // medical_record_id нужен для привязки к пациенту
+  // до того как файл классифицирован (research_id = NULL)
+  medical_record MedicalRecord @relation(fields: [medical_record_id], references: [id], onDelete: Cascade)
+  research       Research?     @relation(fields: [research_id], references: [id])
+}
+
+// ─────────────────────────────────────────
+// DISEASE
+// ─────────────────────────────────────────
+
+model Disease {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(255)
+  icd_code String @db.VarChar(20)
+
+  patient_diseases PatientDisease[]
+}
+
+// ─────────────────────────────────────────
+// PATIENT DISEASE 
+// ─────────────────────────────────────────
+
+model PatientDisease {
+  medical_record_id Int
+  disease_id        Int
+  status            DiseaseStatus
+  diagnosed_at      DateTime      @db.Date
+
+  medical_record MedicalRecord @relation(fields: [medical_record_id], references: [id], onDelete: Cascade)
+  disease        Disease       @relation(fields: [disease_id], references: [id])
+
+  @@id([medical_record_id, disease_id])
+}
+
+// ─────────────────────────────────────────
+// ALLERGEN 
+// ─────────────────────────────────────────
+
+model Allergen {
+  id       Int              @id @default(autoincrement())
+  name     String           @db.VarChar(255)
+  category AllergenCategory
+
+  patient_allergies PatientAllergy[]
+}
+
+// ─────────────────────────────────────────
+// PATIENT ALLERGY 
+// ─────────────────────────────────────────
+
+model PatientAllergy {
+  medical_record_id    Int
+  allergen_id          Int
+  reaction_severity    AllergyReactionSeverity
+  reaction_description String?                 @db.VarChar(500)
+  diagnosed_at         DateTime                @db.Date
+
+  medical_record MedicalRecord @relation(fields: [medical_record_id], references: [id], onDelete: Cascade)
+  allergen       Allergen      @relation(fields: [allergen_id], references: [id])
+
+  @@id([medical_record_id, allergen_id])
 }
