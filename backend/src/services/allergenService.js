@@ -1,15 +1,14 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
-// Get all allergens
+// Get all allergens sorted alphabetically
 export const getAll = async () => {
   try {
     return await prisma.allergen.findMany({
-      orderBy: {
-        name: 'asc'
-      }
+      orderBy: { name: 'asc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch allergens: ${error.message}`)
+    throw new AppError(`Failed to fetch allergens: ${error.message}`, 500)
   }
 }
 
@@ -21,12 +20,12 @@ export const getById = async (id) => {
     })
 
     if (!allergen) {
-      throw new Error(`Allergen with id ${id} not found`)
+      throw new AppError(`Allergen with id ${id} not found`, 404)
     }
 
     return allergen
   } catch (error) {
-    throw new Error(`Failed to fetch allergen: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch allergen: ${error.message}`, 500)
   }
 }
 
@@ -36,30 +35,24 @@ export const getByCategory = async (category) => {
   try {
     return await prisma.allergen.findMany({
       where: { category },
-      orderBy: {
-        name: 'asc'
-      }
+      orderBy: { name: 'asc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch allergens by category: ${error.message}`)
+    throw new AppError(`Failed to fetch allergens by category: ${error.message}`, 500)
   }
 }
 
-// Search allergens by name — case insensitive partial match
+// Search allergens by name — partial case-insensitive match
 export const search = async (query) => {
   try {
     return await prisma.allergen.findMany({
       where: {
-        name: {
-          contains: query
-        }
+        name: { contains: query }
       },
-      orderBy: {
-        name: 'asc'
-      }
+      orderBy: { name: 'asc' }
     })
   } catch (error) {
-    throw new Error(`Failed to search allergens: ${error.message}`)
+    throw new AppError(`Failed to search allergens: ${error.message}`, 500)
   }
 }
 
@@ -68,34 +61,25 @@ export const create = async (data) => {
   try {
     const { name, category } = data
 
-    // Check if allergen with this name already exists
     const existing = await prisma.allergen.findFirst({
-      where: {
-        name: {
-          equals: name
-        }
-      }
+      where: { name: { equals: name } }
     })
 
     if (existing) {
-      throw new Error(`Allergen with name "${name}" already exists`)
+      throw new AppError(`Allergen with name "${name}" already exists`, 400)
     }
 
     return await prisma.allergen.create({
-      data: {
-        name,
-        category
-      }
+      data: { name, category }
     })
   } catch (error) {
-    throw new Error(`Failed to create allergen: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create allergen: ${error.message}`, 500)
   }
 }
 
 // Update allergen
 export const update = async (id, data) => {
   try {
-    // Check if allergen exists before updating
     await getById(id)
 
     const { name, category } = data
@@ -105,13 +89,12 @@ export const update = async (id, data) => {
       const existing = await prisma.allergen.findFirst({
         where: {
           name: { equals: name },
-          // Exclude current allergen from the check
           NOT: { id }
         }
       })
 
       if (existing) {
-        throw new Error(`Allergen with name "${name}" already exists`)
+        throw new AppError(`Allergen with name "${name}" already exists`, 400)
       }
     }
 
@@ -123,20 +106,19 @@ export const update = async (id, data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to update allergen: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update allergen: ${error.message}`, 500)
   }
 }
 
 // Delete allergen by id
 export const remove = async (id) => {
   try {
-    // Check if allergen exists before deleting
     await getById(id)
 
     return await prisma.allergen.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete allergen: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete allergen: ${error.message}`, 500)
   }
 }

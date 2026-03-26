@@ -1,15 +1,14 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
 // Get all doctors with their person data
 export const getAll = async () => {
   try {
     return await prisma.doctor.findMany({
-      include: {
-        person: true
-      }
+      include: { person: true }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch doctors: ${error.message}`)
+    throw new AppError(`Failed to fetch doctors: ${error.message}`, 500)
   }
 }
 
@@ -18,44 +17,36 @@ export const getById = async (id) => {
   try {
     const doctor = await prisma.doctor.findUnique({
       where: { id },
-      include: {
-        person: true
-      }
+      include: { person: true }
     })
 
     if (!doctor) {
-      throw new Error(`Doctor with id ${id} not found`)
+      throw new AppError(`Doctor with id ${id} not found`, 404)
     }
 
     return doctor
   } catch (error) {
-    throw new Error(`Failed to fetch doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch doctor: ${error.message}`, 500)
   }
 }
 
-// Get doctors by specialization
+// Get doctors by specialization — partial case-insensitive match
 export const getBySpecialization = async (specialization) => {
   try {
     return await prisma.doctor.findMany({
       where: {
-        specialization: {
-          // Case-insensitive search
-          contains: specialization
-        }
+        specialization: { contains: specialization }
       },
-      include: {
-        person: true
-      }
+      include: { person: true }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch doctors by specialization: ${error.message}`)
+    throw new AppError(`Failed to fetch doctors by specialization: ${error.message}`, 500)
   }
 }
 
 // Get all patients assigned to a doctor
 export const getPatients = async (doctorId) => {
   try {
-    // Check if doctor exists
     await getById(doctorId)
 
     return await prisma.doctorPatient.findMany({
@@ -70,69 +61,56 @@ export const getPatients = async (doctorId) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch patients for doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch patients for doctor: ${error.message}`, 500)
   }
 }
 
 // Create a new doctor
-// Note: person must be created first, then doctor is linked to it
 export const create = async (data) => {
   try {
     const { person_id, specialization } = data
 
-    // Check if doctor with this person_id already exists
     const existing = await prisma.doctor.findUnique({
       where: { person_id }
     })
 
     if (existing) {
-      throw new Error(`Doctor with person_id ${person_id} already exists`)
+      throw new AppError(`Doctor with person_id ${person_id} already exists`, 400)
     }
 
     return await prisma.doctor.create({
-      data: {
-        person_id,
-        specialization
-      },
-      include: {
-        person: true
-      }
+      data: { person_id, specialization },
+      include: { person: true }
     })
   } catch (error) {
-    throw new Error(`Failed to create doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create doctor: ${error.message}`, 500)
   }
 }
 
 // Update doctor specialization
 export const update = async (id, data) => {
   try {
-    // Check if doctor exists before updating
     await getById(id)
-
-    const { specialization } = data
 
     return await prisma.doctor.update({
       where: { id },
-      data: { specialization },
-      include: {
-        person: true
-      }
+      data: { specialization: data.specialization },
+      include: { person: true }
     })
   } catch (error) {
-    throw new Error(`Failed to update doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update doctor: ${error.message}`, 500)
   }
 }
 
 // Delete doctor by id
 export const remove = async (id) => {
   try {
-    // Check if doctor exists before deleting
     await getById(id)
 
     return await prisma.doctor.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete doctor: ${error.message}`, 500)
   }
 }

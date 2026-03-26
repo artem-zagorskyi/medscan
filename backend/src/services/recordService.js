@@ -1,20 +1,22 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
+
+const includeRelations = {
+  doctor: {
+    include: { person: true }
+  },
+  research: true
+}
 
 // Get all records
 export const getAll = async () => {
   try {
     return await prisma.record.findMany({
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      }
+      include: includeRelations,
+      orderBy: { visit_date: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch records: ${error.message}`)
+    throw new AppError(`Failed to fetch records: ${error.message}`, 500)
   }
 }
 
@@ -23,23 +25,16 @@ export const getById = async (id) => {
   try {
     const record = await prisma.record.findUnique({
       where: { id },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      }
+      include: includeRelations
     })
 
     if (!record) {
-      throw new Error(`Record with id ${id} not found`)
+      throw new AppError(`Record with id ${id} not found`, 404)
     }
 
     return record
   } catch (error) {
-    throw new Error(`Failed to fetch record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch record: ${error.message}`, 500)
   }
 }
 
@@ -48,21 +43,11 @@ export const getByMedicalRecord = async (medicalRecordId) => {
   try {
     return await prisma.record.findMany({
       where: { medical_record_id: medicalRecordId },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      },
-      // Sort by visit date descending — latest first
-      orderBy: {
-        visit_date: 'desc'
-      }
+      include: includeRelations,
+      orderBy: { visit_date: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch records by medical record: ${error.message}`)
+    throw new AppError(`Failed to fetch records by medical record: ${error.message}`, 500)
   }
 }
 
@@ -71,20 +56,11 @@ export const getByDoctor = async (doctorId) => {
   try {
     return await prisma.record.findMany({
       where: { doctor_id: doctorId },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      },
-      orderBy: {
-        visit_date: 'desc'
-      }
+      include: includeRelations,
+      orderBy: { visit_date: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch records by doctor: ${error.message}`)
+    throw new AppError(`Failed to fetch records by doctor: ${error.message}`, 500)
   }
 }
 
@@ -94,20 +70,11 @@ export const getByEntryType = async (entryType) => {
   try {
     return await prisma.record.findMany({
       where: { entry_type: entryType },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      },
-      orderBy: {
-        visit_date: 'desc'
-      }
+      include: includeRelations,
+      orderBy: { visit_date: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch records by entry type: ${error.message}`)
+    throw new AppError(`Failed to fetch records by entry type: ${error.message}`, 500)
   }
 }
 
@@ -126,14 +93,14 @@ export const create = async (data) => {
       research_id
     } = data
 
-    // If entry type is RESEARCH_REVIEW, research_id must be provided
+    // RESEARCH_REVIEW requires a research_id
     if (entry_type === 'RESEARCH_REVIEW' && !research_id) {
-      throw new Error('research_id is required for RESEARCH_REVIEW entry type')
+      throw new AppError('research_id is required for RESEARCH_REVIEW entry type', 400)
     }
 
-    // If entry type is VISIT, research_id should not be provided
+    // VISIT must not have a research_id
     if (entry_type === 'VISIT' && research_id) {
-      throw new Error('research_id should not be provided for VISIT entry type')
+      throw new AppError('research_id should not be provided for VISIT entry type', 400)
     }
 
     return await prisma.record.create({
@@ -148,24 +115,16 @@ export const create = async (data) => {
         plan_text: plan_text ?? null,
         research_id: research_id ?? null
       },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      }
+      include: includeRelations
     })
   } catch (error) {
-    throw new Error(`Failed to create record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create record: ${error.message}`, 500)
   }
 }
 
 // Update record
 export const update = async (id, data) => {
   try {
-    // Check if record exists before updating
     await getById(id)
 
     const {
@@ -189,61 +148,41 @@ export const update = async (id, data) => {
         plan_text: plan_text ?? undefined,
         research_id: research_id ?? undefined
       },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      }
+      include: includeRelations
     })
   } catch (error) {
-    throw new Error(`Failed to update record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update record: ${error.message}`, 500)
   }
 }
 
 // Delete record by id
 export const remove = async (id) => {
   try {
-    // Check if record exists before deleting
     await getById(id)
 
     return await prisma.record.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete record: ${error.message}`, 500)
   }
 }
 
-// Attach research to a record
-// Used when entry type is RESEARCH_ORDERED and research is created after the visit
+// Attach research to a RESEARCH_ORDERED record
 export const attachResearch = async (id, researchId) => {
   try {
-    // Check if record exists
     const record = await getById(id)
 
-    // Only RESEARCH_ORDERED records can have research attached
     if (record.entry_type !== 'RESEARCH_ORDERED') {
-      throw new Error('Research can only be attached to RESEARCH_ORDERED records')
+      throw new AppError('Research can only be attached to RESEARCH_ORDERED records', 400)
     }
 
     return await prisma.record.update({
       where: { id },
-      data: {
-        research_id: researchId
-      },
-      include: {
-        doctor: {
-          include: {
-            person: true
-          }
-        },
-        research: true
-      }
+      data: { research_id: researchId },
+      include: includeRelations
     })
   } catch (error) {
-    throw new Error(`Failed to attach research to record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to attach research to record: ${error.message}`, 500)
   }
 }

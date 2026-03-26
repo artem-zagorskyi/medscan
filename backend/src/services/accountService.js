@@ -1,11 +1,8 @@
 import prisma from '../config/prisma.js'
 import bcrypt from 'bcrypt'
+import { AppError } from '../errors/AppError.js'
 
 const SALT_ROUNDS = 12
-
-// Pepper is a server-wide secret stored in .env
-// It is added to the password before hashing for extra security
-// Even if the database is leaked, attacker still needs the pepper
 const PEPPER = process.env.PEPPER_SECRET
 
 // Get account by person id
@@ -16,12 +13,12 @@ export const getByPersonId = async (personId) => {
     })
 
     if (!account) {
-      throw new Error(`Account with person_id ${personId} not found`)
+      throw new AppError(`Account with person_id ${personId} not found`, 404)
     }
 
     return account
   } catch (error) {
-    throw new Error(`Failed to fetch account: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch account: ${error.message}`, 500)
   }
 }
 
@@ -33,12 +30,12 @@ export const getByEmail = async (email) => {
     })
 
     if (!account) {
-      throw new Error(`Account with email ${email} not found`)
+      throw new AppError(`Account with email ${email} not found`, 404)
     }
 
     return account
   } catch (error) {
-    throw new Error(`Failed to fetch account by email: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch account by email: ${error.message}`, 500)
   }
 }
 
@@ -53,11 +50,10 @@ export const create = async (data) => {
     })
 
     if (existing) {
-      throw new Error(`Account with email ${email} already exists`)
+      throw new AppError(`Account with email ${email} already exists`, 400)
     }
 
     // Add pepper to password before hashing
-    // bcrypt automatically generates and stores a unique salt inside the hash
     const hashedPassword = await bcrypt.hash(password + PEPPER, SALT_ROUNDS)
 
     return await prisma.account.create({
@@ -69,7 +65,7 @@ export const create = async (data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to create account: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create account: ${error.message}`, 500)
   }
 }
 
@@ -78,17 +74,15 @@ export const updatePassword = async (personId, data) => {
   try {
     const { old_password, new_password } = data
 
-    // Check if account exists
     const account = await getByPersonId(personId)
 
-    // Verify old password with pepper before allowing update
+    // Verify old password with pepper
     const isMatch = await bcrypt.compare(old_password + PEPPER, account.password)
 
     if (!isMatch) {
-      throw new Error('Old password is incorrect')
+      throw new AppError('Old password is incorrect', 400)
     }
 
-    // Hash new password with pepper before saving
     const hashedPassword = await bcrypt.hash(new_password + PEPPER, SALT_ROUNDS)
 
     return await prisma.account.update({
@@ -96,14 +90,13 @@ export const updatePassword = async (personId, data) => {
       data: { password: hashedPassword }
     })
   } catch (error) {
-    throw new Error(`Failed to update password: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update password: ${error.message}`, 500)
   }
 }
 
 // Update account rights (USER / ADMIN)
 export const updateRights = async (personId, rights) => {
   try {
-    // Check if account exists before updating
     await getByPersonId(personId)
 
     return await prisma.account.update({
@@ -111,20 +104,19 @@ export const updateRights = async (personId, rights) => {
       data: { rights }
     })
   } catch (error) {
-    throw new Error(`Failed to update rights: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update rights: ${error.message}`, 500)
   }
 }
 
 // Delete account by person id
 export const remove = async (personId) => {
   try {
-    // Check if account exists before deleting
     await getByPersonId(personId)
 
     return await prisma.account.delete({
       where: { person_id: personId }
     })
   } catch (error) {
-    throw new Error(`Failed to delete account: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete account: ${error.message}`, 500)
   }
 }

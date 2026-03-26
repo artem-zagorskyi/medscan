@@ -1,11 +1,12 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
 // Get all persons
 export const getAll = async () => {
   try {
     return await prisma.person.findMany()
   } catch (error) {
-    throw new Error(`Failed to fetch persons: ${error.message}`)
+    throw new AppError(`Failed to fetch persons: ${error.message}`, 500)
   }
 }
 
@@ -17,12 +18,12 @@ export const getById = async (id) => {
     })
 
     if (!person) {
-      throw new Error(`Person with id ${id} not found`)
+      throw new AppError(`Person with id ${id} not found`, 404)
     }
 
     return person
   } catch (error) {
-    throw new Error(`Failed to fetch person: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch person: ${error.message}`, 500)
   }
 }
 
@@ -43,14 +44,13 @@ export const create = async (data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to create person: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create person: ${error.message}`, 500)
   }
 }
 
 // Update person by id
 export const update = async (id, data) => {
   try {
-    // Check if person exists before updating
     await getById(id)
 
     const { last_name, first_name, middle_name, birth_date, gender, contact_info, role } = data
@@ -61,7 +61,6 @@ export const update = async (id, data) => {
         last_name,
         first_name,
         middle_name,
-        // Only update birth_date if provided
         birth_date: birth_date ? new Date(birth_date) : undefined,
         gender,
         contact_info,
@@ -69,20 +68,19 @@ export const update = async (id, data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to update person: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update person: ${error.message}`, 500)
   }
 }
 
 // Delete person by id
 export const remove = async (id) => {
   try {
-    // Check if person exists before deleting
     await getById(id)
 
     return await prisma.person.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete person: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete person: ${error.message}`, 500)
   }
 }

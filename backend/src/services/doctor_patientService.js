@@ -1,4 +1,5 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
 // Get all doctors assigned to a specific patient
 export const getDoctorsByPatient = async (patientId) => {
@@ -7,20 +8,18 @@ export const getDoctorsByPatient = async (patientId) => {
       where: { patient_id: patientId },
       include: {
         doctor: {
-          include: {
-            person: true
-          }
+          include: { person: true }
         }
       }
     })
 
     if (!relations.length) {
-      throw new Error(`No doctors found for patient with id ${patientId}`)
+      throw new AppError(`No doctors found for patient with id ${patientId}`, 404)
     }
 
     return relations
   } catch (error) {
-    throw new Error(`Failed to fetch doctors by patient: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch doctors by patient: ${error.message}`, 500)
   }
 }
 
@@ -40,11 +39,11 @@ export const getPatientsByDoctor = async (doctorId) => {
     })
 
     if (!relations.length) {
-      throw new Error(`No patients found for doctor with id ${doctorId}`)
+      throw new AppError(`No patients found for doctor with id ${doctorId}`, 404)
     }
 
     return relations
   } catch (error) {
-    throw new Error(`Failed to fetch patients by doctor: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch patients by doctor: ${error.message}`, 500)
   }
 }

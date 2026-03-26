@@ -1,35 +1,113 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
-// Pepper must match the one used in account.service.js
 const PEPPER = process.env.PEPPER_SECRET
 const JWT_SECRET = process.env.JWT_SECRET
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h'
+const SALT_ROUNDS = 12
+
+// Register — create Person + Account in a single transaction
+// Used by admin to register new doctors or staff
+export const register = async (data) => {
+  try {
+    const {
+      // Person fields
+      last_name,
+      first_name,
+      middle_name,
+      birth_date,
+      gender,
+      contact_info,
+      role,
+      // Account fields
+      email,
+      password,
+      rights
+    } = data
+
+    // Check if account with this email already exists
+    const existingAccount = await prisma.account.findUnique({
+      where: { email }
+    })
+
+    if (existingAccount) {
+      throw new AppError(`Account with email ${email} already exists`, 400)
+    }
+
+    // Hash password with pepper before saving
+    const hashedPassword = await bcrypt.hash(password + PEPPER, SALT_ROUNDS)
+
+    // Create Person and Account in a single transaction
+    // If one fails — both are rolled back
+    const result = await prisma.$transaction(async (tx) => {
+      const person = await tx.person.create({
+        data: {
+          last_name,
+          first_name,
+          middle_name,
+          birth_date: new Date(birth_date),
+          gender,
+          contact_info,
+          role
+        }
+      })
+
+      const account = await tx.account.create({
+        data: {
+          person_id: person.id,
+          email,
+          password: hashedPassword,
+          rights: rights ?? 'USER'
+        }
+      })
+
+      return { person, account }
+    })
+
+    // Build JWT payload
+    const payload = {
+      account_id: result.account.id,
+      person_id: result.person.id,
+      email: result.account.email,
+      rights: result.account.rights,
+      role: result.person.role
+    }
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
+
+    return {
+      token,
+      account_id: result.account.id,
+      person_id: result.person.id,
+      email: result.account.email,
+      rights: result.account.rights,
+      role: result.person.role
+    }
+  } catch (error) {
+    throw error instanceof AppError ? error : new AppError(`Registration failed: ${error.message}`, 500)
+  }
+}
 
 // Login — verify credentials and return JWT token
 export const login = async (email, password) => {
   try {
-    // Find account by email, include person data for the token payload
     const account = await prisma.account.findUnique({
       where: { email },
-      include: {
-        person: true
-      }
+      include: { person: true }
     })
 
     if (!account) {
-      throw new Error('Invalid email or password')
+      throw new AppError('Invalid email or password', 401)
     }
 
-    // Compare password with pepper against stored hash
     const isMatch = await bcrypt.compare(password + PEPPER, account.password)
 
     if (!isMatch) {
-      throw new Error('Invalid email or password')
+      throw new AppError('Invalid email or password', 401)
     }
 
-    // Build JWT payload with useful info
     const payload = {
       account_id: account.id,
       person_id: account.person_id,
@@ -38,7 +116,6 @@ export const login = async (email, password) => {
       role: account.person.role
     }
 
-    // Sign and return the token
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
 
     return {
@@ -50,7 +127,7 @@ export const login = async (email, password) => {
       role: account.person.role
     }
   } catch (error) {
-    throw new Error(`Login failed: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Login failed: ${error.message}`, 500)
   }
 }
 
@@ -59,22 +136,20 @@ export const verifyToken = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET)
   } catch (error) {
-    throw new Error(`Invalid or expired token: ${error.message}`)
+    throw new AppError(`Invalid or expired token: ${error.message}`, 401)
   }
 }
 
-// Get current user by token payload
+// Get current user by person id from token
 export const me = async (personId) => {
   try {
     const account = await prisma.account.findUnique({
       where: { person_id: personId },
-      include: {
-        person: true
-      }
+      include: { person: true }
     })
 
     if (!account) {
-      throw new Error('Account not found')
+      throw new AppError('Account not found', 404)
     }
 
     // Return account info without password
@@ -82,7 +157,7 @@ export const me = async (personId) => {
 
     return accountWithoutPassword
   } catch (error) {
-    throw new Error(`Failed to fetch current user: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch current user: ${error.message}`, 500)
   }
 }
 
@@ -96,18 +171,16 @@ export const changePassword = async (personId, data) => {
     })
 
     if (!account) {
-      throw new Error('Account not found')
+      throw new AppError('Account not found', 404)
     }
 
-    // Verify old password with pepper
     const isMatch = await bcrypt.compare(old_password + PEPPER, account.password)
 
     if (!isMatch) {
-      throw new Error('Old password is incorrect')
+      throw new AppError('Old password is incorrect', 400)
     }
 
-    // Hash new password with pepper
-    const hashedPassword = await bcrypt.hash(new_password + PEPPER, 12)
+    const hashedPassword = await bcrypt.hash(new_password + PEPPER, SALT_ROUNDS)
 
     await prisma.account.update({
       where: { person_id: personId },
@@ -116,6 +189,6 @@ export const changePassword = async (personId, data) => {
 
     return { message: 'Password changed successfully' }
   } catch (error) {
-    throw new Error(`Failed to change password: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to change password: ${error.message}`, 500)
   }
 }

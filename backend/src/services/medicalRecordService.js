@@ -1,4 +1,5 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
 // Get medical record by id
 export const getById = async (id) => {
@@ -8,12 +9,12 @@ export const getById = async (id) => {
     })
 
     if (!medicalRecord) {
-      throw new Error(`Medical record with id ${id} not found`)
+      throw new AppError(`Medical record with id ${id} not found`, 404)
     }
 
     return medicalRecord
   } catch (error) {
-    throw new Error(`Failed to fetch medical record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch medical record: ${error.message}`, 500)
   }
 }
 
@@ -22,56 +23,45 @@ export const getByPatientId = async (patientId) => {
   try {
     const patient = await prisma.patient.findUnique({
       where: { id: patientId },
-      include: {
-        medical_record: true
-      }
+      include: { medical_record: true }
     })
 
     if (!patient) {
-      throw new Error(`Patient with id ${patientId} not found`)
+      throw new AppError(`Patient with id ${patientId} not found`, 404)
     }
 
     if (!patient.medical_record) {
-      throw new Error(`Medical record for patient with id ${patientId} not found`)
+      throw new AppError(`Medical record for patient with id ${patientId} not found`, 404)
     }
 
     return patient.medical_record
   } catch (error) {
-    throw new Error(`Failed to fetch medical record by patient: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch medical record by patient: ${error.message}`, 500)
   }
 }
 
-// Get full medical record — includes all related data
-// records, diseases, allergies, researches, research files
+// Get full medical record with all related data
 export const getFullRecord = async (id) => {
   try {
     const medicalRecord = await prisma.medicalRecord.findUnique({
       where: { id },
       include: {
         patient: {
-          include: {
-            person: true
-          }
+          include: { person: true }
         },
         records: {
           include: {
             doctor: {
-              include: {
-                person: true
-              }
+              include: { person: true }
             },
             research: true
           }
         },
         patient_diseases: {
-          include: {
-            disease: true
-          }
+          include: { disease: true }
         },
         patient_allergies: {
-          include: {
-            allergen: true
-          }
+          include: { allergen: true }
         },
         researches: true,
         research_files: true
@@ -79,12 +69,12 @@ export const getFullRecord = async (id) => {
     })
 
     if (!medicalRecord) {
-      throw new Error(`Medical record with id ${id} not found`)
+      throw new AppError(`Medical record with id ${id} not found`, 404)
     }
 
     return medicalRecord
   } catch (error) {
-    throw new Error(`Failed to fetch full medical record: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch full medical record: ${error.message}`, 500)
   }
 }
 
@@ -100,14 +90,13 @@ export const create = async (data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to create medical record: ${error.message}`)
+    throw new AppError(`Failed to create medical record: ${error.message}`, 500)
   }
 }
 
 // Update blood group and rh factor
 export const updateBloodInfo = async (id, data) => {
   try {
-    // Check if medical record exists before updating
     await getById(id)
 
     const { blood_group, rh_factor } = data
@@ -120,6 +109,6 @@ export const updateBloodInfo = async (id, data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to update blood info: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update blood info: ${error.message}`, 500)
   }
 }

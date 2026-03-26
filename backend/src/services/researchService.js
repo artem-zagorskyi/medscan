@@ -1,19 +1,20 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
+
+const includeRelations = {
+  medical_record: true,
+  research_files: true
+}
 
 // Get all researches
 export const getAll = async () => {
   try {
     return await prisma.research.findMany({
-      include: {
-        medical_record: true,
-        research_files: true
-      },
-      orderBy: {
-        created_at: 'desc'
-      }
+      include: includeRelations,
+      orderBy: { created_at: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch researches: ${error.message}`)
+    throw new AppError(`Failed to fetch researches: ${error.message}`, 500)
   }
 }
 
@@ -22,19 +23,16 @@ export const getById = async (id) => {
   try {
     const research = await prisma.research.findUnique({
       where: { id },
-      include: {
-        medical_record: true,
-        research_files: true
-      }
+      include: includeRelations
     })
 
     if (!research) {
-      throw new Error(`Research with id ${id} not found`)
+      throw new AppError(`Research with id ${id} not found`, 404)
     }
 
     return research
   } catch (error) {
-    throw new Error(`Failed to fetch research: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch research: ${error.message}`, 500)
   }
 }
 
@@ -43,15 +41,11 @@ export const getByMedicalRecord = async (medicalRecordId) => {
   try {
     return await prisma.research.findMany({
       where: { medical_record_id: medicalRecordId },
-      include: {
-        research_files: true
-      },
-      orderBy: {
-        created_at: 'desc'
-      }
+      include: { research_files: true },
+      orderBy: { created_at: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch researches by medical record: ${error.message}`)
+    throw new AppError(`Failed to fetch researches by medical record: ${error.message}`, 500)
   }
 }
 
@@ -61,20 +55,15 @@ export const getByStatus = async (status) => {
   try {
     return await prisma.research.findMany({
       where: { status },
-      include: {
-        medical_record: true,
-        research_files: true
-      },
-      orderBy: {
-        created_at: 'desc'
-      }
+      include: includeRelations,
+      orderBy: { created_at: 'desc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch researches by status: ${error.message}`)
+    throw new AppError(`Failed to fetch researches by status: ${error.message}`, 500)
   }
 }
 
-// Create a new research (draft)
+// Create a new research draft
 // Called after RESEARCH_ORDERED visit
 export const create = async (data) => {
   try {
@@ -84,24 +73,18 @@ export const create = async (data) => {
       data: {
         medical_record_id,
         research_type,
-        // New research always starts as PENDING
         status: 'PENDING'
       },
-      include: {
-        medical_record: true,
-        research_files: true
-      }
+      include: includeRelations
     })
   } catch (error) {
-    throw new Error(`Failed to create research: ${error.message}`)
+    throw new AppError(`Failed to create research: ${error.message}`, 500)
   }
 }
 
-// Update research results
-// Called when doctor fills in the results manually or after classification
+// Update research results and extracted text
 export const update = async (id, data) => {
   try {
-    // Check if research exists before updating
     await getById(id)
 
     const { research_type, extracted_text, results } = data
@@ -113,13 +96,10 @@ export const update = async (id, data) => {
         extracted_text: extracted_text ?? undefined,
         results: results ?? undefined
       },
-      include: {
-        medical_record: true,
-        research_files: true
-      }
+      include: includeRelations
     })
   } catch (error) {
-    throw new Error(`Failed to update research: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update research: ${error.message}`, 500)
   }
 }
 
@@ -127,34 +107,29 @@ export const update = async (id, data) => {
 // PENDING → PROCESSING → PROCESSED | ERROR
 export const updateStatus = async (id, status) => {
   try {
-    // Check if research exists before updating
     await getById(id)
 
-    // Set processed_at timestamp when research is marked as PROCESSED
+    // Set processed_at when research is marked as PROCESSED
     const processed_at = status === 'PROCESSED' ? new Date() : undefined
 
     return await prisma.research.update({
       where: { id },
-      data: {
-        status,
-        processed_at
-      }
+      data: { status, processed_at }
     })
   } catch (error) {
-    throw new Error(`Failed to update research status: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update research status: ${error.message}`, 500)
   }
 }
 
 // Delete research by id
 export const remove = async (id) => {
   try {
-    // Check if research exists before deleting
     await getById(id)
 
     return await prisma.research.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete research: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete research: ${error.message}`, 500)
   }
 }

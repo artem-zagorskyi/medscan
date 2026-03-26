@@ -1,15 +1,14 @@
 import prisma from '../config/prisma.js'
+import { AppError } from '../errors/AppError.js'
 
-// Get all diseases
+// Get all diseases sorted alphabetically
 export const getAll = async () => {
   try {
     return await prisma.disease.findMany({
-      orderBy: {
-        name: 'asc'
-      }
+      orderBy: { name: 'asc' }
     })
   } catch (error) {
-    throw new Error(`Failed to fetch diseases: ${error.message}`)
+    throw new AppError(`Failed to fetch diseases: ${error.message}`, 500)
   }
 }
 
@@ -21,12 +20,12 @@ export const getById = async (id) => {
     })
 
     if (!disease) {
-      throw new Error(`Disease with id ${id} not found`)
+      throw new AppError(`Disease with id ${id} not found`, 404)
     }
 
     return disease
   } catch (error) {
-    throw new Error(`Failed to fetch disease: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch disease: ${error.message}`, 500)
   }
 }
 
@@ -34,47 +33,33 @@ export const getById = async (id) => {
 export const getByIcdCode = async (icdCode) => {
   try {
     const disease = await prisma.disease.findFirst({
-      where: {
-        icd_code: {
-          equals: icdCode
-        }
-      }
+      where: { icd_code: { equals: icdCode } }
     })
 
     if (!disease) {
-      throw new Error(`Disease with ICD code ${icdCode} not found`)
+      throw new AppError(`Disease with ICD code ${icdCode} not found`, 404)
     }
 
     return disease
   } catch (error) {
-    throw new Error(`Failed to fetch disease by ICD code: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch disease by ICD code: ${error.message}`, 500)
   }
 }
 
-// Search diseases by name — case insensitive partial match
+// Search diseases by name or ICD code — partial case-insensitive match
 export const search = async (query) => {
   try {
     return await prisma.disease.findMany({
       where: {
         OR: [
-          {
-            name: {
-              contains: query
-            }
-          },
-          {
-            icd_code: {
-              contains: query
-            }
-          }
+          { name: { contains: query } },
+          { icd_code: { contains: query } }
         ]
       },
-      orderBy: {
-        name: 'asc'
-      }
+      orderBy: { name: 'asc' }
     })
   } catch (error) {
-    throw new Error(`Failed to search diseases: ${error.message}`)
+    throw new AppError(`Failed to search diseases: ${error.message}`, 500)
   }
 }
 
@@ -83,30 +68,25 @@ export const create = async (data) => {
   try {
     const { name, icd_code } = data
 
-    // Check if disease with this ICD code already exists
     const existing = await prisma.disease.findFirst({
       where: { icd_code }
     })
 
     if (existing) {
-      throw new Error(`Disease with ICD code ${icd_code} already exists`)
+      throw new AppError(`Disease with ICD code ${icd_code} already exists`, 400)
     }
 
     return await prisma.disease.create({
-      data: {
-        name,
-        icd_code
-      }
+      data: { name, icd_code }
     })
   } catch (error) {
-    throw new Error(`Failed to create disease: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to create disease: ${error.message}`, 500)
   }
 }
 
 // Update disease
 export const update = async (id, data) => {
   try {
-    // Check if disease exists before updating
     await getById(id)
 
     const { name, icd_code } = data
@@ -116,13 +96,12 @@ export const update = async (id, data) => {
       const existing = await prisma.disease.findFirst({
         where: {
           icd_code,
-          // Exclude current disease from the check
           NOT: { id }
         }
       })
 
       if (existing) {
-        throw new Error(`Disease with ICD code ${icd_code} already exists`)
+        throw new AppError(`Disease with ICD code ${icd_code} already exists`, 400)
       }
     }
 
@@ -134,20 +113,19 @@ export const update = async (id, data) => {
       }
     })
   } catch (error) {
-    throw new Error(`Failed to update disease: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to update disease: ${error.message}`, 500)
   }
 }
 
 // Delete disease by id
 export const remove = async (id) => {
   try {
-    // Check if disease exists before deleting
     await getById(id)
 
     return await prisma.disease.delete({
       where: { id }
     })
   } catch (error) {
-    throw new Error(`Failed to delete disease: ${error.message}`)
+    throw error instanceof AppError ? error : new AppError(`Failed to delete disease: ${error.message}`, 500)
   }
 }
