@@ -1,4 +1,4 @@
-import * as researchFileService from '../services/researchFile.service.js'
+import * as researchFileService from '../services/researchFileService.js'
 
 // GET /api/research-files
 export const getAll = async (req, res) => {

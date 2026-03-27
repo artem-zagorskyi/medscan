@@ -1,4 +1,4 @@
-import * as diseaseService from '../services/disease.service.js'
+import * as diseaseService from '../services/diseaseService.js'
 
 // GET /api/diseases
 export const getAll = async (req, res) => {

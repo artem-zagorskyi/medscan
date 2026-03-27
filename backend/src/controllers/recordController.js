@@ -1,4 +1,4 @@
-import * as recordService from '../services/record.service.js'
+import * as recordService from '../services/recordService.js'
 
 // GET /api/records
 export const getAll = async (req, res) => {

@@ -1,4 +1,4 @@
-import * as authService from '../services/auth.service.js'
+import * as authService from '../services/authService.js'
 
 // POST /api/auth/register
 // Used by admin to register new doctors or staff

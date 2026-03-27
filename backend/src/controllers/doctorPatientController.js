@@ -1,4 +1,4 @@
-import * as doctorPatientService from '../services/doctorPatient.service.js'
+import * as doctorPatientService from '../services/doctorPatientService.js'
 
 // GET /api/doctor-patient/patient/:patientId/doctors
 export const getDoctorsByPatient = async (req, res) => {

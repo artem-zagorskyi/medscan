@@ -1,4 +1,4 @@
-import * as accountService from '../services/account.service.js'
+import * as accountService from '../services/accountService.js'
 
 // GET /api/accounts/person/:personId
 export const getByPersonId = async (req, res) => {

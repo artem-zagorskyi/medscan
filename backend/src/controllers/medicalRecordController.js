@@ -1,4 +1,4 @@
-import * as medicalRecordService from '../services/medicalRecord.service.js'
+import * as medicalRecordService from '../services/medicalRecordService.js'
 
 // GET /api/medical-records/:id
 export const getById = async (req, res) => {
