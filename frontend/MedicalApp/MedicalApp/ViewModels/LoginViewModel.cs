@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MedicalApp.Helpers;
 using MedicalApp.Services;
-using MedicalApp.Views;
 using System.Net.Http;
 
 namespace MedicalApp.ViewModels;
@@ -41,10 +41,16 @@ public partial class LoginViewModel : ObservableObject
 
             if (result?.Token != null)
             {
-                var me = await _authService.GetMeAsync();
+                SessionManager.Set(
+                    result.AccountId,
+                    result.PersonId,
+                    result.Email,
+                    result.Rights,
+                    result.Role
+                );
 
                 var mainWindow = (MainWindow)App.Current.MainWindow;
-                mainWindow.ShowApp(me?.Email ?? "Лікар", me?.Role ?? "DOCTOR");
+                mainWindow.ShowApp(result.Email, result.Role, result.Rights);
             }
         }
         catch (HttpRequestException)

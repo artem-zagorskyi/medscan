@@ -1,4 +1,5 @@
 ﻿using MedicalApp.Helpers;
+using MedicalApp.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -68,13 +69,19 @@ namespace MedicalApp.Services
     public class LoginResponse
     {
         public string Token { get; set; } = string.Empty;
+        public int AccountId { get; set; }
+        public int PersonId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
     }
 
     public class MeResponse
     {
         public int Id { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
         public int PersonId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
     }
 }

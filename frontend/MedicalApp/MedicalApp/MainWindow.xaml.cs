@@ -25,7 +25,15 @@ public partial class MainWindow : Window
                 var me = await _authService.GetMeAsync();
                 if (me != null)
                 {
-                    ShowApp(me.Email, me.Role);
+                    SessionManager.Set(
+                        me.Id,
+                        me.PersonId,
+                        me.Email,
+                        me.Rights,
+                        me.Role
+                    );
+
+                    ShowApp(me.Email, me.Role, me.Rights);
                     return;
                 }
             }
@@ -43,16 +51,21 @@ public partial class MainWindow : Window
         Sidebar.Visibility = Visibility.Collapsed;
         Grid.SetColumn(ContentArea, 0);
         Grid.SetColumnSpan(ContentArea, 2);
+        SessionManager.Clear();
         NavigateTo(new LoginView());
     }
 
-    public void ShowApp(string name, string role)
+    public void ShowApp(string email, string role, string rights)
     {
         Sidebar.Visibility = Visibility.Visible;
         Grid.SetColumn(ContentArea, 1);
         Grid.SetColumnSpan(ContentArea, 1);
-        SetUser(name, role);
-        NavigateTo(new PatientListView());
+        SetUser(email, role);
+
+        if (SessionManager.IsAdmin())
+            NavigateTo(new AdminHomeView());
+        else
+            NavigateTo(new DoctorHomeView());
     }
 
     public void NavigateTo(UserControl view)
