@@ -27,25 +27,27 @@ namespace MedicalApp.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
-                var patients = await _patientService.GetByDoctorIdAsync(SessionManager.DoctorId);
+                var doctorPatients = await _patientService.GetByDoctorIdAsync(SessionManager.DoctorId);
 
-                if (patients != null)
+                if (doctorPatients != null)
                 {
-                    _allPatients = patients.Select(p => new PatientDisplayModel
-                    {
-                        Id = p.Id,
-                        FullName = p.Person != null
-                            ? $"{p.Person.LastName} {p.Person.FirstName} {p.Person.MiddleName}".Trim()
-                            : "Невідомий",
-                        BirthDate = p.Person?.BirthDate ?? DateTime.MinValue,
-                        GenderDisplay = p.Person?.Gender switch
+                    _allPatients = doctorPatients
+                        .Where(dp => dp.Patient != null)
+                        .Select(dp => new PatientDisplayModel
                         {
-                            "MALE" => "Чоловік",
-                            "FEMALE" => "Жінка",
-                            _ => "Інше"
-                        },
-                        MedicalRecordId = p.MedicalRecordId
-                    }).ToList();
+                            Id = dp.Patient!.Id,
+                            FullName = dp.Patient.Person != null
+                                ? $"{dp.Patient.Person.LastName} {dp.Patient.Person.FirstName} {dp.Patient.Person.MiddleName}".Trim()
+                                : "Невідомий",
+                            BirthDate = dp.Patient.Person?.BirthDate ?? DateTime.MinValue,
+                            GenderDisplay = dp.Patient.Person?.Gender switch
+                            {
+                                "MALE" => "Чоловік",
+                                "FEMALE" => "Жінка",
+                                _ => "Інше"
+                            },
+                            MedicalRecordId = dp.Patient.MedicalRecordId
+                        }).ToList();
                 }
 
                 _filteredPatients = _allPatients.ToList();
