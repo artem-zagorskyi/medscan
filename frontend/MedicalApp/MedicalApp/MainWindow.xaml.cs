@@ -18,6 +18,11 @@ public partial class MainWindow : Window
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
+        // TEMP: пропускаем авторизацию для разработки UI
+        SessionManager.SetDoctorInfo("Іванов Олексій", "Терапевт");
+        ShowApp("Іванов Олексій", "Терапевт", "USER");
+        return;
+
         if (TokenStorage.IsValid())
         {
             try
@@ -25,15 +30,13 @@ public partial class MainWindow : Window
                 var me = await _authService.GetMeAsync();
                 if (me != null)
                 {
-                    SessionManager.Set(
-                        me.Id,
-                        me.PersonId,
-                        me.Email,
-                        me.Rights,
-                        me.Role
-                    );
+                    SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
-                    ShowApp(me.Email, me.Role, me.Rights);
+                    // TODO: отдельный запрос GET /api/doctors/person/:personId
+                    // для получения fullName и specialization
+                    // SessionManager.SetDoctorInfo(doctor.FullName, doctor.Specialization);
+
+                    ShowApp(me.Email, "Лікар", me.Rights);
                     return;
                 }
             }
@@ -48,24 +51,19 @@ public partial class MainWindow : Window
 
     public void ShowLogin()
     {
-        Sidebar.Visibility = Visibility.Collapsed;
-        Grid.SetColumn(ContentArea, 0);
-        Grid.SetColumnSpan(ContentArea, 2);
-        SessionManager.Clear();
+        Topbar.Visibility = Visibility.Collapsed;
         NavigateTo(new LoginView());
     }
 
-    public void ShowApp(string email, string role, string rights)
+    public void ShowApp(string name, string specialization, string rights)
     {
-        Sidebar.Visibility = Visibility.Visible;
-        Grid.SetColumn(ContentArea, 1);
-        Grid.SetColumnSpan(ContentArea, 1);
-        SetUser(email, role);
+        Topbar.Visibility = Visibility.Visible;
+        SetUser(name, specialization);
 
-        if (SessionManager.IsAdmin())
+        if (rights == "ADMIN")
             NavigateTo(new AdminHomeView());
         else
-            NavigateTo(new DoctorHomeView());
+            NavigateTo(new PatientListView());
     }
 
     public void NavigateTo(UserControl view)
@@ -73,15 +71,36 @@ public partial class MainWindow : Window
         MainContent.Content = view;
     }
 
-    public void SetUser(string name, string role)
+    public void SetUser(string name, string specialization)
     {
         UserName.Text = name;
-        UserRole.Text = role;
-        UserInitials.Text = name.Length >= 2 ? name[..2].ToUpper() : name.ToUpper();
+        UserSpecialization.Text = specialization;
+        DropdownUserName.Text = name;
+        DropdownSpecialization.Text = specialization;
     }
 
-    private void NavPatients_Click(object sender, RoutedEventArgs e)
+    private void UserMenuButton_Click(object sender, RoutedEventArgs e)
     {
-        NavigateTo(new PatientListView());
+        UserMenuPopup.IsOpen = !UserMenuPopup.IsOpen;
+    }
+
+    private void Settings_Click(object sender, RoutedEventArgs e)
+    {
+        UserMenuPopup.IsOpen = false;
+        // TODO: NavigateTo(new SettingsView());
+    }
+
+    private void Help_Click(object sender, RoutedEventArgs e)
+    {
+        UserMenuPopup.IsOpen = false;
+        // TODO: NavigateTo(new HelpView());
+    }
+
+    private void Logout_Click(object sender, RoutedEventArgs e)
+    {
+        UserMenuPopup.IsOpen = false;
+        TokenStorage.Clear();
+        SessionManager.Clear();
+        ShowLogin();
     }
 }
