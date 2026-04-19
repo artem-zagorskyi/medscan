@@ -9,6 +9,7 @@ namespace MedicalApp;
 public partial class MainWindow : Window
 {
     private readonly AuthService _authService = new();
+    private readonly DoctorService _doctorService = new();
 
     public MainWindow()
     {
@@ -18,57 +19,35 @@ public partial class MainWindow : Window
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        // TEMP
         try
         {
-            
-            SessionManager.SetDoctorInfo("Іванов Олексій", "Терапевт");
-            
-            var testPatient = new MedicalApp.ViewModels.PatientDisplayModel
-            {
-                Id = 1,
-                FullName = "Петренко Олексій Іванович",
-                BirthDate = new DateTime(1990, 5, 12),
-                GenderDisplay = "Чоловік",
-                MedicalRecordId = 1
-            };
-
-           
-            ShowApp("Іванов Олексій", "Терапевт", "USER");
-
-            NavigateTo(new MedicalApp.Views.MedicalCardView(testPatient));
-
-            return;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace, "Помилка");
-        }
-
-        if (TokenStorage.IsValid())
-        {
-            try
+            if (TokenStorage.IsValid())
             {
                 var me = await _authService.GetMeAsync();
                 if (me != null)
                 {
                     SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
-                    // TODO: отдельный запрос GET /api/doctors/person/:personId
-                    // для получения fullName и specialization
-                    // SessionManager.SetDoctorInfo(doctor.FullName, doctor.Specialization);
-
-                    ShowApp(me.Email, "Лікар", me.Rights);
-                    return;
+                    // Завантажуємо дані доктора по person_id
+                    var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
+                    if (doctor != null)
+                    {
+                        var fullName = doctor.Person?.FullName ?? me.Email;
+                        SessionManager.SetDoctorInfo(fullName, doctor.Specialization);
+                        SessionManager.SetDoctorId(doctor.Id);
+                        ShowApp(fullName, doctor.Specialization, me.Rights);
+                        return;
+                    }
                 }
             }
-            catch
-            {
-                TokenStorage.Clear();
-            }
-        }
 
-        ShowLogin();
+            ShowLogin();
+        }
+        catch
+        {
+            TokenStorage.Clear();
+            ShowLogin();
+        }
     }
 
     public void ShowLogin()
@@ -109,13 +88,11 @@ public partial class MainWindow : Window
     private void Settings_Click(object sender, RoutedEventArgs e)
     {
         UserMenuPopup.IsOpen = false;
-        // TODO: NavigateTo(new SettingsView());
     }
 
     private void Help_Click(object sender, RoutedEventArgs e)
     {
         UserMenuPopup.IsOpen = false;
-        // TODO: NavigateTo(new HelpView());
     }
 
     private void Logout_Click(object sender, RoutedEventArgs e)
