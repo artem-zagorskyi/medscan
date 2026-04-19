@@ -1,9 +1,11 @@
 ﻿<Application x:Class="MedicalApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helpers="clr-namespace:MedicalApp.Helpers">
 
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <helpers:NullToVisibilityConverter x:Key="NullToVisibility"/>
 
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>

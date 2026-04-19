@@ -9,6 +9,7 @@ namespace MedicalApp.ViewModels;
 public partial class LoginViewModel : ObservableObject
 {
     private readonly AuthService _authService = new();
+    private readonly DoctorService _doctorService = new();
 
     [ObservableProperty]
     private string _email = string.Empty;
@@ -41,16 +42,22 @@ public partial class LoginViewModel : ObservableObject
 
             if (result?.Token != null)
             {
-                SessionManager.Set(
-                    result.AccountId,
-                    result.PersonId,
-                    result.Email,
-                    result.Rights,
-                    result.Role
-                );
+                var me = await _authService.GetMeAsync();
+                if (me != null)
+                {
+                    SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
-                var mainWindow = (MainWindow)App.Current.MainWindow;
-                mainWindow.ShowApp(result.Email, result.Role, result.Rights);
+                    var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
+                    if (doctor != null)
+                    {
+                        var fullName = doctor.Person?.FullName ?? me.Email;
+                        SessionManager.SetDoctorInfo(fullName, doctor.Specialization);
+                        SessionManager.SetDoctorId(doctor.Id);
+
+                        var mainWindow = (MainWindow)App.Current.MainWindow;
+                        mainWindow.ShowApp(fullName, doctor.Specialization, me.Rights);
+                    }
+                }
             }
         }
         catch (HttpRequestException)

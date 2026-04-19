@@ -1,24 +1,68 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MedicalApp.Helpers;
+using MedicalApp.Services;
 using System.Collections.ObjectModel;
 
 namespace MedicalApp.ViewModels
 {
     public partial class PatientListViewModel : ObservableObject
     {
-        private List<PatientDisplayModel> _allPatients;
-        private List<PatientDisplayModel> _filteredPatients;
+        private readonly PatientService _patientService = new();
+        private List<PatientDisplayModel> _allPatients = new();
+        private List<PatientDisplayModel> _filteredPatients = new();
 
         public PatientListViewModel()
         {
-            _allPatients = GetTestPatients();
-            _filteredPatients = _allPatients.ToList();
             _pageSizeInput = "10";
             SelectedPageSize = 10;
-            UpdatePage();
+            _ = LoadPatientsAsync();
         }
 
-        // --- Отображаемые пациенты ---
+        // --- Завантаження з API ---
+        private async Task LoadPatientsAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var patients = await _patientService.GetByDoctorIdAsync(SessionManager.DoctorId);
+
+                if (patients != null)
+                {
+                    _allPatients = patients.Select(p => new PatientDisplayModel
+                    {
+                        Id = p.Id,
+                        FullName = p.Person != null
+                            ? $"{p.Person.LastName} {p.Person.FirstName} {p.Person.MiddleName}".Trim()
+                            : "Невідомий",
+                        BirthDate = p.Person?.BirthDate ?? DateTime.MinValue,
+                        GenderDisplay = p.Person?.Gender switch
+                        {
+                            "MALE" => "Чоловік",
+                            "FEMALE" => "Жінка",
+                            _ => "Інше"
+                        },
+                        MedicalRecordId = p.MedicalRecordId
+                    }).ToList();
+                }
+
+                _filteredPatients = _allPatients.ToList();
+                UpdatePageNumbers();
+                UpdatePage();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Помилка завантаження: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        // --- Відображувані пацієнти ---
         private ObservableCollection<PatientDisplayModel> _currentPagePatients = new();
         public ObservableCollection<PatientDisplayModel> CurrentPagePatients
         {
@@ -26,7 +70,22 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _currentPagePatients, value);
         }
 
-        // --- Поиск ---
+        // --- Стан ---
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        private string _errorMessage = string.Empty;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        // --- Пошук ---
         private string _searchText = string.Empty;
         public string SearchText
         {
@@ -38,7 +97,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Фильтр пола ---
+        // --- Фільтр статі ---
         private string _selectedGender = "Всі";
         public string SelectedGender
         {
@@ -52,7 +111,7 @@ namespace MedicalApp.ViewModels
 
         public List<string> GenderOptions { get; } = new() { "Всі", "Чоловік", "Жінка", "Інше" };
 
-        // --- Фильтр возраста ---
+        // --- Фільтр віку ---
         private int? _ageFrom;
         public int? AgeFrom
         {
@@ -75,7 +134,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Пагинация ---
+        // --- Пагінація ---
         private int _currentPage = 1;
         public int CurrentPage
         {
@@ -107,7 +166,6 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // Текстовое поле для ввода размера страницы
         private string _pageSizeInput = "10";
         public string PageSizeInput
         {
@@ -148,7 +206,7 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _totalPatients, value);
         }
 
-        // --- Команды ---
+        // --- Команди ---
         [RelayCommand]
         private void PrevPage()
         {
@@ -168,7 +226,6 @@ namespace MedicalApp.ViewModels
                 CurrentPage = page;
         }
 
-        // --- Сброс фильтров ---
         public void ResetFilters()
         {
             SearchText = string.Empty;
@@ -177,7 +234,7 @@ namespace MedicalApp.ViewModels
             AgeTo = null;
         }
 
-        // --- Логика ---
+        // --- Логіка ---
         private void ApplyFilters()
         {
             var result = _allPatients.AsEnumerable();
@@ -225,22 +282,6 @@ namespace MedicalApp.ViewModels
             CanGoPrev = CurrentPage > 1;
             CanGoNext = CurrentPage < TotalPages;
         }
-
-        private static List<PatientDisplayModel> GetTestPatients() => new()
-        {
-            new() { Id = 1, FullName = "Петренко Олексій Іванович", BirthDate = new DateTime(1990, 5, 12), GenderDisplay = "Чоловік", MedicalRecordId = 1 },
-            new() { Id = 2, FullName = "Коваль Марія Петрівна", BirthDate = new DateTime(1978, 3, 22), GenderDisplay = "Жінка", MedicalRecordId = 2 },
-            new() { Id = 3, FullName = "Савченко Іван Миколайович", BirthDate = new DateTime(1965, 11, 8), GenderDisplay = "Чоловік", MedicalRecordId = 3 },
-            new() { Id = 4, FullName = "Бондаренко Наталія Сергіївна", BirthDate = new DateTime(1995, 7, 30), GenderDisplay = "Жінка", MedicalRecordId = 4 },
-            new() { Id = 5, FullName = "Мельник Олена Василівна", BirthDate = new DateTime(1982, 1, 15), GenderDisplay = "Жінка", MedicalRecordId = 5 },
-            new() { Id = 6, FullName = "Шевченко Дмитро Олегович", BirthDate = new DateTime(2000, 9, 3), GenderDisplay = "Чоловік", MedicalRecordId = 6 },
-            new() { Id = 7, FullName = "Ткаченко Василь Петрович", BirthDate = new DateTime(1955, 6, 18), GenderDisplay = "Чоловік", MedicalRecordId = 7 },
-            new() { Id = 8, FullName = "Лисенко Ірина Олексіївна", BirthDate = new DateTime(1988, 12, 5), GenderDisplay = "Жінка", MedicalRecordId = 8 },
-            new() { Id = 9, FullName = "Кравченко Андрій Миколайович", BirthDate = new DateTime(1972, 4, 27), GenderDisplay = "Чоловік", MedicalRecordId = 9 },
-            new() { Id = 10, FullName = "Марченко Оксана Василівна", BirthDate = new DateTime(1993, 8, 14), GenderDisplay = "Жінка", MedicalRecordId = 10 },
-            new() { Id = 11, FullName = "Гриценко Павло Іванович", BirthDate = new DateTime(1968, 3, 9), GenderDisplay = "Чоловік", MedicalRecordId = 11 },
-            new() { Id = 12, FullName = "Романенко Юлія Сергіївна", BirthDate = new DateTime(2001, 11, 22), GenderDisplay = "Жінка", MedicalRecordId = 12 },
-        };
     }
 
     public class PatientDisplayModel
