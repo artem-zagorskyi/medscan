@@ -1,36 +1,58 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MedicalApp.Models.Enums;
+using MedicalApp.Services;
 using System.Collections.ObjectModel;
 
 namespace MedicalApp.ViewModels
 {
     public partial class MedicalCardViewModel : ObservableObject
     {
-        private List<MedicalRecordEntryModel> _allEntries;
+        private readonly MedicalRecordService _medicalRecordService = new();
+        private List<MedicalRecordEntryModel> _allEntries = new();
 
         public MedicalCardViewModel(PatientDisplayModel patient)
         {
             Patient = patient;
-            LoadMockData();
+            _ = LoadDataAsync();
         }
 
-        // --- Пацієнт ---
         public PatientDisplayModel Patient { get; }
 
+        // --- Стан ---
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        private string _errorMessage = string.Empty;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
         // --- Медкарта ---
-        private string _bloodGroup = string.Empty;
+        private string _bloodGroup = "—";
         public string BloodGroup
         {
             get => _bloodGroup;
             set => SetProperty(ref _bloodGroup, value);
         }
 
-        private string _rhFactor = string.Empty;
+        private string _rhFactor = "—";
         public string RhFactor
         {
             get => _rhFactor;
             set => SetProperty(ref _rhFactor, value);
+        }
+
+        private string _rhFactorLabel = "—";
+        public string RhFactorLabel
+        {
+            get => _rhFactorLabel;
+            set => SetProperty(ref _rhFactorLabel, value);
         }
 
         // --- Алергії ---
@@ -153,6 +175,153 @@ namespace MedicalApp.ViewModels
             SelectedEntryType = "Всі";
         }
 
+        // --- Завантаження з API ---
+        private async Task LoadDataAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var record = await _medicalRecordService.GetFullRecordAsync(Patient.MedicalRecordId);
+                if (record == null) return;
+
+                // Група крові
+                BloodGroup = record.BloodGroup switch
+                {
+                    "A" => "A (II)",
+                    "B" => "B (III)",
+                    "AB" => "AB (IV)",
+                    "O" => "O (I)",
+                    _ => "—"
+                };
+
+                // Резус фактор
+                RhFactor = record.RhFactor == "POSITIVE" ? "+" : record.RhFactor == "NEGATIVE" ? "−" : "—";
+                RhFactorLabel = record.RhFactor == "POSITIVE" ? "Позитивний" : record.RhFactor == "NEGATIVE" ? "Негативний" : "—";
+
+                // Алергії
+                Allergies = new ObservableCollection<AllergyDisplayModel>(
+                    record.PatientAllergies.Select(a => new AllergyDisplayModel
+                    {
+                        Name = a.Allergen?.Name ?? "—",
+                        Severity = a.ReactionSeverity switch
+                        {
+                            "SEVERE" => "Важка",
+                            "MODERATE" => "Помірна",
+                            "MILD" => "Легка",
+                            _ => "—"
+                        },
+                        SeverityColor = a.ReactionSeverity switch
+                        {
+                            "SEVERE" => "#FCEBEB",
+                            "MODERATE" => "#FAEEDA",
+                            _ => "#EAF3DE"
+                        },
+                        SeverityTextColor = a.ReactionSeverity switch
+                        {
+                            "SEVERE" => "#A32D2D",
+                            "MODERATE" => "#854F0B",
+                            _ => "#3B6D11"
+                        }
+                    })
+                );
+
+                // Діагнози
+                Diagnoses = new ObservableCollection<DiagnosisDisplayModel>(
+                    record.PatientDiseases.Select(d => new DiagnosisDisplayModel
+                    {
+                        IcdCode = d.Disease?.IcdCode ?? "—",
+                        Name = d.Disease?.Name ?? "—",
+                        Description = string.Empty,
+                        Status = d.Status switch
+                        {
+                            "ACTIVE" => "Активна",
+                            "CHRONIC" => "Хронічна",
+                            "RECOVERED" => "Одужав",
+                            _ => "—"
+                        },
+                        DiagnosedAt = d.DiagnosedAt,
+                        StatusColor = d.Status switch
+                        {
+                            "ACTIVE" => "#FCEBEB",
+                            "CHRONIC" => "#FAEEDA",
+                            _ => "#EAF3DE"
+                        },
+                        StatusTextColor = d.Status switch
+                        {
+                            "ACTIVE" => "#A32D2D",
+                            "CHRONIC" => "#854F0B",
+                            _ => "#3B6D11"
+                        }
+                    })
+                );
+
+                // Записи
+                _allEntries = record.Records.Select(r => new MedicalRecordEntryModel
+                {
+                    VisitDate = r.VisitDate,
+                    EntryTypeDisplay = r.EntryType switch
+                    {
+                        "VISIT" => "Візит",
+                        "RESEARCH_ORDERED" => "Призначення дослідження",
+                        "RESEARCH_REVIEW" => "Огляд дослідження",
+                        _ => "—"
+                    },
+                    DoctorName = r.Doctor?.Person != null
+                        ? $"{r.Doctor.Person.LastName} {r.Doctor.Person.FirstName[0]}. {r.Doctor.Person.MiddleName?[0]}."
+                        : "—",
+                    Specialization = r.Doctor?.Specialization ?? "—",
+                    Complaints = r.Complaints,
+                    Conclusion = r.DoctorConclusion,
+                    IconColor = r.EntryType switch
+                    {
+                        "VISIT" => "#E6F1FB",
+                        "RESEARCH_ORDERED" => "#FAEEDA",
+                        _ => "#EAF3DE"
+                    },
+                    IconText = r.EntryType switch
+                    {
+                        "VISIT" => "В",
+                        "RESEARCH_ORDERED" => "П",
+                        _ => "Д"
+                    },
+                    ResearchStatus = r.Research?.Status switch
+                    {
+                        "PROCESSED" => "Оброблено",
+                        "PENDING" => "Очікує",
+                        "PROCESSING" => "Обробляється",
+                        "ERROR" => "Помилка",
+                        _ => null
+                    },
+                    ResearchStatusColor = r.Research?.Status switch
+                    {
+                        "PROCESSED" => "#EAF3DE",
+                        "PENDING" => "#FAEEDA",
+                        "ERROR" => "#FCEBEB",
+                        _ => null
+                    },
+                    ResearchStatusTextColor = r.Research?.Status switch
+                    {
+                        "PROCESSED" => "#3B6D11",
+                        "PENDING" => "#854F0B",
+                        "ERROR" => "#A32D2D",
+                        _ => null
+                    }
+                }).ToList();
+
+                ApplyFilters();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Помилка завантаження: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         // --- Логіка ---
         private void ApplyFilters()
         {
@@ -191,99 +360,6 @@ namespace MedicalApp.ViewModels
             CurrentEntries = new ObservableCollection<MedicalRecordEntryModel>(page);
             CanGoPrev = CurrentPage > 1;
             CanGoNext = CurrentPage < TotalPages;
-        }
-
-        // --- Тестові дані ---
-        private void LoadMockData()
-        {
-            BloodGroup = "A (II)";
-            RhFactor = "+";
-
-            Allergies = new ObservableCollection<AllergyDisplayModel>
-            {
-                new() { Name = "Пеніцилін", Severity = "Важка", SeverityColor = "#FCEBEB", SeverityTextColor = "#A32D2D" },
-                new() { Name = "Горіхи", Severity = "Помірна", SeverityColor = "#FAEEDA", SeverityTextColor = "#854F0B" },
-                new() { Name = "Пилок", Severity = "Легка", SeverityColor = "#EAF3DE", SeverityTextColor = "#3B6D11" },
-            };
-
-            Diagnoses = new ObservableCollection<DiagnosisDisplayModel>
-            {
-                new() { IcdCode = "I10", Name = "Гіпертонія", Description = "1 стадія, контрольована", Status = "Активна", DiagnosedAt = new DateTime(2021, 6, 2), StatusColor = "#FCEBEB", StatusTextColor = "#A32D2D" },
-                new() { IcdCode = "E11.9", Name = "Діабет 2 типу", Description = "Без ускладнень", Status = "Хронічна", DiagnosedAt = new DateTime(2022, 11, 15), StatusColor = "#FAEEDA", StatusTextColor = "#854F0B" },
-                new() { IcdCode = "J06.9", Name = "Гострий бронхіт", Description = "Вірусний, неускладнений", Status = "Одужав", DiagnosedAt = new DateTime(2024, 1, 10), StatusColor = "#EAF3DE", StatusTextColor = "#3B6D11" },
-            };
-
-            _allEntries = new List<MedicalRecordEntryModel>
-            {
-                new() {
-                    VisitDate = new DateTime(2026, 4, 12),
-                    EntryTypeDisplay = "Візит",
-                    DoctorName = "Іванов О.П.",
-                    Specialization = "Кардіологія",
-                    Complaints = "АТ 128/82, пульс 72. Покращення стану.",
-                    Conclusion = "Продовжити поточну терапію. Повторний аналіз ліпідів через 3 місяці.",
-                    IconColor = "#E6F1FB",
-                    IconText = "В"
-                },
-                new() {
-                    VisitDate = new DateTime(2026, 4, 10),
-                    EntryTypeDisplay = "Огляд дослідження",
-                    DoctorName = "Лаб. Сінево",
-                    Specialization = "Загальний аналіз крові",
-                    Complaints = "Гемоглобін 13.4 г/дл, лейкоцити 6.8×10⁹/л, тромбоцити 248×10⁹/л.",
-                    Conclusion = "Всі показники в межах норми.",
-                    IconColor = "#EAF3DE",
-                    IconText = "Д",
-                    ResearchStatus = "Оброблено",
-                    ResearchStatusColor = "#EAF3DE",
-                    ResearchStatusTextColor = "#3B6D11"
-                },
-                new() {
-                    VisitDate = new DateTime(2026, 3, 28),
-                    EntryTypeDisplay = "Візит",
-                    DoctorName = "Коваленко С.О.",
-                    Specialization = "Терапія",
-                    Complaints = "Біль у горлі, температура 37.8°C.",
-                    Conclusion = "Гострий фарингіт. Симптоматичне лікування.",
-                    IconColor = "#E6F1FB",
-                    IconText = "В"
-                },
-                new() {
-                    VisitDate = new DateTime(2026, 3, 15),
-                    EntryTypeDisplay = "Огляд дослідження",
-                    DoctorName = "Лаб. Сінево",
-                    Specialization = "HbA1c тест",
-                    Complaints = "Результат: 6.8% (норма <7.0%).",
-                    Conclusion = "Глікемічний контроль стабільний на метформіні 1000мг.",
-                    IconColor = "#EAF3DE",
-                    IconText = "Д",
-                    ResearchStatus = "Оброблено",
-                    ResearchStatusColor = "#EAF3DE",
-                    ResearchStatusTextColor = "#3B6D11"
-                },
-                new() {
-                    VisitDate = new DateTime(2026, 2, 5),
-                    EntryTypeDisplay = "Призначення дослідження",
-                    DoctorName = "Іванов О.П.",
-                    Specialization = "Гастроентерологія",
-                    Complaints = "Дискомфорт в епігастрії 3 тижні.",
-                    Conclusion = "Направлення на ендоскопію верхніх відділів ШКТ.",
-                    IconColor = "#FAEEDA",
-                    IconText = "П"
-                },
-                new() {
-                    VisitDate = new DateTime(2026, 1, 10),
-                    EntryTypeDisplay = "Візит",
-                    DoctorName = "Накамура Л.В.",
-                    Specialization = "Сімейна медицина",
-                    Complaints = "Щорічний огляд. Вітальні показники стабільні.",
-                    Conclusion = "Оновлено вакцинацію. Консультація щодо дієти та фізичних навантажень.",
-                    IconColor = "#E6F1FB",
-                    IconText = "В"
-                },
-            };
-
-            ApplyFilters();
         }
     }
 
