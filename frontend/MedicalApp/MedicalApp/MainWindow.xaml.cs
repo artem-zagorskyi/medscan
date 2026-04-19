@@ -18,10 +18,32 @@ public partial class MainWindow : Window
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        // TEMP: пропускаем авторизацию для разработки UI
-        SessionManager.SetDoctorInfo("Іванов Олексій", "Терапевт");
-        ShowApp("Іванов Олексій", "Терапевт", "USER");
-        return;
+        // TEMP
+        try
+        {
+            
+            SessionManager.SetDoctorInfo("Іванов Олексій", "Терапевт");
+            
+            var testPatient = new MedicalApp.ViewModels.PatientDisplayModel
+            {
+                Id = 1,
+                FullName = "Петренко Олексій Іванович",
+                BirthDate = new DateTime(1990, 5, 12),
+                GenderDisplay = "Чоловік",
+                MedicalRecordId = 1
+            };
+
+           
+            ShowApp("Іванов Олексій", "Терапевт", "USER");
+
+            NavigateTo(new MedicalApp.Views.MedicalCardView(testPatient));
+
+            return;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace, "Помилка");
+        }
 
         if (TokenStorage.IsValid())
         {
