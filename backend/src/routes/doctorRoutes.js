@@ -5,6 +5,9 @@ import { requireAdmin } from '../middleware/rolesMiddleware.js'
 
 const router = Router()
 
+// GET /api/doctors/person/:personId — all authenticated users
+router.get('/person/:personId', authenticate, doctorController.getByPersonId)
+
 // GET /api/doctors — all authenticated users
 router.get('/', authenticate, doctorController.getAll)
 

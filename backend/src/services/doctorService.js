@@ -114,3 +114,21 @@ export const remove = async (id) => {
     throw error instanceof AppError ? error : new AppError(`Failed to delete doctor: ${error.message}`, 500)
   }
 }
+
+// Get doctor by person_id
+export const getByPersonId = async (personId) => {
+  try {
+    const doctor = await prisma.doctor.findUnique({
+      where: { person_id: personId },
+      include: { person: true }
+    })
+
+    if (!doctor) {
+      throw new AppError(`Doctor with person_id ${personId} not found`, 404)
+    }
+
+    return doctor
+  } catch (error) {
+    throw error instanceof AppError ? error : new AppError(`Failed to fetch doctor by person_id: ${error.message}`, 500)
+  }
+}

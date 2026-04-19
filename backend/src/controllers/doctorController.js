@@ -69,3 +69,13 @@ export const remove = async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message })
   }
 }
+
+// GET /api/doctors/person/:personId
+export const getByPersonId = async (req, res) => {
+  try {
+    const data = await doctorService.getByPersonId(Number(req.params.personId))
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message })
+  }
+}
