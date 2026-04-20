@@ -28,6 +28,13 @@ public partial class MainWindow : Window
                 {
                     SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
+                    if (me.Rights == "ADMIN")
+                    {
+                        SessionManager.SetDoctorInfo(me.Email, "Адміністратор");
+                        ShowApp(me.Email, "Адміністратор", me.Rights);
+                        return;
+                    }
+
                     // Завантажуємо дані доктора по person_id
                     var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
                     if (doctor != null)

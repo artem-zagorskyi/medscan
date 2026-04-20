@@ -47,6 +47,14 @@ public partial class LoginViewModel : ObservableObject
                 {
                     SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
+                    if (me.Rights == "ADMIN")
+                    {
+                        SessionManager.SetDoctorInfo(me.Email, "Адміністратор");
+                        var mainWindow = (MainWindow)App.Current.MainWindow;
+                        mainWindow.ShowApp(me.Email, "Адміністратор", me.Rights);
+                        return;
+                    }
+
                     var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
                     if (doctor != null)
                     {
