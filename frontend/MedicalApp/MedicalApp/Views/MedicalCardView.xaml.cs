@@ -53,4 +53,18 @@ public partial class MedicalCardView : UserControl
             mainWindow.NavigateTo(new EditMedicalCardView(_vm.Patient, _vm.CurrentRecord));
         }
     }
+
+    private void NewRecordButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_vm.CurrentRecord != null)
+        {
+            var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord);
+            window.Owner = App.Current.MainWindow;
+            if (window.ShowDialog() == true)
+            {
+                var mainWindow = (MainWindow)App.Current.MainWindow;
+                mainWindow.NavigateTo(new MedicalCardView(_vm.Patient));
+            }
+        }
+    }
 }

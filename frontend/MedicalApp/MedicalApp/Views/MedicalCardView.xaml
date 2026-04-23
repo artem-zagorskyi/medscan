@@ -79,6 +79,7 @@
                 <!-- Новий запис -->
                 <Button Grid.Column="2"
                 Content="+ Новий запис"
+                Click="NewRecordButton_Click"
                 Height="36"
                 Padding="14,0"
                 Cursor="Hand"
