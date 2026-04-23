@@ -10,6 +10,8 @@ namespace MedicalApp.ViewModels
         private readonly MedicalRecordService _medicalRecordService = new();
         private List<MedicalRecordEntryModel> _allEntries = new();
 
+        public FullMedicalRecordResponse? CurrentRecord { get; private set; }
+
         public MedicalCardViewModel(PatientDisplayModel patient)
         {
             Patient = patient;
@@ -185,6 +187,7 @@ namespace MedicalApp.ViewModels
 
                 var record = await _medicalRecordService.GetFullRecordAsync(Patient.MedicalRecordId);
                 if (record == null) return;
+                CurrentRecord = record;
 
                 // Група крові
                 BloodGroup = record.BloodGroup switch

@@ -44,4 +44,13 @@ public partial class MedicalCardView : UserControl
         if (sender is Button btn && btn.Tag is int page)
             _vm.GoToPageCommand.Execute(page);
     }
+
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_vm.CurrentRecord != null)
+        {
+            var mainWindow = (MainWindow)App.Current.MainWindow;
+            mainWindow.NavigateTo(new EditMedicalCardView(_vm.Patient, _vm.CurrentRecord));
+        }
+    }
 }

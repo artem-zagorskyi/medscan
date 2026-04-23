@@ -68,17 +68,21 @@ public partial class LoginViewModel : ObservableObject
                 }
             }
         }
+        catch (ApiException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        catch (TaskCanceledException)
+        {
+            ErrorMessage = "Час очікування вичерпано. Перевірте підключення до сервера.";
+        }
         catch (HttpRequestException)
         {
-            ErrorMessage = "Невірний email або пароль";
+            ErrorMessage = "Не вдається підключитися до сервера.";
         }
         catch (Exception)
         {
-            ErrorMessage = "Помилка з'єднання з сервером";
-        }
-        finally
-        {
-            IsLoading = false;
+            ErrorMessage = "Невідома помилка. Спробуйте пізніше.";
         }
     }
 }

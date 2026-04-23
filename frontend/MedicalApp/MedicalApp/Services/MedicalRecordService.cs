@@ -1,9 +1,4 @@
-﻿using MedicalApp.Helpers;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-
-namespace MedicalApp.Services
+﻿namespace MedicalApp.Services
 {
     public class FullMedicalRecordResponse
     {
@@ -70,40 +65,16 @@ namespace MedicalApp.Services
         public string Category { get; set; } = string.Empty;
     }
 
-    public class MedicalRecordService
+    public class MedicalRecordService : BaseApiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
+        public async Task<FullMedicalRecordResponse?> GetFullRecordAsync(int medicalRecordId) =>
+            await GetAsync<FullMedicalRecordResponse>($"medical-records/{medicalRecordId}/full");
 
-        public MedicalRecordService()
-        {
-            _httpClient = new HttpClient
+        public async Task UpdateBloodInfoAsync(int medicalRecordId, string? bloodGroup, string? rhFactor) =>
+            await PatchAsync($"medical-records/{medicalRecordId}/blood-info", new
             {
-                BaseAddress = new Uri("http://localhost:3000/api/")
-            };
-
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
-        }
-
-        private void ApplyAuth()
-        {
-            var token = TokenStorage.Load();
-            if (token != null)
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        public async Task<FullMedicalRecordResponse?> GetFullRecordAsync(int medicalRecordId)
-        {
-            ApplyAuth();
-            var response = await _httpClient.GetAsync($"medical-records/{medicalRecordId}/full");
-            response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<FullMedicalRecordResponse>(json, _jsonOptions);
-        }
+                blood_group = bloodGroup,
+                rh_factor = rhFactor
+            });
     }
 }

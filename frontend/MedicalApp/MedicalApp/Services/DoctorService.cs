@@ -1,7 +1,4 @@
 ﻿using MedicalApp.Helpers;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace MedicalApp.Services
 {
@@ -24,40 +21,9 @@ namespace MedicalApp.Services
         public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
     }
 
-    public class DoctorService
+    public class DoctorService : BaseApiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
-
-        public DoctorService()
-        {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:3000/api/")
-            };
-
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
-        }
-
-        private void ApplyAuth()
-        {
-            var token = TokenStorage.Load();
-            if (token != null)
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        public async Task<DoctorResponse?> GetByPersonIdAsync(int personId)
-        {
-            ApplyAuth();
-            var response = await _httpClient.GetAsync($"doctors/person/{personId}");
-            response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<DoctorResponse>(json, _jsonOptions);
-        }
+        public async Task<DoctorResponse?> GetByPersonIdAsync(int personId) =>
+            await GetAsync<DoctorResponse>($"doctors/person/{personId}");
     }
 }
