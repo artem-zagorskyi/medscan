@@ -11,6 +11,8 @@ public partial class LoginViewModel : ObservableObject
     private readonly AuthService _authService = new();
     private readonly DoctorService _doctorService = new();
 
+    public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+
     [ObservableProperty]
     private string _email = string.Empty;
 
@@ -22,6 +24,14 @@ public partial class LoginViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isLoading = false;
+
+    public bool IsNotLoading => !IsLoading;
+
+    partial void OnIsLoadingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsNotLoading));
+        OnPropertyChanged(nameof(HasError));
+    }
 
     [RelayCommand]
     private async Task LoginAsync()
@@ -84,5 +94,10 @@ public partial class LoginViewModel : ObservableObject
         {
             ErrorMessage = "Невідома помилка. Спробуйте пізніше.";
         }
+    }
+
+    partial void OnErrorMessageChanged(string value)
+    {
+        OnPropertyChanged(nameof(HasError));
     }
 }

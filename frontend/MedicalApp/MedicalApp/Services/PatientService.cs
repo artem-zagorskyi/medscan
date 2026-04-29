@@ -19,5 +19,8 @@
     {
         public async Task<List<DoctorPatientResponse>?> GetByDoctorIdAsync(int doctorId) =>
             await GetAsync<List<DoctorPatientResponse>>($"patients/doctor/{doctorId}");
+
+        public async Task<List<PatientResponse>?> GetAllAsync() =>
+            await GetAsync<List<PatientResponse>>("patients");
     }
 }

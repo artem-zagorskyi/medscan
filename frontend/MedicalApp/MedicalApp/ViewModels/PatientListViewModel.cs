@@ -10,6 +10,7 @@ namespace MedicalApp.ViewModels
     {
         private readonly PatientService _patientService = new();
         private List<PatientDisplayModel> _allPatients = new();
+        private List<PatientDisplayModel> _myPatients = new();
         private List<PatientDisplayModel> _filteredPatients = new();
 
         public PatientListViewModel()
@@ -19,7 +20,6 @@ namespace MedicalApp.ViewModels
             _ = LoadPatientsAsync();
         }
 
-        // --- Завантаження з API ---
         private async Task LoadPatientsAsync()
         {
             try
@@ -27,27 +27,42 @@ namespace MedicalApp.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
-                var doctorPatients = await _patientService.GetByDoctorIdAsync(SessionManager.DoctorId);
-
-                if (doctorPatients != null)
+                // Загружаем всех пациентов
+                var allPatients = await _patientService.GetAllAsync();
+                if (allPatients != null)
                 {
-                    _allPatients = doctorPatients
-                        .Where(dp => dp.Patient != null)
-                        .Select(dp => new PatientDisplayModel
+                    _allPatients = allPatients
+                        .Select(p => new PatientDisplayModel
                         {
-                            Id = dp.Patient!.Id,
-                            FullName = dp.Patient.Person != null
-                                ? $"{dp.Patient.Person.LastName} {dp.Patient.Person.FirstName} {dp.Patient.Person.MiddleName}".Trim()
+                            Id = p.Id,
+                            FullName = p.Person != null
+                                ? $"{p.Person.LastName} {p.Person.FirstName} {p.Person.MiddleName}".Trim()
                                 : "Невідомий",
-                            BirthDate = dp.Patient.Person?.BirthDate ?? DateTime.MinValue,
-                            GenderDisplay = dp.Patient.Person?.Gender switch
+                            BirthDate = p.Person?.BirthDate ?? DateTime.MinValue,
+                            GenderDisplay = p.Person?.Gender switch
                             {
                                 "MALE" => "Чоловік",
                                 "FEMALE" => "Жінка",
                                 _ => "Інше"
                             },
-                            MedicalRecordId = dp.Patient.MedicalRecordId
+                            MedicalRecordId = p.MedicalRecordId,
+                            IsMyPatient = false
                         }).ToList();
+                }
+
+                // Загружаем моих пациентов для пометки
+                var doctorPatients = await _patientService.GetByDoctorIdAsync(SessionManager.DoctorId);
+                if (doctorPatients != null)
+                {
+                    var myIds = doctorPatients
+                        .Where(dp => dp.Patient != null)
+                        .Select(dp => dp.Patient!.Id)
+                        .ToHashSet();
+
+                    _myPatients = _allPatients.Where(p => myIds.Contains(p.Id)).ToList();
+
+                    foreach (var p in _allPatients)
+                        p.IsMyPatient = myIds.Contains(p.Id);
                 }
 
                 _filteredPatients = _allPatients.ToList();
@@ -64,7 +79,19 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Відображувані пацієнти ---
+        // --- Фильтр "только мои" ---
+        private bool _onlyMyPatients = false;
+        public bool OnlyMyPatients
+        {
+            get => _onlyMyPatients;
+            set
+            {
+                SetProperty(ref _onlyMyPatients, value);
+                ApplyFilters();
+            }
+        }
+
+        // --- Отображаемые пациенты ---
         private ObservableCollection<PatientDisplayModel> _currentPagePatients = new();
         public ObservableCollection<PatientDisplayModel> CurrentPagePatients
         {
@@ -72,7 +99,7 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _currentPagePatients, value);
         }
 
-        // --- Стан ---
+        // --- Состояние ---
         private bool _isLoading;
         public bool IsLoading
         {
@@ -87,7 +114,7 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _errorMessage, value);
         }
 
-        // --- Пошук ---
+        // --- Поиск ---
         private string _searchText = string.Empty;
         public string SearchText
         {
@@ -99,7 +126,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Фільтр статі ---
+        // --- Фильтр пола ---
         private string _selectedGender = "Всі";
         public string SelectedGender
         {
@@ -111,9 +138,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        public List<string> GenderOptions { get; } = new() { "Всі", "Чоловік", "Жінка", "Інше" };
-
-        // --- Фільтр віку ---
+        // --- Фильтр возраста ---
         private int? _ageFrom;
         public int? AgeFrom
         {
@@ -136,7 +161,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Пагінація ---
+        // --- Пагинация ---
         private int _currentPage = 1;
         public int CurrentPage
         {
@@ -208,7 +233,7 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _totalPatients, value);
         }
 
-        // --- Команди ---
+        // --- Команды ---
         [RelayCommand]
         private void PrevPage()
         {
@@ -234,12 +259,16 @@ namespace MedicalApp.ViewModels
             SelectedGender = "Всі";
             AgeFrom = null;
             AgeTo = null;
+            OnlyMyPatients = false;
         }
 
-        // --- Логіка ---
+        // --- Логика ---
         private void ApplyFilters()
         {
             var result = _allPatients.AsEnumerable();
+
+            if (OnlyMyPatients)
+                result = result.Where(p => p.IsMyPatient);
 
             if (!string.IsNullOrWhiteSpace(SearchText))
                 result = result.Where(p =>
@@ -293,8 +322,28 @@ namespace MedicalApp.ViewModels
         public DateTime BirthDate { get; set; }
         public string GenderDisplay { get; set; } = string.Empty;
         public int MedicalRecordId { get; set; }
+        public bool IsMyPatient { get; set; }
 
         public int Age => DateTime.Today.Year - BirthDate.Year -
             (DateTime.Today.DayOfYear < BirthDate.DayOfYear ? 1 : 0);
+
+        public string AgeLabel
+        {
+            get
+            {
+                int age = Age;
+                int mod10 = age % 10;
+                int mod100 = age % 100;
+
+                if (mod100 >= 11 && mod100 <= 14)
+                    return $"{age} років";
+                return mod10 switch
+                {
+                    1 => $"{age} рік",
+                    2 or 3 or 4 => $"{age} роки",
+                    _ => $"{age} років"
+                };
+            }
+        }
     }
 }

@@ -15,6 +15,14 @@ namespace MedicalApp.ViewModels
 
         private readonly FullMedicalRecordResponse _originalRecord;
 
+        // Списки отложенных изменений
+        private readonly List<EditAllergyModel> _allergiesToAdd = new();
+        private readonly List<int> _allergiesToRemove = new(); // allergenId
+        private readonly List<EditAllergyModel> _allergiesToUpdateSeverity = new();
+        private readonly List<EditDiagnosisModel> _diagnosesToAdd = new();
+        private readonly List<int> _diagnosesToRemove = new(); // diseaseId
+        private readonly List<EditDiagnosisModel> _diagnosesToUpdateStatus = new();
+
         [RelayCommand]
         private void SetRhPositive() => IsRhPositive = true;
 
@@ -57,10 +65,32 @@ namespace MedicalApp.ViewModels
         public string SelectedBloodGroup
         {
             get => _selectedBloodGroup;
-            set => SetProperty(ref _selectedBloodGroup, value);
+            set
+            {
+                SetProperty(ref _selectedBloodGroup, value);
+                OnPropertyChanged(nameof(SelectedBloodGroupLabel));
+            }
         }
 
-        public List<string> BloodGroupOptions { get; } = new() { "A", "B", "AB", "O" };
+        public string SelectedBloodGroupLabel => SelectedBloodGroup switch
+        {
+            "O" => "O (I) — Перша",
+            "A" => "A (II) — Друга",
+            "B" => "B (III) — Третя",
+            "AB" => "AB (IV) — Четверта",
+            _ => "—"
+        };
+
+        public List<string> BloodGroupOptions { get; } = new() { "O", "A", "B", "AB" };
+
+        public string GetBloodGroupLabel(string group) => group switch
+        {
+            "O" => "O (I)",
+            "A" => "A (II)",
+            "B" => "B (III)",
+            "AB" => "AB (IV)",
+            _ => group
+        };
 
         // --- Резус фактор ---
         private bool _isRhPositive = true;
@@ -114,7 +144,6 @@ namespace MedicalApp.ViewModels
         }
 
         public List<string> SeverityOptions { get; } = new() { "MILD", "MODERATE", "SEVERE" };
-
         public List<string> SeverityDisplayOptions { get; } = new() { "Легка", "Помірна", "Важка" };
 
         private string _allergenSearchText = string.Empty;
@@ -178,39 +207,22 @@ namespace MedicalApp.ViewModels
             {
                 IsLoading = true;
 
-                // Група крові
                 SelectedBloodGroup = record.BloodGroup ?? "A";
                 IsRhPositive = record.RhFactor != "NEGATIVE";
 
-                // Алергії
                 Allergies = new ObservableCollection<EditAllergyModel>(
                     record.PatientAllergies.Select(a => new EditAllergyModel
                     {
                         AllergenId = a.Allergen?.Id ?? 0,
                         Name = a.Allergen?.Name ?? "—",
                         Severity = a.ReactionSeverity,
-                        SeverityDisplay = a.ReactionSeverity switch
-                        {
-                            "SEVERE" => "Важка",
-                            "MODERATE" => "Помірна",
-                            _ => "Легка"
-                        },
-                        SeverityColor = a.ReactionSeverity switch
-                        {
-                            "SEVERE" => "#FCEBEB",
-                            "MODERATE" => "#FAEEDA",
-                            _ => "#EAF3DE"
-                        },
-                        SeverityTextColor = a.ReactionSeverity switch
-                        {
-                            "SEVERE" => "#A32D2D",
-                            "MODERATE" => "#854F0B",
-                            _ => "#3B6D11"
-                        }
+                        SeverityDisplay = SeverityToDisplay(a.ReactionSeverity),
+                        SeverityColor = SeverityToColor(a.ReactionSeverity),
+                        SeverityTextColor = SeverityToTextColor(a.ReactionSeverity),
+                        IsNew = false
                     })
                 );
 
-                // Діагнози
                 Diagnoses = new ObservableCollection<EditDiagnosisModel>(
                     record.PatientDiseases.Select(d => new EditDiagnosisModel
                     {
@@ -218,29 +230,14 @@ namespace MedicalApp.ViewModels
                         IcdCode = d.Disease?.IcdCode ?? "—",
                         Name = d.Disease?.Name ?? "—",
                         Status = d.Status,
-                        StatusDisplay = d.Status switch
-                        {
-                            "ACTIVE" => "Активна",
-                            "CHRONIC" => "Хронічна",
-                            _ => "Одужав"
-                        },
+                        StatusDisplay = StatusToDisplay(d.Status),
                         DiagnosedAt = d.DiagnosedAt,
-                        StatusColor = d.Status switch
-                        {
-                            "ACTIVE" => "#FCEBEB",
-                            "CHRONIC" => "#FAEEDA",
-                            _ => "#EAF3DE"
-                        },
-                        StatusTextColor = d.Status switch
-                        {
-                            "ACTIVE" => "#A32D2D",
-                            "CHRONIC" => "#854F0B",
-                            _ => "#3B6D11"
-                        }
+                        StatusColor = StatusToColor(d.Status),
+                        StatusTextColor = StatusToTextColor(d.Status),
+                        IsNew = false
                     })
                 );
 
-                // Завантажуємо всі алергени і хвороби
                 var allergens = await _allergenService.GetAllAsync();
                 if (allergens != null)
                     AvailableAllergens = new ObservableCollection<AllergenItemResponse>(allergens);
@@ -259,7 +256,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        // --- Пошук алергенів ---
+        // --- Пошук ---
         private async Task SearchAllergensAsync(string query)
         {
             try
@@ -267,19 +264,15 @@ namespace MedicalApp.ViewModels
                 if (string.IsNullOrWhiteSpace(query))
                 {
                     var all = await _allergenService.GetAllAsync();
-                    if (all != null)
-                        AvailableAllergens = new ObservableCollection<AllergenItemResponse>(all);
+                    if (all != null) AvailableAllergens = new ObservableCollection<AllergenItemResponse>(all);
                     return;
                 }
-
                 var results = await _allergenService.SearchAsync(query);
-                if (results != null)
-                    AvailableAllergens = new ObservableCollection<AllergenItemResponse>(results);
+                if (results != null) AvailableAllergens = new ObservableCollection<AllergenItemResponse>(results);
             }
             catch { }
         }
 
-        // --- Пошук хвороб ---
         private async Task SearchDiseasesAsync(string query)
         {
             try
@@ -287,23 +280,24 @@ namespace MedicalApp.ViewModels
                 if (string.IsNullOrWhiteSpace(query))
                 {
                     var all = await _diseaseService.GetAllAsync();
-                    if (all != null)
-                        AvailableDiseases = new ObservableCollection<DiseaseItemResponse>(all);
+                    if (all != null) AvailableDiseases = new ObservableCollection<DiseaseItemResponse>(all);
                     return;
                 }
-
                 var results = await _diseaseService.SearchAsync(query);
-                if (results != null)
-                    AvailableDiseases = new ObservableCollection<DiseaseItemResponse>(results);
+                if (results != null) AvailableDiseases = new ObservableCollection<DiseaseItemResponse>(results);
             }
             catch { }
         }
 
-        // --- Команди алергій ---
+        // --- Локальні зміни алергій ---
         [RelayCommand]
-        private async Task AddAllergyAsync()
+        private void AddAllergy()
         {
-            if (SelectedAllergen == null) return;
+            if (SelectedAllergen == null)
+            {
+                ErrorMessage = "Алерген не обрано — SelectedAllergen is null";
+                return;
+            }
 
             if (Allergies.Any(a => a.AllergenId == SelectedAllergen.Id))
             {
@@ -311,69 +305,63 @@ namespace MedicalApp.ViewModels
                 return;
             }
 
-            try
+            // Якщо була в черзі на видалення — просто відміняємо видалення
+            if (_allergiesToRemove.Contains(SelectedAllergen.Id))
             {
-                await _patientAllergyService.AddAsync(
-                    _originalRecord.Id,
-                    SelectedAllergen.Id,
-                    SelectedNewAllergySeverity,
-                    DateTime.Today
-                );
-
-                Allergies.Add(new EditAllergyModel
-                {
-                    AllergenId = SelectedAllergen.Id,
-                    Name = SelectedAllergen.Name,
-                    Severity = SelectedNewAllergySeverity,
-                    SeverityDisplay = SelectedNewAllergySeverity switch
-                    {
-                        "SEVERE" => "Важка",
-                        "MODERATE" => "Помірна",
-                        _ => "Легка"
-                    },
-                    SeverityColor = SelectedNewAllergySeverity switch
-                    {
-                        "SEVERE" => "#FCEBEB",
-                        "MODERATE" => "#FAEEDA",
-                        _ => "#EAF3DE"
-                    },
-                    SeverityTextColor = SelectedNewAllergySeverity switch
-                    {
-                        "SEVERE" => "#A32D2D",
-                        "MODERATE" => "#854F0B",
-                        _ => "#3B6D11"
-                    }
-                });
-
-                SelectedAllergen = null;
-                AllergenSearchText = string.Empty;
-                ErrorMessage = string.Empty;
+                _allergiesToRemove.Remove(SelectedAllergen.Id);
             }
-            catch (Exception ex)
+
+            var model = new EditAllergyModel
             {
-                ErrorMessage = $"Помилка додавання алергії: {ex.Message}";
-            }
+                AllergenId = SelectedAllergen.Id,
+                Name = SelectedAllergen.Name,
+                Severity = SelectedNewAllergySeverity,
+                SeverityDisplay = SeverityToDisplay(SelectedNewAllergySeverity),
+                SeverityColor = SeverityToColor(SelectedNewAllergySeverity),
+                SeverityTextColor = SeverityToTextColor(SelectedNewAllergySeverity),
+                IsNew = true
+            };
+
+            _allergiesToAdd.Add(model);
+            Allergies.Add(model);
+
+            SelectedAllergen = null;
+            AllergenSearchText = string.Empty;
+            ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
-        private async Task RemoveAllergyAsync(EditAllergyModel allergy)
+        private void RemoveAllergy(EditAllergyModel allergy)
         {
-            try
-            {
-                await _patientAllergyService.RemoveAsync(_originalRecord.Id, allergy.AllergenId);
-                Allergies.Remove(allergy);
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Помилка видалення алергії: {ex.Message}";
-            }
+            // Якщо нова — просто прибираємо з черги додавання
+            if (allergy.IsNew)
+                _allergiesToAdd.Remove(allergy);
+            else
+                _allergiesToRemove.Add(allergy.AllergenId);
+
+            Allergies.Remove(allergy);
         }
 
-        // --- Команди діагнозів ---
         [RelayCommand]
-        private async Task AddDiseaseAsync()
+        private void UpdateAllergySeverity(EditAllergyModel allergy)
         {
-            if (SelectedDisease == null) return;
+            allergy.SeverityColor = SeverityToColor(allergy.Severity);
+            allergy.SeverityTextColor = SeverityToTextColor(allergy.Severity);
+            allergy.SeverityDisplay = SeverityToDisplay(allergy.Severity);
+
+            if (!allergy.IsNew && !_allergiesToUpdateSeverity.Contains(allergy))
+                _allergiesToUpdateSeverity.Add(allergy);
+        }
+
+        // --- Локальні зміни діагнозів ---
+        [RelayCommand]
+        private void AddDisease()
+        {
+            if (SelectedDisease == null)
+            {
+                ErrorMessage = "Діагноз не обрано — SelectedDisease is null";
+                return;
+            }
 
             if (Diagnoses.Any(d => d.DiseaseId == SelectedDisease.Id))
             {
@@ -381,103 +369,64 @@ namespace MedicalApp.ViewModels
                 return;
             }
 
-            try
-            {
-                await _patientDiseaseService.AddAsync(
-                    _originalRecord.Id,
-                    SelectedDisease.Id,
-                    SelectedNewDiseaseStatus,
-                    DateTime.Today
-                );
+            if (_diagnosesToRemove.Contains(SelectedDisease.Id))
+                _diagnosesToRemove.Remove(SelectedDisease.Id);
 
-                Diagnoses.Add(new EditDiagnosisModel
-                {
-                    DiseaseId = SelectedDisease.Id,
-                    IcdCode = SelectedDisease.IcdCode,
-                    Name = SelectedDisease.Name,
-                    Status = SelectedNewDiseaseStatus,
-                    StatusDisplay = SelectedNewDiseaseStatus switch
-                    {
-                        "ACTIVE" => "Активна",
-                        "CHRONIC" => "Хронічна",
-                        _ => "Одужав"
-                    },
-                    DiagnosedAt = DateTime.Today,
-                    StatusColor = SelectedNewDiseaseStatus switch
-                    {
-                        "ACTIVE" => "#FCEBEB",
-                        "CHRONIC" => "#FAEEDA",
-                        _ => "#EAF3DE"
-                    },
-                    StatusTextColor = SelectedNewDiseaseStatus switch
-                    {
-                        "ACTIVE" => "#A32D2D",
-                        "CHRONIC" => "#854F0B",
-                        _ => "#3B6D11"
-                    }
-                });
-
-                SelectedDisease = null;
-                DiseaseSearchText = string.Empty;
-                ErrorMessage = string.Empty;
-            }
-            catch (Exception ex)
+            var model = new EditDiagnosisModel
             {
-                ErrorMessage = $"Помилка додавання діагнозу: {ex.Message}";
-            }
+                DiseaseId = SelectedDisease.Id,
+                IcdCode = SelectedDisease.IcdCode,
+                Name = SelectedDisease.Name,
+                Status = SelectedNewDiseaseStatus,
+                StatusDisplay = StatusToDisplay(SelectedNewDiseaseStatus),
+                DiagnosedAt = DateTime.Today,
+                StatusColor = StatusToColor(SelectedNewDiseaseStatus),
+                StatusTextColor = StatusToTextColor(SelectedNewDiseaseStatus),
+                IsNew = true
+            };
+
+            _diagnosesToAdd.Add(model);
+            Diagnoses.Add(model);
+
+            SelectedDisease = null;
+            DiseaseSearchText = string.Empty;
+            ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
-        private async Task RemoveDiseaseAsync(EditDiagnosisModel diagnosis)
+        private void RemoveDisease(EditDiagnosisModel diagnosis)
         {
-            try
-            {
-                await _patientDiseaseService.RemoveAsync(_originalRecord.Id, diagnosis.DiseaseId);
-                Diagnoses.Remove(diagnosis);
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Помилка видалення діагнозу: {ex.Message}";
-            }
+            if (diagnosis.IsNew)
+                _diagnosesToAdd.Remove(diagnosis);
+            else
+                _diagnosesToRemove.Add(diagnosis.DiseaseId);
+
+            Diagnoses.Remove(diagnosis);
         }
 
-        [RelayCommand]
-        private async Task UpdateDiseaseStatusAsync(EditDiagnosisModel diagnosis)
+        public void OnDiseaseStatusChanged(EditDiagnosisModel diagnosis, int selectedIndex)
         {
-            try
-            {
-                await _patientDiseaseService.UpdateStatusAsync(
-                    _originalRecord.Id,
-                    diagnosis.DiseaseId,
-                    diagnosis.Status
-                );
+            diagnosis.Status = DiseaseStatusOptions[selectedIndex];
+            diagnosis.StatusDisplay = DiseaseStatusDisplayOptions[selectedIndex];
+            diagnosis.StatusColor = StatusToColor(diagnosis.Status);
+            diagnosis.StatusTextColor = StatusToTextColor(diagnosis.Status);
 
-                diagnosis.StatusDisplay = diagnosis.Status switch
-                {
-                    "ACTIVE" => "Активна",
-                    "CHRONIC" => "Хронічна",
-                    _ => "Одужав"
-                };
-                diagnosis.StatusColor = diagnosis.Status switch
-                {
-                    "ACTIVE" => "#FCEBEB",
-                    "CHRONIC" => "#FAEEDA",
-                    _ => "#EAF3DE"
-                };
-                diagnosis.StatusTextColor = diagnosis.Status switch
-                {
-                    "ACTIVE" => "#A32D2D",
-                    "CHRONIC" => "#854F0B",
-                    _ => "#3B6D11"
-                };
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Помилка оновлення статусу: {ex.Message}";
-            }
+            if (!diagnosis.IsNew && !_diagnosesToUpdateStatus.Contains(diagnosis))
+                _diagnosesToUpdateStatus.Add(diagnosis);
         }
 
-        // --- Зберегти ---
+        public void OnAllergySeverityChanged(EditAllergyModel allergy, int selectedIndex)
+        {
+            allergy.Severity = SeverityOptions[selectedIndex];
+            allergy.SeverityDisplay = SeverityDisplayOptions[selectedIndex];
+            allergy.SeverityColor = SeverityToColor(allergy.Severity);
+            allergy.SeverityTextColor = SeverityToTextColor(allergy.Severity);
+
+            if (!allergy.IsNew && !_allergiesToUpdateSeverity.Contains(allergy))
+                _allergiesToUpdateSeverity.Add(allergy);
+        }
+
+        // --- Зберегти всі зміни ---
         [RelayCommand]
         private async Task SaveAsync()
         {
@@ -492,6 +441,84 @@ namespace MedicalApp.ViewModels
                     IsRhPositive ? "POSITIVE" : "NEGATIVE"
                 );
 
+                foreach (var a in _allergiesToAdd)
+                {
+                    try
+                    {
+                        await _patientAllergyService.AddAsync(_originalRecord.Id, a.AllergenId, a.Severity, DateTime.Today);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка додавання алергії {a.Name}: {ex.Message}";
+                        return;
+                    }
+                }
+
+                foreach (var id in _allergiesToRemove)
+                {
+                    try
+                    {
+                        await _patientAllergyService.RemoveAsync(_originalRecord.Id, id);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка видалення алергії: {ex.Message}";
+                        return;
+                    }
+                }
+
+                foreach (var d in _diagnosesToAdd)
+                {
+                    try
+                    {
+                        await _patientDiseaseService.AddAsync(_originalRecord.Id, d.DiseaseId, d.Status, DateTime.Today);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка додавання діагнозу {d.Name}: {ex.Message}";
+                        return;
+                    }
+                }
+
+                foreach (var id in _diagnosesToRemove)
+                {
+                    try
+                    {
+                        await _patientDiseaseService.RemoveAsync(_originalRecord.Id, id);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка видалення діагнозу: {ex.Message}";
+                        return;
+                    }
+                }
+
+                foreach (var a in _allergiesToUpdateSeverity)
+                {
+                    try
+                    {
+                        await _patientAllergyService.UpdateSeverityAsync(_originalRecord.Id, a.AllergenId, a.Severity);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка оновлення алергії {a.Name}: {ex.Message}";
+                        return;
+                    }
+                }
+
+                foreach (var d in _diagnosesToUpdateStatus)
+                {
+                    try
+                    {
+                        await _patientDiseaseService.UpdateStatusAsync(_originalRecord.Id, d.DiseaseId, d.Status);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = $"Помилка оновлення діагнозу {d.Name}: {ex.Message}";
+                        return;
+                    }
+                }
+
                 var mainWindow = (MainWindow)App.Current.MainWindow;
                 mainWindow.NavigateTo(new Views.MedicalCardView(Patient));
             }
@@ -504,6 +531,49 @@ namespace MedicalApp.ViewModels
                 IsSaving = false;
             }
         }
+
+        // --- Хелпери ---
+        private static string SeverityToDisplay(string s) => s switch
+        {
+            "SEVERE" => "Важка",
+            "MODERATE" => "Помірна",
+            _ => "Легка"
+        };
+
+        private static string SeverityToColor(string s) => s switch
+        {
+            "SEVERE" => "#FCEBEB",
+            "MODERATE" => "#FAEEDA",
+            _ => "#EAF3DE"
+        };
+
+        private static string SeverityToTextColor(string s) => s switch
+        {
+            "SEVERE" => "#A32D2D",
+            "MODERATE" => "#854F0B",
+            _ => "#3B6D11"
+        };
+
+        private static string StatusToDisplay(string s) => s switch
+        {
+            "ACTIVE" => "Активна",
+            "CHRONIC" => "Хронічна",
+            _ => "Одужав"
+        };
+
+        private static string StatusToColor(string s) => s switch
+        {
+            "ACTIVE" => "#FCEBEB",
+            "CHRONIC" => "#FAEEDA",
+            _ => "#EAF3DE"
+        };
+
+        private static string StatusToTextColor(string s) => s switch
+        {
+            "ACTIVE" => "#A32D2D",
+            "CHRONIC" => "#854F0B",
+            _ => "#3B6D11"
+        };
     }
 
     // --- Допоміжні моделі ---
@@ -511,6 +581,7 @@ namespace MedicalApp.ViewModels
     {
         public int AllergenId { get; set; }
         public string Name { get; set; } = string.Empty;
+        public bool IsNew { get; set; }
 
         private string _severity = string.Empty;
         public string Severity
@@ -526,8 +597,19 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _severityDisplay, value);
         }
 
-        public string SeverityColor { get; set; } = string.Empty;
-        public string SeverityTextColor { get; set; } = string.Empty;
+        private string _severityColor = string.Empty;
+        public string SeverityColor
+        {
+            get => _severityColor;
+            set => SetProperty(ref _severityColor, value);
+        }
+
+        private string _severityTextColor = string.Empty;
+        public string SeverityTextColor
+        {
+            get => _severityTextColor;
+            set => SetProperty(ref _severityTextColor, value);
+        }
     }
 
     public class EditDiagnosisModel : ObservableObject
@@ -537,6 +619,7 @@ namespace MedicalApp.ViewModels
         public string Name { get; set; } = string.Empty;
         public DateTime DiagnosedAt { get; set; }
         public string DiagnosedAtDisplay => DiagnosedAt.ToString("dd.MM.yyyy");
+        public bool IsNew { get; set; }
 
         private string _status = string.Empty;
         public string Status

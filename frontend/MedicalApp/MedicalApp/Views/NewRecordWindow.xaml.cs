@@ -27,6 +27,15 @@ public partial class NewRecordWindow : Window
         Close();
     }
 
+    private void ToggleResearch_Click(object sender, RoutedEventArgs e)
+        => _vm.IsResearchExpanded = !_vm.IsResearchExpanded;
+
+    private void ToggleAllergies_Click(object sender, RoutedEventArgs e)
+        => _vm.IsAllergiesExpanded = !_vm.IsAllergiesExpanded;
+
+    private void ToggleDiagnoses_Click(object sender, RoutedEventArgs e)
+        => _vm.IsDiagnosesExpanded = !_vm.IsDiagnosesExpanded;
+
     private void AllergySeverity_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (sender is ComboBox cb && cb.SelectedIndex >= 0)

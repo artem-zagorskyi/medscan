@@ -28,6 +28,27 @@ namespace MedicalApp.ViewModels
 
         public PatientDisplayModel Patient { get; }
 
+        private bool _isResearchExpanded;
+        public bool IsResearchExpanded
+        {
+            get => _isResearchExpanded;
+            set => SetProperty(ref _isResearchExpanded, value);
+        }
+
+        private bool _isAllergiesExpanded;
+        public bool IsAllergiesExpanded
+        {
+            get => _isAllergiesExpanded;
+            set => SetProperty(ref _isAllergiesExpanded, value);
+        }
+
+        private bool _isDiagnosesExpanded;
+        public bool IsDiagnosesExpanded
+        {
+            get => _isDiagnosesExpanded;
+            set => SetProperty(ref _isDiagnosesExpanded, value);
+        }
+
         // --- Стан ---
         private bool _isLoading;
         public bool IsLoading
