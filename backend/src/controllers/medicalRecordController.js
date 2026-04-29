@@ -1,5 +1,12 @@
 import * as medicalRecordService from '../services/medicalRecordService.js'
 
+export const updatePhysicalInfo = async (req, res, next) => {
+  try {
+    const updated = await medicalRecordService.updatePhysicalInfo(Number(req.params.id), req.body)
+    res.json(updated)
+  } catch (err) { next(err) }
+}
+
 // GET /api/medical-records/:id
 export const getById = async (req, res) => {
   try {

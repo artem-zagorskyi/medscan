@@ -20,4 +20,7 @@ router.post('/', authenticate, requireAdmin, medicalRecordController.create)
 // PATCH /api/medical-records/:id/blood-info — doctors and admins
 router.patch('/:id/blood-info', authenticate, requireRole('DOCTOR', 'ADMIN'), medicalRecordController.updateBloodInfo)
 
+// PATCH /api/medical-records/:id/physical-info — оновити зріст та вагу
+router.patch('/:id/physical-info', authenticate, requireRole('DOCTOR', 'ADMIN'), medicalRecordController.updatePhysicalInfo)
+
 export default router

@@ -17,6 +17,13 @@ import diseaseRoutes from './routes/diseaseRoutes.js'
 import patientDiseaseRoutes from './routes/patientDiseaseRoutes.js'
 import allergenRoutes from './routes/allergenRoutes.js'
 import patientAllergyRoutes from './routes/patientAllergyRoutes.js'
+import caseRoutes from './routes/caseRoutes.js'
+import recordDoctorRoutes from './routes/recordDoctorRoutes.js'
+import recordDiagnosisRoutes from './routes/recordDiagnosisRoutes.js'
+import recordMedicationRoutes from './routes/recordMedicationRoutes.js'
+import recordResearchRoutes from './routes/recordResearchRoutes.js'
+import recordAllergyRoutes from './routes/recordAllergyRoutes.js'
+import medicationRoutes from './routes/medicationRoutes.js'
 
 const app = express()
 
@@ -53,6 +60,13 @@ app.use('/api/diseases', diseaseRoutes)
 app.use('/api/patient-diseases', patientDiseaseRoutes)
 app.use('/api/allergens', allergenRoutes)
 app.use('/api/patient-allergies', patientAllergyRoutes)
+app.use('/api/cases', caseRoutes)
+app.use('/api/record-doctors', recordDoctorRoutes)
+app.use('/api/record-diagnoses', recordDiagnosisRoutes)
+app.use('/api/record-medications', recordMedicationRoutes)
+app.use('/api/record-researches', recordResearchRoutes)
+app.use('/api/record-allergies', recordAllergyRoutes)
+app.use('/api/medications', medicationRoutes)
 
 // ─────────────────────────────────────────
 // HEALTH CHECK

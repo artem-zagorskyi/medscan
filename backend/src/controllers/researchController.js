@@ -1,81 +1,68 @@
 import * as researchService from '../services/researchService.js'
 
-// GET /api/researches
-export const getAll = async (req, res) => {
+export const getAll = async (req, res, next) => {
   try {
-    const data = await researchService.getAll()
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getAll())
+  } catch (err) { next(err) }
 }
 
-// GET /api/researches/:id
-export const getById = async (req, res) => {
+export const getById = async (req, res, next) => {
   try {
-    const data = await researchService.getById(Number(req.params.id))
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getById(Number(req.params.id)))
+  } catch (err) { next(err) }
 }
 
-// GET /api/researches/medical-record/:medicalRecordId
-export const getByMedicalRecord = async (req, res) => {
+export const getByMedicalRecord = async (req, res, next) => {
   try {
-    const data = await researchService.getByMedicalRecord(Number(req.params.medicalRecordId))
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getByMedicalRecord(Number(req.params.medicalRecordId)))
+  } catch (err) { next(err) }
 }
 
-// GET /api/researches/status/:status
-export const getByStatus = async (req, res) => {
+export const getByCase = async (req, res, next) => {
   try {
-    const data = await researchService.getByStatus(req.params.status)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getByCase(Number(req.params.caseId)))
+  } catch (err) { next(err) }
 }
 
-// POST /api/researches
-export const create = async (req, res) => {
+export const getByStatus = async (req, res, next) => {
   try {
-    const data = await researchService.create(req.body)
-    res.status(201).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getByStatus(req.params.status))
+  } catch (err) { next(err) }
 }
 
-// PATCH /api/researches/:id
-export const update = async (req, res) => {
+export const getUnclassified = async (req, res, next) => {
   try {
-    const data = await researchService.update(Number(req.params.id), req.body)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.json(await researchService.getUnclassified())
+  } catch (err) { next(err) }
 }
 
-// PATCH /api/researches/:id/status
-export const updateStatus = async (req, res) => {
+export const create = async (req, res, next) => {
   try {
-    const data = await researchService.updateStatus(Number(req.params.id), req.body.status)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.status(201).json(await researchService.create(req.body))
+  } catch (err) { next(err) }
 }
 
-// DELETE /api/researches/:id
-export const remove = async (req, res) => {
+export const update = async (req, res, next) => {
+  try {
+    res.json(await researchService.update(Number(req.params.id), req.body))
+  } catch (err) { next(err) }
+}
+
+export const updateStatus = async (req, res, next) => {
+  try {
+    res.json(await researchService.updateStatus(Number(req.params.id), req.body.status))
+  } catch (err) { next(err) }
+}
+
+export const assignToCase = async (req, res, next) => {
+  try {
+    res.json(await researchService.assignToCase(Number(req.params.id), req.body.case_id))
+  } catch (err) { next(err) }
+}
+
+export const remove = async (req, res, next) => {
   try {
     await researchService.remove(Number(req.params.id))
-    res.status(200).json({ message: 'Research deleted successfully' })
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    res.status(204).send()
+  } catch (err) { next(err) }
 }
