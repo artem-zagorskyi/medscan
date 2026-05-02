@@ -8,11 +8,41 @@ namespace MedicalApp.ViewModels
     public partial class MedicalCardViewModel : ObservableObject
     {
         private readonly MedicalRecordService _medicalRecordService = new();
-        private readonly ResearchService _researchService = new();
-        private List<MedicalRecordEntryModel> _allEntries = new();
+        private List<CaseDisplayModel> _allCases = new();
         private List<ResearchDisplayModel> _allResearches = new();
+        private List<ResearchDisplayModel> _filteredResearches = new();
 
         public FullMedicalRecordResponse? CurrentRecord { get; private set; }
+
+        private readonly CaseService _caseService = new();
+
+        public async Task<bool> CloseCaseAsync(CaseDisplayModel caseModel)
+        {
+            // Перевірка на чернетки
+            var hasDrafts = caseModel.Records.Any(r => !r.IsSigned);
+            if (hasDrafts)
+                return false;
+
+            await _caseService.UpdateAsync(caseModel.Id, new UpdateCaseRequest
+            {
+                Status = "CLOSED",
+                ClosingDate = DateTime.Today.ToString("yyyy-MM-dd")
+            });
+
+            // Оновлюємо локально без перезавантаження
+            var found = _allCases.FirstOrDefault(c => c.Id == caseModel.Id);
+            if (found != null)
+            {
+                found.Status = "CLOSED";
+                found.StatusDisplay = "Закритий";
+                found.StatusColor = "#F1EFE8";
+                found.StatusTextColor = "#5F5E5A";
+                found.ClosingDate = DateTime.Today;
+            }
+
+            ApplyCasesFilter();
+            return true;
+        }
 
         public MedicalCardViewModel(PatientDisplayModel patient)
         {
@@ -67,11 +97,32 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _rhFactor, value);
         }
 
-        private string _rhFactorLabel = "—";
-        public string RhFactorLabel
+        private string _height = "—";
+        public string Height
         {
-            get => _rhFactorLabel;
-            set => SetProperty(ref _rhFactorLabel, value);
+            get => _height;
+            set => SetProperty(ref _height, value);
+        }
+
+        private string _weight = "—";
+        public string Weight
+        {
+            get => _weight;
+            set => SetProperty(ref _weight, value);
+        }
+
+        private string _contactInfo = "—";
+        public string ContactInfo
+        {
+            get => _contactInfo;
+            set => SetProperty(ref _contactInfo, value);
+        }
+
+        private string _address = "—";
+        public string Address
+        {
+            get => _address;
+            set => SetProperty(ref _address, value);
         }
 
         // --- Алергії ---
@@ -90,79 +141,77 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _diagnoses, value);
         }
 
-        // --- Записи ---
-        private ObservableCollection<MedicalRecordEntryModel> _currentEntries = new();
-        public ObservableCollection<MedicalRecordEntryModel> CurrentEntries
+        // --- Кейси ---
+        private ObservableCollection<CaseDisplayModel> _currentCases = new();
+        public ObservableCollection<CaseDisplayModel> CurrentCases
         {
-            get => _currentEntries;
-            set => SetProperty(ref _currentEntries, value);
+            get => _currentCases;
+            set => SetProperty(ref _currentCases, value);
         }
 
-        // --- Фільтри записів ---
-        private DateTime? _entryDateFrom;
-        public DateTime? EntryDateFrom
+        private int _totalCases;
+        public int TotalCases
         {
-            get => _entryDateFrom;
-            set { SetProperty(ref _entryDateFrom, value); ApplyEntryFilters(); }
+            get => _totalCases;
+            set => SetProperty(ref _totalCases, value);
         }
 
-        private DateTime? _entryDateTo;
-        public DateTime? EntryDateTo
+        // --- Пагінація кейсів ---
+        private int _casesCurrentPage = 1;
+        public int CasesCurrentPage
         {
-            get => _entryDateTo;
-            set { SetProperty(ref _entryDateTo, value); ApplyEntryFilters(); }
+            get => _casesCurrentPage;
+            set { SetProperty(ref _casesCurrentPage, value); UpdateCasesPage(); }
         }
 
-        // --- Пагінація записів ---
-        private int _currentPage = 1;
-        public int CurrentPage
+        private int _casesTotalPages = 1;
+        public int CasesTotalPages
         {
-            get => _currentPage;
-            set { SetProperty(ref _currentPage, value); UpdateEntryPage(); }
-        }
-
-        private int _totalPages = 1;
-        public int TotalPages
-        {
-            get => _totalPages;
+            get => _casesTotalPages;
             set
             {
-                SetProperty(ref _totalPages, value);
-                OnPropertyChanged(nameof(ShowEntryPagination));
+                SetProperty(ref _casesTotalPages, value);
+                OnPropertyChanged(nameof(ShowCasesPagination));
             }
         }
 
-        public bool ShowEntryPagination => TotalPages > 1;
+        public bool ShowCasesPagination => CasesTotalPages > 1;
 
-        private int _totalEntries;
-        public int TotalEntries
+        private bool _canGoCasesPrev;
+        public bool CanGoCasesPrev
         {
-            get => _totalEntries;
-            set => SetProperty(ref _totalEntries, value);
+            get => _canGoCasesPrev;
+            set => SetProperty(ref _canGoCasesPrev, value);
         }
 
-        private bool _canGoPrev;
-        public bool CanGoPrev
+        private bool _canGoCasesNext;
+        public bool CanGoCasesNext
         {
-            get => _canGoPrev;
-            set => SetProperty(ref _canGoPrev, value);
+            get => _canGoCasesNext;
+            set => SetProperty(ref _canGoCasesNext, value);
         }
 
-        private bool _canGoNext;
-        public bool CanGoNext
+        private ObservableCollection<int> _casesPageNumbers = new();
+        public ObservableCollection<int> CasesPageNumbers
         {
-            get => _canGoNext;
-            set => SetProperty(ref _canGoNext, value);
+            get => _casesPageNumbers;
+            set => SetProperty(ref _casesPageNumbers, value);
         }
 
-        private int _pageSize = 5;
+        private int _casesPageSize = 5;
 
-        private ObservableCollection<int> _pageNumbers = new();
-        public ObservableCollection<int> PageNumbers
+        // --- Фільтр кейсів ---
+        private string _selectedCaseStatus = "Всі";
+        public string SelectedCaseStatus
         {
-            get => _pageNumbers;
-            set => SetProperty(ref _pageNumbers, value);
+            get => _selectedCaseStatus;
+            set { SetProperty(ref _selectedCaseStatus, value); ApplyCasesFilter(); }
         }
+
+        public List<string> CaseStatusOptions { get; } = new()
+        {
+            "Всі", "Відкриті", "Закриті"
+        };
 
         // --- Дослідження ---
         private ObservableCollection<ResearchDisplayModel> _currentResearches = new();
@@ -170,6 +219,13 @@ namespace MedicalApp.ViewModels
         {
             get => _currentResearches;
             set => SetProperty(ref _currentResearches, value);
+        }
+
+        private int _totalResearches;
+        public int TotalResearches
+        {
+            get => _totalResearches;
+            set => SetProperty(ref _totalResearches, value);
         }
 
         private DateTime? _researchDateFrom;
@@ -197,13 +253,6 @@ namespace MedicalApp.ViewModels
         {
             "Всі", "Очікує", "Обробляється", "Оброблено", "Помилка"
         };
-
-        private int _totalResearches;
-        public int TotalResearches
-        {
-            get => _totalResearches;
-            set => SetProperty(ref _totalResearches, value);
-        }
 
         // --- Пагінація досліджень ---
         private int _researchCurrentPage = 1;
@@ -248,26 +297,25 @@ namespace MedicalApp.ViewModels
         }
 
         private int _researchPageSize = 5;
-        private List<ResearchDisplayModel> _filteredResearches = new();
 
         // --- Команди ---
         [RelayCommand]
-        private void PrevPage()
+        private void CasesPrevPage()
         {
-            if (CurrentPage > 1) CurrentPage--;
+            if (CasesCurrentPage > 1) CasesCurrentPage--;
         }
 
         [RelayCommand]
-        private void NextPage()
+        private void CasesNextPage()
         {
-            if (CurrentPage < TotalPages) CurrentPage++;
+            if (CasesCurrentPage < CasesTotalPages) CasesCurrentPage++;
         }
 
         [RelayCommand]
-        private void GoToPage(int page)
+        private void GoToCasesPage(int page)
         {
-            if (page >= 1 && page <= TotalPages)
-                CurrentPage = page;
+            if (page >= 1 && page <= CasesTotalPages)
+                CasesCurrentPage = page;
         }
 
         [RelayCommand]
@@ -289,13 +337,11 @@ namespace MedicalApp.ViewModels
                 ResearchCurrentPage = page;
         }
 
-        public void ResetEntryFilters()
+        public void ResetCasesFilter()
         {
-            _entryDateFrom = null;
-            _entryDateTo = null;
-            OnPropertyChanged(nameof(EntryDateFrom));
-            OnPropertyChanged(nameof(EntryDateTo));
-            ApplyEntryFilters();
+            _selectedCaseStatus = "Всі";
+            OnPropertyChanged(nameof(SelectedCaseStatus));
+            ApplyCasesFilter();
         }
 
         public void ResetResearchFilters()
@@ -321,6 +367,7 @@ namespace MedicalApp.ViewModels
                 if (record == null) return;
                 CurrentRecord = record;
 
+                // Група крові
                 BloodGroup = record.BloodGroup switch
                 {
                     "A" => "A (II)",
@@ -329,10 +376,15 @@ namespace MedicalApp.ViewModels
                     "O" => "O (I)",
                     _ => "—"
                 };
+                RhFactor = record.RhFactor == "POSITIVE" ? "Rh+" : record.RhFactor == "NEGATIVE" ? "Rh−" : "—";
+                Height = !string.IsNullOrEmpty(record.Height) ? $"{record.Height} см" : "—";
+                Weight = !string.IsNullOrEmpty(record.Weight) ? $"{record.Weight} кг" : "—";
 
-                RhFactor = record.RhFactor == "POSITIVE" ? "+" : record.RhFactor == "NEGATIVE" ? "−" : "—";
-                RhFactorLabel = record.RhFactor == "POSITIVE" ? "Позитивний" : record.RhFactor == "NEGATIVE" ? "Негативний" : "—";
+                // Контакт та адреса
+                ContactInfo = record.Patient?.Person?.ContactInfo ?? "—";
+                Address = record.Patient?.Address ?? "—";
 
+                // Алергії
                 Allergies = new ObservableCollection<AllergyDisplayModel>(
                     record.PatientAllergies.Select(a => new AllergyDisplayModel
                     {
@@ -359,12 +411,12 @@ namespace MedicalApp.ViewModels
                     })
                 );
 
+                // Діагнози
                 Diagnoses = new ObservableCollection<DiagnosisDisplayModel>(
                     record.PatientDiseases.Select(d => new DiagnosisDisplayModel
                     {
                         IcdCode = d.Disease?.IcdCode ?? "—",
                         Name = d.Disease?.Name ?? "—",
-                        Description = string.Empty,
                         Status = d.Status switch
                         {
                             "ACTIVE" => "Активна",
@@ -388,62 +440,48 @@ namespace MedicalApp.ViewModels
                     })
                 );
 
-                _allEntries = record.Records.Select(r => new MedicalRecordEntryModel
+                // Кейси
+                _allCases = record.Cases.Select(c => new CaseDisplayModel
                 {
-                    Id = r.Id,
-                    VisitDate = r.VisitDate,
-                    // Заголовок — специализация врача вместо типа
-                    EntryTypeDisplay = r.Doctor?.Specialization ?? "Візит",
-                    EntryType = r.EntryType,
-                    DoctorName = r.Doctor?.Person != null
-                        ? $"{r.Doctor.Person.LastName} {r.Doctor.Person.FirstName?[0]}. {r.Doctor.Person.MiddleName?[0]}."
-                        : "—",
-                    Specialization = r.Doctor?.Specialization ?? "—",
-                    Complaints = r.Complaints,
-                    Conclusion = r.DoctorConclusion,
-                    TreatmentPlan = r.TreatmentPlan,
-                    LinkedResearchId = r.Research?.Id,
-                    LinkedResearchType = r.Research?.ResearchType,
-                    // Одна иконка для всех — Person (врач)
-                    IconColor = "#E6F1FB",
-                    ResearchStatus = r.Research?.Status switch
+                    Id = c.Id,
+                    MedicalRecordId = c.MedicalRecordId,
+                    Status = c.Status,
+                    StatusDisplay = c.Status == "OPEN" ? "Відкритий" : "Закритий",
+                    StatusColor = c.Status == "OPEN" ? "#EAF3DE" : "#F1EFE8",
+                    StatusTextColor = c.Status == "OPEN" ? "#3B6D11" : "#5F5E5A",
+                    OpeningDate = c.OpeningDate,
+                    ClosingDate = c.ClosingDate,
+                    MainCondition = c.MainCondition ?? "—",
+                    Description = c.Description,
+                    RecordsCount = c.Records.Count,
+                    Researches = c.Researches,
+                    Records = c.Records.Select(r => new MedicalRecordEntryModel
                     {
-                        "PROCESSED" => "Оброблено",
-                        "PENDING" => "Очікує",
-                        "PROCESSING" => "Обробляється",
-                        "ERROR" => "Помилка",
-                        _ => null
-                    },
-                    ResearchStatusColor = r.Research?.Status switch
-                    {
-                        "PROCESSED" => "#EAF3DE",
-                        "PENDING" => "#FAEEDA",
-                        "ERROR" => "#FCEBEB",
-                        _ => "#F1EFE8"
-                    },
-                    ResearchStatusTextColor = r.Research?.Status switch
-                    {
-                        "PROCESSED" => "#3B6D11",
-                        "PENDING" => "#854F0B",
-                        "ERROR" => "#A32D2D",
-                        _ => "#5F5E5A"
-                    }
+                        Id = r.Id,
+                        VisitDate = r.VisitDate,
+                        EntryTypeDisplay = r.Author?.Specialization ?? "Огляд",
+                        EntryType = r.Type,
+                        DoctorName = r.Author?.FullName ?? "—",
+                        Specialization = r.Author?.Specialization ?? "—",
+                        Complaints = r.Complaints,
+                        Conclusion = r.DoctorConclusion,
+                        TreatmentPlan = r.TreatmentPlan,
+                        IconColor = "#E6F1FB",
+                        IsSigned = r.IsSigned,
+                        TypeDisplay = r.TypeDisplay,
+                        Diagnoses = r.RecordDiagnoses.Select(d => d.Disease?.Name ?? "—").ToList(),
+                        Medications = r.RecordMedications.Select(m =>
+                            $"{m.Medication?.Name} {m.Dosage}").ToList(),
+                    }).OrderByDescending(r => r.VisitDate).ToList()
                 }).ToList();
 
-                var researches = await _researchService.GetByMedicalRecordAsync(Patient.MedicalRecordId);
-                _allResearches = (researches ?? new()).Select(r => new ResearchDisplayModel
+                // Дослідження
+                _allResearches = record.Researches.Select(r => new ResearchDisplayModel
                 {
                     Id = r.Id,
                     ResearchType = r.ResearchType,
                     Status = r.Status,
-                    StatusDisplay = r.Status switch
-                    {
-                        "PROCESSED" => "Оброблено",
-                        "PENDING" => "Очікує",
-                        "PROCESSING" => "Обробляється",
-                        "ERROR" => "Помилка",
-                        _ => "—"
-                    },
+                    StatusDisplay = r.StatusDisplay,
                     StatusColor = r.Status switch
                     {
                         "PROCESSED" => "#EAF3DE",
@@ -461,11 +499,12 @@ namespace MedicalApp.ViewModels
                         _ => "#5F5E5A"
                     },
                     NeedsProcessing = r.Status == "PENDING" || r.Status == "PROCESSING",
+                    CaseId = r.CaseId,
                     CreatedAt = r.CreatedAt,
                     Results = r.Results
                 }).ToList();
 
-                ApplyEntryFilters();
+                ApplyCasesFilter();
                 ApplyResearchFilters();
             }
             catch (Exception ex)
@@ -478,48 +517,46 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        private void ApplyEntryFilters()
+        private void ApplyCasesFilter()
         {
-            var result = _allEntries.AsEnumerable();
+            var result = _allCases.AsEnumerable();
 
-            if (EntryDateFrom.HasValue)
-                result = result.Where(e => e.VisitDate.Date >= EntryDateFrom.Value.Date);
+            if (SelectedCaseStatus == "Відкриті")
+                result = result.Where(c => c.Status == "OPEN");
+            else if (SelectedCaseStatus == "Закриті")
+                result = result.Where(c => c.Status == "CLOSED");
 
-            if (EntryDateTo.HasValue)
-                result = result.Where(e => e.VisitDate.Date <= EntryDateTo.Value.Date);
-
-            var filtered = result.OrderByDescending(e => e.VisitDate).ToList();
-            TotalEntries = filtered.Count;
-            TotalPages = Math.Max(1, (int)Math.Ceiling((double)TotalEntries / _pageSize));
+            var filtered = result.OrderByDescending(c => c.OpeningDate).ToList();
+            TotalCases = filtered.Count;
+            CasesTotalPages = Math.Max(1, (int)Math.Ceiling((double)TotalCases / _casesPageSize));
 
             var pages = new ObservableCollection<int>();
-            for (int i = 1; i <= TotalPages; i++) pages.Add(i);
-            PageNumbers = pages;
+            for (int i = 1; i <= CasesTotalPages; i++) pages.Add(i);
+            CasesPageNumbers = pages;
 
-            _currentPage = 1;
-            OnPropertyChanged(nameof(CurrentPage));
-            UpdateEntryPage();
+            _casesCurrentPage = 1;
+            OnPropertyChanged(nameof(CasesCurrentPage));
+            UpdateCasesPage();
         }
 
-        private void UpdateEntryPage()
+        private void UpdateCasesPage()
         {
-            var result = _allEntries.AsEnumerable();
+            var result = _allCases.AsEnumerable();
 
-            if (EntryDateFrom.HasValue)
-                result = result.Where(e => e.VisitDate.Date >= EntryDateFrom.Value.Date);
-
-            if (EntryDateTo.HasValue)
-                result = result.Where(e => e.VisitDate.Date <= EntryDateTo.Value.Date);
+            if (SelectedCaseStatus == "Відкриті")
+                result = result.Where(c => c.Status == "OPEN");
+            else if (SelectedCaseStatus == "Закриті")
+                result = result.Where(c => c.Status == "CLOSED");
 
             var page = result
-                .OrderByDescending(e => e.VisitDate)
-                .Skip((CurrentPage - 1) * _pageSize)
-                .Take(_pageSize)
+                .OrderByDescending(c => c.OpeningDate)
+                .Skip((CasesCurrentPage - 1) * _casesPageSize)
+                .Take(_casesPageSize)
                 .ToList();
 
-            CurrentEntries = new ObservableCollection<MedicalRecordEntryModel>(page);
-            CanGoPrev = CurrentPage > 1;
-            CanGoNext = CurrentPage < TotalPages;
+            CurrentCases = new ObservableCollection<CaseDisplayModel>(page);
+            CanGoCasesPrev = CasesCurrentPage > 1;
+            CanGoCasesNext = CasesCurrentPage < CasesTotalPages;
         }
 
         private void ApplyResearchFilters()
@@ -582,6 +619,38 @@ namespace MedicalApp.ViewModels
         public string StatusTextColor { get; set; } = string.Empty;
     }
 
+    public class CaseDisplayModel : ObservableObject
+    {
+        public int Id { get; set; }
+        public int MedicalRecordId { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string StatusDisplay { get; set; } = string.Empty;
+        public string StatusColor { get; set; } = string.Empty;
+        public string StatusTextColor { get; set; } = string.Empty;
+        public DateTime OpeningDate { get; set; }
+        public DateTime? ClosingDate { get; set; }
+        public string MainCondition { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public int RecordsCount { get; set; }
+        public List<MedicalRecordEntryModel> Records { get; set; } = new();
+
+        public List<ResearchResponse> Researches { get; set; } = new();
+
+        public string OpeningDateDisplay => OpeningDate.ToString("dd.MM.yyyy");
+        public string? ClosingDateDisplay => ClosingDate?.ToString("dd.MM.yyyy");
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
+        }
+
+        public string DateRangeDisplay => Status == "OPEN"
+                    ? $"{OpeningDateDisplay} — по сьогодні"
+                    : $"{OpeningDateDisplay} — {ClosingDateDisplay}";
+    }
+
     public class MedicalRecordEntryModel : ObservableObject
     {
         public int Id { get; set; }
@@ -589,17 +658,16 @@ namespace MedicalApp.ViewModels
         public string VisitDateDisplay => VisitDate.ToString("dd.MM.yyyy");
         public string EntryType { get; set; } = string.Empty;
         public string EntryTypeDisplay { get; set; } = string.Empty;
+        public string TypeDisplay { get; set; } = string.Empty;
         public string DoctorName { get; set; } = string.Empty;
         public string Specialization { get; set; } = string.Empty;
         public string? Complaints { get; set; }
         public string? Conclusion { get; set; }
         public string? TreatmentPlan { get; set; }
-        public int? LinkedResearchId { get; set; }
-        public string? LinkedResearchType { get; set; }
         public string IconColor { get; set; } = string.Empty;
-        public string? ResearchStatus { get; set; }
-        public string? ResearchStatusColor { get; set; }
-        public string? ResearchStatusTextColor { get; set; }
+        public bool IsSigned { get; set; }
+        public List<string> Diagnoses { get; set; } = new();
+        public List<string> Medications { get; set; } = new();
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -612,6 +680,7 @@ namespace MedicalApp.ViewModels
     public class ResearchDisplayModel
     {
         public int Id { get; set; }
+        public int? CaseId { get; set; }
         public string ResearchType { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public string StatusDisplay { get; set; } = string.Empty;

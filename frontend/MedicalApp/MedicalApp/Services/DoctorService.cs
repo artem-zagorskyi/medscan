@@ -1,5 +1,4 @@
 ﻿using MedicalApp.Helpers;
-
 namespace MedicalApp.Services
 {
     public class DoctorResponse
@@ -18,6 +17,7 @@ namespace MedicalApp.Services
         public string? MiddleName { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; } = string.Empty;
+        public string? ContactInfo { get; set; }
         public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
     }
 
@@ -25,5 +25,8 @@ namespace MedicalApp.Services
     {
         public async Task<DoctorResponse?> GetByPersonIdAsync(int personId) =>
             await GetAsync<DoctorResponse>($"doctors/person/{personId}");
+
+        public async Task<List<DoctorResponse>?> GetAllAsync() =>
+            await GetAsync<List<DoctorResponse>>("doctors");
     }
 }

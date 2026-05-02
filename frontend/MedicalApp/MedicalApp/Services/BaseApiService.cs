@@ -52,6 +52,7 @@ namespace MedicalApp.Services
             return JsonSerializer.Deserialize<T>(json, _jsonOptions);
         }
 
+
         protected async Task PostAsync(string url, object body)
         {
             ApplyAuth();
@@ -66,6 +67,16 @@ namespace MedicalApp.Services
             var content = ToJson(body);
             var response = await _httpClient.PatchAsync(url, content);
             await EnsureSuccessAsync(response);
+        }
+
+        protected async Task<T?> PatchAsync<T>(string url, object body)
+        {
+            ApplyAuth();
+            var content = ToJson(body);
+            var response = await _httpClient.PatchAsync(url, content);
+            await EnsureSuccessAsync(response);
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(json, _jsonOptions);
         }
 
         protected async Task DeleteAsync(string url)

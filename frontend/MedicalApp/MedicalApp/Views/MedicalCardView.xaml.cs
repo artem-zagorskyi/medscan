@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using MedicalApp.Services;
 using MedicalApp.ViewModels;
 
 namespace MedicalApp.Views;
@@ -20,23 +21,23 @@ public partial class MedicalCardView : UserControl
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        EntryPageButtons.ItemContainerGenerator.StatusChanged += OnEntryPageButtonsGenerated;
+        CasesPageButtons.ItemContainerGenerator.StatusChanged += OnCasesPageButtonsGenerated;
         ResearchPageButtons.ItemContainerGenerator.StatusChanged += OnResearchPageButtonsGenerated;
     }
 
-    private void OnEntryPageButtonsGenerated(object? sender, EventArgs e)
+    private void OnCasesPageButtonsGenerated(object? sender, EventArgs e)
     {
-        if (EntryPageButtons.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-            UpdateEntryPageButtons(_vm.CurrentPage);
+        if (CasesPageButtons.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+            UpdatePageButtons(CasesPageButtons, _vm.CasesCurrentPage);
     }
 
     private void OnResearchPageButtonsGenerated(object? sender, EventArgs e)
     {
         if (ResearchPageButtons.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-            UpdateResearchPageButtons(_vm.ResearchCurrentPage);
+            UpdatePageButtons(ResearchPageButtons, _vm.ResearchCurrentPage);
     }
 
-    // --- Навигация ---
+    // --- Навігація ---
     private void BackButton_Click(object sender, RoutedEventArgs e)
     {
         var mainWindow = (MainWindow)App.Current.MainWindow;
@@ -52,17 +53,36 @@ public partial class MedicalCardView : UserControl
         }
     }
 
+    private void ViewRecord_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not MedicalRecordEntryModel entry) return;
+        var caseModel = _vm.CurrentCases.FirstOrDefault(c => c.Records.Any(r => r.Id == entry.Id));
+        if (caseModel == null || _vm.CurrentRecord == null) return;
+
+        var window = new RecordWindow(_vm.Patient, _vm.CurrentRecord, entry, caseModel, false);
+        window.Owner = App.Current.MainWindow;
+        if (window.ShowDialog() == true) Reload();
+    }
+
+    private async void EditRecord_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not MedicalRecordEntryModel entry) return;
+        var caseModel = _vm.CurrentCases.FirstOrDefault(c => c.Records.Any(r => r.Id == entry.Id));
+        if (caseModel == null || _vm.CurrentRecord == null) return;
+
+        var window = new RecordWindow(_vm.Patient, _vm.CurrentRecord, entry, caseModel, true);
+        window.Owner = App.Current.MainWindow;
+        if (window.ShowDialog() == true) Reload();
+    }
+
     private void NewRecordButton_Click(object sender, RoutedEventArgs e)
     {
         if (_vm.CurrentRecord != null)
         {
-            var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord);
+            var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord, null);
             window.Owner = App.Current.MainWindow;
             if (window.ShowDialog() == true)
-            {
-                var mainWindow = (MainWindow)App.Current.MainWindow;
-                mainWindow.NavigateTo(new MedicalCardView(_vm.Patient));
-            }
+                Reload();
         }
     }
 
@@ -70,17 +90,81 @@ public partial class MedicalCardView : UserControl
     private void RecordsTab_Click(object sender, RoutedEventArgs e) => _vm.ActiveTab = 0;
     private void ResearchTab_Click(object sender, RoutedEventArgs e) => _vm.ActiveTab = 1;
 
-    // --- Фильтры записей ---
-    private void EntryFilterButton_Click(object sender, RoutedEventArgs e)
-        => EntryFilterPopup.IsOpen = !EntryFilterPopup.IsOpen;
-
-    private void ResetEntryFilter_Click(object sender, RoutedEventArgs e)
+    // --- Кейси ---
+    private void ToggleCase_Click(object sender, RoutedEventArgs e)
     {
-        _vm.ResetEntryFilters();
-        EntryFilterPopup.IsOpen = false;
+        if (sender is Button btn && btn.Tag is CaseDisplayModel caseModel)
+            caseModel.IsExpanded = !caseModel.IsExpanded;
     }
 
-    // --- Фильтры исследований ---
+    private void NewCaseButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_vm.CurrentRecord != null)
+        {
+            var window = new NewCaseWindow(_vm.Patient, _vm.CurrentRecord);
+            window.Owner = App.Current.MainWindow;
+            if (window.ShowDialog() == true)
+                Reload();
+        }
+    }
+
+    private async void CloseCase_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not CaseDisplayModel caseModel) return;
+
+        // Перевірка на чернетки
+        var hasDrafts = caseModel.Records.Any(r => !r.IsSigned);
+        if (hasDrafts)
+        {
+            MessageBox.Show(
+                "Неможливо закрити кейс — є незбережені чернетки записів.\nСпочатку підпишіть або видаліть чернетки.",
+                "Закриття кейсу",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            return;
+        }
+
+        var result = MessageBox.Show(
+            $"Закрити кейс \"{caseModel.MainCondition}\"?\nПісля закриття додавання записів буде неможливим.",
+            "Підтвердження",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result != MessageBoxResult.Yes) return;
+
+        try
+        {
+            await _vm.CloseCaseAsync(caseModel);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void NewRecordInCase_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is CaseDisplayModel caseModel
+            && _vm.CurrentRecord != null)
+        {
+            var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord, caseModel);
+            window.Owner = App.Current.MainWindow;
+            if (window.ShowDialog() == true)
+                Reload();
+        }
+    }
+
+    // --- Фільтри кейсів ---
+    private void CaseFilterButton_Click(object sender, RoutedEventArgs e)
+        => CaseFilterPopup.IsOpen = !CaseFilterPopup.IsOpen;
+
+    private void ResetCaseFilter_Click(object sender, RoutedEventArgs e)
+    {
+        _vm.ResetCasesFilter();
+        CaseFilterPopup.IsOpen = false;
+    }
+
+    // --- Фільтри досліджень ---
     private void ResearchFilterButton_Click(object sender, RoutedEventArgs e)
         => ResearchFilterPopup.IsOpen = !ResearchFilterPopup.IsOpen;
 
@@ -90,14 +174,14 @@ public partial class MedicalCardView : UserControl
         ResearchFilterPopup.IsOpen = false;
     }
 
-    // --- Раскрытие записи ---
+    // --- Деталі запису ---
     private void ToggleEntryDetails_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button btn && btn.Tag is MedicalRecordEntryModel entry)
             entry.IsExpanded = !entry.IsExpanded;
     }
 
-    // --- Обработка исследования ---
+    // --- Обробка дослідження ---
     private void ProcessResearch_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button btn && btn.Tag is ResearchDisplayModel research)
@@ -105,73 +189,57 @@ public partial class MedicalCardView : UserControl
                 MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    // --- Пагинация записей ---
-    private void PrevPage_Click(object sender, RoutedEventArgs e)
+    // --- Пагінація кейсів ---
+    private void CasesPrevPage_Click(object sender, RoutedEventArgs e)
     {
-        _vm.PrevPageCommand.Execute(null);
-        RefreshEntryPageButtons();
+        _vm.CasesPrevPageCommand.Execute(null);
+        RefreshPageButtons(CasesPageButtons, _vm.CasesCurrentPage);
     }
 
-    private void NextPage_Click(object sender, RoutedEventArgs e)
+    private void CasesNextPage_Click(object sender, RoutedEventArgs e)
     {
-        _vm.NextPageCommand.Execute(null);
-        RefreshEntryPageButtons();
+        _vm.CasesNextPageCommand.Execute(null);
+        RefreshPageButtons(CasesPageButtons, _vm.CasesCurrentPage);
     }
 
-    private void EntryPageButton_Click(object sender, RoutedEventArgs e)
+    private void CasesPageButton_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button btn || btn.Tag is not int page) return;
-        _vm.GoToPageCommand.Execute(page);
-        UpdateEntryPageButtons(page);
+        _vm.GoToCasesPageCommand.Execute(page);
+        UpdatePageButtons(CasesPageButtons, page);
     }
 
-    private void RefreshEntryPageButtons()
-    {
-        Dispatcher.InvokeAsync(() => UpdateEntryPageButtons(_vm.CurrentPage),
-            System.Windows.Threading.DispatcherPriority.Loaded);
-    }
-
-    private void UpdateEntryPageButtons(int currentPage)
-    {
-        if (EntryPageButtons == null) return;
-        UpdatePageButtons(EntryPageButtons, currentPage);
-    }
-
-    // --- Пагинация исследований ---
+    // --- Пагінація досліджень ---
     private void ResearchPrevPage_Click(object sender, RoutedEventArgs e)
     {
         _vm.ResearchPrevPageCommand.Execute(null);
-        RefreshResearchPageButtons();
+        RefreshPageButtons(ResearchPageButtons, _vm.ResearchCurrentPage);
     }
 
     private void ResearchNextPage_Click(object sender, RoutedEventArgs e)
     {
         _vm.ResearchNextPageCommand.Execute(null);
-        RefreshResearchPageButtons();
+        RefreshPageButtons(ResearchPageButtons, _vm.ResearchCurrentPage);
     }
 
     private void ResearchPageButton_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button btn || btn.Tag is not int page) return;
         _vm.GoToResearchPageCommand.Execute(page);
-        UpdateResearchPageButtons(page);
+        UpdatePageButtons(ResearchPageButtons, page);
     }
 
-    private void RefreshResearchPageButtons()
+    // --- Helpers ---
+    private void RefreshPageButtons(ItemsControl control, int currentPage)
     {
-        Dispatcher.InvokeAsync(() => UpdateResearchPageButtons(_vm.ResearchCurrentPage),
+        Dispatcher.InvokeAsync(() => UpdatePageButtons(control, currentPage),
             System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
-    private void UpdateResearchPageButtons(int currentPage)
-    {
-        if (ResearchPageButtons == null) return;
-        UpdatePageButtons(ResearchPageButtons, currentPage);
-    }
-
-    // --- Общий метод обновления кнопок ---
     private void UpdatePageButtons(ItemsControl control, int currentPage)
     {
+        if (control == null) return;
+
         var active = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#185FA5"));
         var activeBg = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E6F1FB"));
         var inactive = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D3D1C7"));
@@ -193,6 +261,12 @@ public partial class MedicalCardView : UserControl
             btn.Foreground = isActive ? active : inactiveFg;
             btn.FontWeight = isActive ? FontWeights.SemiBold : FontWeights.Normal;
         }
+    }
+
+    private void Reload()
+    {
+        var mainWindow = (MainWindow)App.Current.MainWindow;
+        mainWindow.NavigateTo(new MedicalCardView(_vm.Patient));
     }
 
     private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject

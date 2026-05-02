@@ -12,6 +12,7 @@
         public int Id { get; set; }
         public int PersonId { get; set; }
         public int MedicalRecordId { get; set; }
+        public string? Address { get; set; }
         public PersonResponse? Person { get; set; }
     }
 
