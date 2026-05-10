@@ -182,11 +182,27 @@ public partial class MedicalCardView : UserControl
     }
 
     // --- Обробка дослідження ---
-    private void ProcessResearch_Click(object sender, RoutedEventArgs e)
+    private async void ProcessResearch_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button btn && btn.Tag is ResearchDisplayModel research)
-            MessageBox.Show($"Обробка дослідження #{research.Id}", "Незабаром",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+        if (sender is not Button btn || btn.Tag is not ResearchDisplayModel research)
+            return;
+
+        var vm = (MedicalCardViewModel)DataContext;
+
+        var window = new ProcessResearchWindow(
+            research,
+            vm.Patient.FullName,
+            vm._allCases,
+            vm.Patient.MedicalRecordId
+        );
+        window.Owner = Window.GetWindow(this);
+
+        var result = window.ShowDialog();
+        if (result == true)
+        {
+            // Перезавантажуємо медкарту щоб оновити список
+            await vm.ReloadAsync();
+        }
     }
 
     // --- Пагінація кейсів ---
@@ -279,5 +295,98 @@ public partial class MedicalCardView : UserControl
             if (found != null) return found;
         }
         return null;
+    }
+
+    private async void ViewResearch_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not ResearchDisplayModel research)
+            return;
+
+        var vm = (MedicalCardViewModel)DataContext;
+
+        var window = new ViewResearchWindow(
+            research,
+            vm.Patient.FullName,
+            vm._allCases,
+            vm.Patient.MedicalRecordId
+        );
+        window.Owner = Window.GetWindow(this);
+        window.ShowDialog();
+
+        if (window.ShouldProcess)
+            await vm.ReloadAsync();
+    }
+
+    private void ViewCaseResearch_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not ResearchResponse research)
+            return;
+
+        var vm = (MedicalCardViewModel)DataContext;
+
+        var researchDisplay = new ResearchDisplayModel
+        {
+            Id = research.Id,
+            ResearchType = research.ResearchType,
+            StatusDisplay = research.StatusDisplay,
+            IsFromFile = false,
+            StatusColor = "#EAF3DE",
+            StatusTextColor = "#3B6D11",
+            CreatedAt = research.CreatedAt,
+            Status = research.Status,
+            Results = research.Results,
+            ProcessedAt = research.ProcessedAt
+        };
+
+        var window = new ViewResearchWindow(
+            researchDisplay,
+            vm.Patient.FullName,
+            vm._allCases,
+            vm.Patient.MedicalRecordId
+        );
+        window.Owner = Window.GetWindow(this);
+        window.ShowDialog();
+    }
+
+    private void ViewRecordResearch_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not RecordResearchResponse rr)
+            return;
+
+        if (rr.Research == null) return;
+
+        var vm = (MedicalCardViewModel)DataContext;
+
+        var research = new ResearchDisplayModel
+        {
+            Id = rr.Research.Id,
+            ResearchType = rr.Research.ResearchType,
+            StatusDisplay = rr.Research.StatusDisplay,
+            IsFromFile = false,
+            StatusColor = "#EAF3DE",
+            StatusTextColor = "#3B6D11",
+            CreatedAt = rr.Research.CreatedAt,
+            Status = rr.Research.Status,
+            Results = rr.Research.Results,
+            ProcessedAt = rr.Research.ProcessedAt
+        };
+
+        var window = new ViewResearchWindow(
+            research,
+            vm.Patient.FullName,
+            vm._allCases,
+            vm.Patient.MedicalRecordId
+        );
+        window.Owner = Window.GetWindow(this);
+        window.ShowDialog();
+    }
+
+    private async void ReopenCase_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn || btn.Tag is not CaseDisplayModel caseModel)
+            return;
+
+        var vm = (MedicalCardViewModel)DataContext;
+        await vm.ReopenCaseAsync(caseModel);
     }
 }

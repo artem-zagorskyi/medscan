@@ -1057,7 +1057,7 @@
 
                     <!-- Алергії — акордеон -->
                     <Border Background="White" BorderBrush="#E0DEDB"
-                            BorderThickness="1" CornerRadius="8" Margin="0,0,0,8">
+        BorderThickness="1" CornerRadius="8" Margin="0,0,0,8">
                         <StackPanel>
                             <Button Click="ToggleAllergies_Click" Cursor="Hand">
                                 <Button.Style>
@@ -1068,7 +1068,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}"
-                                                            CornerRadius="8" Padding="20,14">
+                                        CornerRadius="8" Padding="20,14">
                                                         <ContentPresenter/>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -1089,24 +1089,20 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Border Grid.Column="0" Width="32" Height="32"
-                                            CornerRadius="8" Background="#FAEEDA" Margin="0,0,12,0">
-                                        <ui:SymbolIcon Symbol="Warning24"
-                                                       FontSize="16" Foreground="#854F0B"/>
+                        CornerRadius="8" Background="#FAEEDA" Margin="0,0,12,0">
+                                        <ui:SymbolIcon Symbol="Warning24" FontSize="16" Foreground="#854F0B"/>
                                     </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Нові алергії"
-                                                   FontSize="14" FontWeight="Medium"
-                                                   Foreground="#2C2C2A"/>
-                                        <TextBlock Text="Додати нові алергії до медкарти"
-                                                   FontSize="11" Foreground="#888780"/>
+                                        <TextBlock Text="Алергії" FontSize="14" FontWeight="Medium" Foreground="#2C2C2A"/>
+                                        <TextBlock Text="Алергії пацієнта — перегляд та додавання нових"
+                               FontSize="11" Foreground="#888780"/>
                                     </StackPanel>
                                     <Border Grid.Column="2" Background="#E6F1FB"
-                                            CornerRadius="12" Padding="8,4" Margin="0,0,10,0" VerticalAlignment="Center"
-                                            Visibility="{Binding NewAllergies.Count, Converter={StaticResource NullToVisibility}}">
+                        CornerRadius="12" Padding="8,4" Margin="0,0,10,0" VerticalAlignment="Center"
+                        Visibility="{Binding NewAllergies.Count, Converter={StaticResource NullToVisibility}}">
                                         <TextBlock Text="{Binding NewAllergies.Count}"
-                                                   FontSize="12" Foreground="#185FA5" FontWeight="SemiBold"/>
+                               FontSize="12" Foreground="#185FA5" FontWeight="SemiBold"/>
                                     </Border>
-
                                     <ui:SymbolIcon Grid.Column="3" FontSize="14" Foreground="#888780">
                                         <ui:SymbolIcon.Style>
                                             <Style TargetType="ui:SymbolIcon">
@@ -1137,29 +1133,39 @@
                                     <ItemsControl ItemsSource="{Binding NewAllergies}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border BorderBrush="#F1EFE8"
-                                                        BorderThickness="0,0,0,1" Padding="0,8">
+                                                <Border BorderBrush="#F1EFE8" BorderThickness="0,0,0,1" Padding="0,8">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="120"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
+
+                                                        <!-- Назва алергену -->
                                                         <TextBlock Grid.Column="0" Text="{Binding Name}"
-                                                                   FontSize="13" FontWeight="Medium"
-                                                                   Foreground="#2C2C2A" VerticalAlignment="Center"/>
-                                                        <Border Grid.Column="1" Background="{Binding SeverityColor}"
-                                                                CornerRadius="10" Padding="10,4"
-                                                                Margin="0,0,8,0" VerticalAlignment="Center">
-                                                            <TextBlock Text="{Binding SeverityDisplay}"
-                                                                       FontSize="12"
-                                                                       Foreground="{Binding SeverityTextColor}"/>
-                                                        </Border>
+                                               FontSize="13" FontWeight="Medium"
+                                               Foreground="#2C2C2A" VerticalAlignment="Center"/>
+
+                                                        <!-- ComboBox важкості — для всіх -->
+                                                        
+                                                        <ComboBox Grid.Column="1"
+                                                                 ItemsSource="{Binding DataContext.SeverityDisplayOptions,
+                                                                        RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                SelectedItem="{Binding SeverityDisplay}"
+                                                                MinHeight="28"
+                                                                Padding="6,4"
+                                                                FontSize="12"
+                                                                BorderBrush="#D3D1C7"
+                                                                Margin="0,0,8,0"
+                                                                VerticalContentAlignment="Center"
+                                                                SelectionChanged="AllergySeverity_SelectionChanged"/>
+
+                                                        <!-- Кнопка видалення — для всіх (алергії можна видаляти) -->
                                                         <Button Grid.Column="2"
-                                                                Command="{Binding DataContext.RemoveAllergyCommand,
-                                                                          RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                CommandParameter="{Binding}"
-                                                                Width="28" Height="28" Cursor="Hand">
+                                            Command="{Binding DataContext.RemoveAllergyCommand,
+                                                      RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            Width="28" Height="28" Cursor="Hand">
                                                             <Button.Style>
                                                                 <Style TargetType="Button">
                                                                     <Setter Property="Background" Value="White"/>
@@ -1169,11 +1175,11 @@
                                                                         <Setter.Value>
                                                                             <ControlTemplate TargetType="Button">
                                                                                 <Border Background="{TemplateBinding Background}"
-                                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                                        CornerRadius="6">
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    CornerRadius="6">
                                                                                     <ContentPresenter HorizontalAlignment="Center"
-                                                                                                      VerticalAlignment="Center"/>
+                                                                                  VerticalAlignment="Center"/>
                                                                                 </Border>
                                                                                 <ControlTemplate.Triggers>
                                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -1192,8 +1198,9 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                    <Border Background="#F8F9FA" CornerRadius="8"
-                                            Padding="16" Margin="0,12,0,0">
+
+                                    <!-- Форма додавання -->
+                                    <Border Background="#F8F9FA" CornerRadius="8" Padding="16" Margin="0,12,0,0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -1204,29 +1211,29 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0">
                                                 <TextBlock Text="Алерген" FontSize="11"
-                                                           Foreground="#888780" Margin="0,0,0,4"/>
+                                       Foreground="#888780" Margin="0,0,0,4"/>
                                                 <ComboBox ItemsSource="{Binding AvailableAllergens}"
-                                                          SelectedItem="{Binding SelectedAllergen}"
-                                                          DisplayMemberPath="Name"
-                                                          TextSearch.TextPath="Name"
-                                                          IsTextSearchEnabled="True"
-                                                          IsEditable="True"
-                                                          StaysOpenOnEdit="True"
-                                                          Height="36" FontSize="13"
-                                                          BorderBrush="#D3D1C7"/>
+                                      SelectedItem="{Binding SelectedAllergen}"
+                                      DisplayMemberPath="Name"
+                                      TextSearch.TextPath="Name"
+                                      IsTextSearchEnabled="True"
+                                      IsEditable="True"
+                                      StaysOpenOnEdit="True"
+                                      Height="36" FontSize="13"
+                                      BorderBrush="#D3D1C7"/>
                                             </StackPanel>
                                             <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
                                                 <TextBlock Text="Важкість" FontSize="11"
-                                                           Foreground="#888780" Margin="0,0,0,4"/>
+                                       Foreground="#888780" Margin="0,0,0,4"/>
                                                 <ComboBox ItemsSource="{Binding SeverityDisplayOptions}"
-                                                          Height="36" FontSize="13"
-                                                          BorderBrush="#D3D1C7"
-                                                          SelectionChanged="AllergySeverity_SelectionChanged"/>
+                                      Height="36" FontSize="13"
+                                      BorderBrush="#D3D1C7"
+                                      SelectionChanged="AllergySeverity_SelectionChanged"/>
                                             </StackPanel>
                                             <Button Grid.Column="4"
-                                                    Command="{Binding AddAllergyCommand}"
-                                                    Height="36" Padding="14,0"
-                                                    Cursor="Hand" VerticalAlignment="Bottom">
+                                Command="{Binding AddAllergyCommand}"
+                                Height="36" Padding="14,0"
+                                Cursor="Hand" VerticalAlignment="Bottom">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Background" Value="#185FA5"/>
@@ -1237,8 +1244,8 @@
                                                                 <ControlTemplate TargetType="Button">
                                                                     <Border Background="{TemplateBinding Background}" CornerRadius="6">
                                                                         <ContentPresenter HorizontalAlignment="Center"
-                                                                                          VerticalAlignment="Center"
-                                                                                          Margin="{TemplateBinding Padding}"/>
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
                                                                     </Border>
                                                                     <ControlTemplate.Triggers>
                                                                         <Trigger Property="IsMouseOver" Value="True">
@@ -1264,7 +1271,7 @@
 
                     <!-- Діагнози — акордеон -->
                     <Border Background="White" BorderBrush="#E0DEDB"
-                            BorderThickness="1" CornerRadius="8" Margin="0,0,0,8">
+        BorderThickness="1" CornerRadius="8" Margin="0,0,0,8">
                         <StackPanel>
                             <Button Click="ToggleDiagnoses_Click" Cursor="Hand">
                                 <Button.Style>
@@ -1275,7 +1282,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border Background="{TemplateBinding Background}"
-                                                            CornerRadius="8" Padding="20,14">
+                                        CornerRadius="8" Padding="20,14">
                                                         <ContentPresenter/>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -1296,24 +1303,20 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Border Grid.Column="0" Width="32" Height="32"
-                                            CornerRadius="8" Background="#EAF3DE" Margin="0,0,12,0">
-                                        <ui:SymbolIcon Symbol="HeartPulse24"
-                                                       FontSize="16" Foreground="#3B6D11"/>
+                        CornerRadius="8" Background="#EAF3DE" Margin="0,0,12,0">
+                                        <ui:SymbolIcon Symbol="HeartPulse24" FontSize="16" Foreground="#3B6D11"/>
                                     </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Нові діагнози"
-                                                   FontSize="14" FontWeight="Medium"
-                                                   Foreground="#2C2C2A"/>
-                                        <TextBlock Text="Додати нові діагнози до медкарти"
-                                                   FontSize="11" Foreground="#888780"/>
+                                        <TextBlock Text="Діагнози" FontSize="14" FontWeight="Medium" Foreground="#2C2C2A"/>
+                                        <TextBlock Text="Діагнози пацієнта — перегляд та додавання нових"
+                               FontSize="11" Foreground="#888780"/>
                                     </StackPanel>
                                     <Border Grid.Column="2" Background="#E6F1FB"
-                                            CornerRadius="12" Padding="8,4" Margin="0,0,10,0"  VerticalAlignment="Center"
-                                            Visibility="{Binding NewDiagnoses.Count, Converter={StaticResource NullToVisibility}}">
+                        CornerRadius="12" Padding="8,4" Margin="0,0,10,0" VerticalAlignment="Center"
+                        Visibility="{Binding NewDiagnoses.Count, Converter={StaticResource NullToVisibility}}">
                                         <TextBlock Text="{Binding NewDiagnoses.Count}"
-                                                   FontSize="12" Foreground="#185FA5" FontWeight="SemiBold"/>
+                               FontSize="12" Foreground="#185FA5" FontWeight="SemiBold"/>
                                     </Border>
-
                                     <ui:SymbolIcon Grid.Column="3" FontSize="14" Foreground="#888780">
                                         <ui:SymbolIcon.Style>
                                             <Style TargetType="ui:SymbolIcon">
@@ -1344,37 +1347,48 @@
                                     <ItemsControl ItemsSource="{Binding NewDiagnoses}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border BorderBrush="#F1EFE8"
-                                                        BorderThickness="0,0,0,1" Padding="0,8">
+                                                <Border BorderBrush="#F1EFE8" BorderThickness="0,0,0,1" Padding="0,8">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="80"/>
                                                             <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="120"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
+
+                                                        <!-- ICD код -->
                                                         <Border Grid.Column="0" Background="#F1EFE8"
-                                                                CornerRadius="4" Padding="6,3"
-                                                                HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            CornerRadius="4" Padding="6,3"
+                                            HorizontalAlignment="Left" VerticalAlignment="Center">
                                                             <TextBlock Text="{Binding IcdCode}" FontSize="12"
-                                                                       Foreground="#5F5E5A" FontWeight="Medium"/>
+                                                   Foreground="#5F5E5A" FontWeight="Medium"/>
                                                         </Border>
+
+                                                        <!-- Назва -->
                                                         <TextBlock Grid.Column="1" Text="{Binding Name}"
-                                                                   FontSize="13" FontWeight="Medium"
-                                                                   Foreground="#2C2C2A" VerticalAlignment="Center"
-                                                                   Margin="12,0"/>
-                                                        <Border Grid.Column="2" Background="{Binding StatusColor}"
-                                                                CornerRadius="10" Padding="10,4"
-                                                                Margin="0,0,8,0" VerticalAlignment="Center">
-                                                            <TextBlock Text="{Binding StatusDisplay}"
-                                                                       FontSize="12"
-                                                                       Foreground="{Binding StatusTextColor}"/>
-                                                        </Border>
+                                               FontSize="13" FontWeight="Medium"
+                                               Foreground="#2C2C2A" VerticalAlignment="Center"
+                                               Margin="12,0"/>
+
+                                                        <!-- ComboBox статусу — для всіх -->
+                                                        <ComboBox Grid.Column="2"
+                                                                ItemsSource="{Binding DataContext.DiseaseStatusDisplayOptions,
+                                                                              RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                SelectedItem="{Binding StatusDisplay}"
+                                                                MinHeight="28"
+                                                                Padding="6,4"
+                                                                FontSize="12"
+                                                                BorderBrush="#D3D1C7"
+                                                                Margin="0,0,8,0"
+                                                                VerticalContentAlignment="Center"
+                                                                SelectionChanged="DiagnosisStatus_SelectionChanged"/>
+
+                                                        <!-- Кнопка видалення — тільки для нових -->
                                                         <Button Grid.Column="3"
-                                                                Command="{Binding DataContext.RemoveDiagnosisCommand,
-                                                                          RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                CommandParameter="{Binding}"
-                                                                Width="28" Height="28" Cursor="Hand">
+                                            Command="{Binding DataContext.RemoveDiagnosisCommand,
+                                                      RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            Width="28" Height="28" Cursor="Hand">
                                                             <Button.Style>
                                                                 <Style TargetType="Button">
                                                                     <Setter Property="Background" Value="White"/>
@@ -1384,11 +1398,11 @@
                                                                         <Setter.Value>
                                                                             <ControlTemplate TargetType="Button">
                                                                                 <Border Background="{TemplateBinding Background}"
-                                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                                        CornerRadius="6">
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    CornerRadius="6">
                                                                                     <ContentPresenter HorizontalAlignment="Center"
-                                                                                                      VerticalAlignment="Center"/>
+                                                                                  VerticalAlignment="Center"/>
                                                                                 </Border>
                                                                                 <ControlTemplate.Triggers>
                                                                                     <Trigger Property="IsMouseOver" Value="True">
@@ -1398,6 +1412,11 @@
                                                                             </ControlTemplate>
                                                                         </Setter.Value>
                                                                     </Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsNew}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
                                                                 </Style>
                                                             </Button.Style>
                                                             <ui:SymbolIcon Symbol="Delete24" FontSize="13"/>
@@ -1407,8 +1426,9 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                    <Border Background="#F8F9FA" CornerRadius="8"
-                                            Padding="16" Margin="0,12,0,0">
+
+                                    <!-- Форма додавання -->
+                                    <Border Background="#F8F9FA" CornerRadius="8" Padding="16" Margin="0,12,0,0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -1419,29 +1439,29 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0">
                                                 <TextBlock Text="Діагноз або код МКБ" FontSize="11"
-                                                           Foreground="#888780" Margin="0,0,0,4"/>
+                                       Foreground="#888780" Margin="0,0,0,4"/>
                                                 <ComboBox ItemsSource="{Binding AvailableDiseases}"
-                                                          SelectedItem="{Binding SelectedDisease}"
-                                                          DisplayMemberPath="Name"
-                                                          TextSearch.TextPath="Name"
-                                                          IsTextSearchEnabled="True"
-                                                          IsEditable="True"
-                                                          StaysOpenOnEdit="True"
-                                                          Height="36" FontSize="13"
-                                                          BorderBrush="#D3D1C7"/>
+                                      SelectedItem="{Binding SelectedDisease}"
+                                      DisplayMemberPath="Name"
+                                      TextSearch.TextPath="Name"
+                                      IsTextSearchEnabled="True"
+                                      IsEditable="True"
+                                      StaysOpenOnEdit="True"
+                                      Height="36" FontSize="13"
+                                      BorderBrush="#D3D1C7"/>
                                             </StackPanel>
                                             <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
                                                 <TextBlock Text="Статус" FontSize="11"
-                                                           Foreground="#888780" Margin="0,0,0,4"/>
+                                       Foreground="#888780" Margin="0,0,0,4"/>
                                                 <ComboBox ItemsSource="{Binding DiseaseStatusDisplayOptions}"
-                                                          Height="36" FontSize="13"
-                                                          BorderBrush="#D3D1C7"
-                                                          SelectionChanged="NewDiseaseStatus_SelectionChanged"/>
+                                      Height="36" FontSize="13"
+                                      BorderBrush="#D3D1C7"
+                                      SelectionChanged="NewDiseaseStatus_SelectionChanged"/>
                                             </StackPanel>
                                             <Button Grid.Column="4"
-                                                    Command="{Binding AddDiseaseCommand}"
-                                                    Height="36" Padding="14,0"
-                                                    Cursor="Hand" VerticalAlignment="Bottom">
+                                Command="{Binding AddDiseaseCommand}"
+                                Height="36" Padding="14,0"
+                                Cursor="Hand" VerticalAlignment="Bottom">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Background" Value="#185FA5"/>
@@ -1452,8 +1472,8 @@
                                                                 <ControlTemplate TargetType="Button">
                                                                     <Border Background="{TemplateBinding Background}" CornerRadius="6">
                                                                         <ContentPresenter HorizontalAlignment="Center"
-                                                                                          VerticalAlignment="Center"
-                                                                                          Margin="{TemplateBinding Padding}"/>
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="{TemplateBinding Padding}"/>
                                                                     </Border>
                                                                     <ControlTemplate.Triggers>
                                                                         <Trigger Property="IsMouseOver" Value="True">
@@ -1476,6 +1496,7 @@
                             </Border>
                         </StackPanel>
                     </Border>
+
 
                     <!-- Дослідження кейсу — прив'язка -->
                     <Border Background="White" BorderBrush="#E0DEDB"
@@ -1566,24 +1587,248 @@
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
                                                             <ColumnDefinition Width="*"/>
                                                             <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
+
+                                                        <!-- Чекбокс — заблокований якщо IsDisabled або IsFromFile -->
+                                                        
                                                         <CheckBox Grid.Column="0"
-                                              IsChecked="{Binding IsSelected}"
-                                              VerticalAlignment="Center"
-                                              Margin="0,0,12,0"/>
-                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                                IsChecked="{Binding IsSelected}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0,0,12,0">
+                                                            <CheckBox.Style>
+                                                                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsDisabled}" Value="True">
+                                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </CheckBox.Style>
+                                                        </CheckBox>
+
+                                                        <!-- Іконка -->
+                                                        <Border Grid.Column="1" Width="28" Height="28"
+                        CornerRadius="6" Margin="0,0,10,0" VerticalAlignment="Center">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="#E6F1FB"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsFromFile}" Value="True">
+                                                                            <Setter Property="Background" Value="#FAEEDA"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsDisabled}" Value="True">
+                                                                            <Setter Property="Background" Value="#F1EFE8"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <ui:SymbolIcon FontSize="14">
+                                                                <ui:SymbolIcon.Style>
+                                                                    <Style TargetType="ui:SymbolIcon">
+                                                                        <Setter Property="Symbol" Value="Microscope24"/>
+                                                                        <Setter Property="Foreground" Value="#185FA5"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsFromFile}" Value="True">
+                                                                                <Setter Property="Symbol" Value="Document24"/>
+                                                                                <Setter Property="Foreground" Value="#854F0B"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsDisabled}" Value="True">
+                                                                                <Setter Property="Symbol" Value="Microscope24"/>
+                                                                                <Setter Property="Foreground" Value="#B4B2A9"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </ui:SymbolIcon.Style>
+                                                            </ui:SymbolIcon>
+                                                        </Border>
+
+                                                        <!-- Інфо -->
+                                                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                                             <TextBlock Text="{Binding ResearchType}"
-                                                   FontSize="13" FontWeight="Medium" Foreground="#2C2C2A"/>
-                                                            <TextBlock Text="{Binding StatusDisplay}"
-                                                   FontSize="11" Foreground="#888780"/>
+                               FontSize="13" FontWeight="Medium">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Foreground" Value="#2C2C2A"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsDisabled}" Value="True">
+                                                                                <Setter Property="Foreground" Value="#B4B2A9"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <TextBlock Text="{Binding StatusDisplay}" FontSize="11">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Foreground" Value="#888780"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsDisabled}" Value="True">
+                                                                                <Setter Property="Foreground" Value="#C0BEBC"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
                                                         </StackPanel>
+
+                                                        <!-- Кнопка перегляду -->
+                                                        <Button Grid.Column="3" Height="26" Padding="8,0"
+                        Cursor="Hand" VerticalAlignment="Center"
+                        Margin="0,0,6,0" Tag="{Binding}"
+                        Click="ViewResearchFromRecord_Click">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button">
+                                                                    <Setter Property="Background" Value="White"/>
+                                                                    <Setter Property="Foreground" Value="#5F5E5A"/>
+                                                                    <Setter Property="BorderBrush" Value="#D3D1C7"/>
+                                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="Button">
+                                                                                <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="6">
+                                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Margin="{TemplateBinding Padding}"/>
+                                                                                </Border>
+                                                                                <ControlTemplate.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <Setter Property="Background" Value="#F1EFE8"/>
+                                                                                    </Trigger>
+                                                                                </ControlTemplate.Triggers>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </Button.Style>
+                                                            <ui:SymbolIcon Symbol="Eye24" FontSize="12"/>
+                                                        </Button>
+
+                                                        <!-- Кнопка Обробити — тільки для PDF -->
+                                                        <Button Grid.Column="4" Height="26" Padding="8,0"
+                        Cursor="Hand" VerticalAlignment="Center"
+                        Tag="{Binding}" Click="ProcessResearchFromRecord_Click">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    <Setter Property="Background" Value="#FAEEDA"/>
+                                                                    <Setter Property="Foreground" Value="#854F0B"/>
+                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="Button">
+                                                                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Margin="{TemplateBinding Padding}"/>
+                                                                                </Border>
+                                                                                <ControlTemplate.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <Setter Property="Background" Value="#F5D9A8"/>
+                                                                                    </Trigger>
+                                                                                </ControlTemplate.Triggers>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsFromFile}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Button.Style>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ui:SymbolIcon Symbol="Play24" FontSize="11" Margin="0,0,4,0"/>
+                                                                <TextBlock Text="Обробити" FontSize="11"/>
+                                                            </StackPanel>
+                                                        </Button>
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
+                                    <!-- Пагінація досліджень -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0"
+                                Visibility="{Binding ShowResearchPagination, Converter={StaticResource BoolToVisibility}}">
+                                        <Button Content="←"
+                                            Click="ResearchPrevPage_Click"
+                                            IsEnabled="{Binding CanGoResearchPrev}"
+                                            Width="28" Height="28" Margin="0,0,4,0" Cursor="Hand">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="White"/>
+                                                    <Setter Property="BorderBrush" Value="#D3D1C7"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                                        CornerRadius="6">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsEnabled" Value="False">
+                                                                        <Setter Property="Foreground" Value="#C0BEBC"/>
+                                                                        <Setter Property="BorderBrush" Value="#EEECE8"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#F1EFE8"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="#888780" Margin="4,0">
+                                    <Run Text="{Binding ResearchPage, Mode=OneWay}"/>
+                                    <Run Text="/"/>
+                                    <Run Text="{Binding ResearchTotalPages, Mode=OneWay}"/>
+                                        </TextBlock>
+                                        <Button Content="→"
+                                                Click="ResearchNextPage_Click"
+                                                IsEnabled="{Binding CanGoResearchNext}"
+                                                Width="28" Height="28" Margin="4,0,0,0" Cursor="Hand">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="White"/>
+                                                    <Setter Property="BorderBrush" Value="#D3D1C7"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                                        CornerRadius="6">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsEnabled" Value="False">
+                                                                        <Setter Property="Foreground" Value="#C0BEBC"/>
+                                                                        <Setter Property="BorderBrush" Value="#EEECE8"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#F1EFE8"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>

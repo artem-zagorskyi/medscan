@@ -4,7 +4,6 @@ using MedicalApp.Helpers;
 using MedicalApp.Models;
 using MedicalApp.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Media.Media3D;
 
 namespace MedicalApp.ViewModels
 {
@@ -17,9 +16,12 @@ namespace MedicalApp.ViewModels
         private readonly DoctorService _doctorService = new();
         private readonly RecordMedicationService _recordMedicationService = new();
         private readonly RecordResearchService _recordResearchService = new();
+        private readonly PatientAllergyService _patientAllergyService = new();
+        private readonly PatientDiseaseService _patientDiseaseService = new();
 
         private RecordResponse? _fullRecord;
         private readonly int _recordId;
+        private readonly FullMedicalRecordResponse _medicalRecord;
 
         public Action? OnSaved { get; set; }
 
@@ -27,11 +29,11 @@ namespace MedicalApp.ViewModels
             FullMedicalRecordResponse medicalRecord, bool startInEditMode = false)
         {
             _recordId = entry.Id;
+            _medicalRecord = medicalRecord;
             CaseName = caseModel.MainCondition;
             IsDraft = !entry.IsSigned;
             IsEditMode = startInEditMode && IsDraft;
 
-            // Одразу з entry
             DoctorName = entry.DoctorName;
             TypeDisplay = entry.TypeDisplay;
             Specialization = entry.Specialization;
@@ -39,17 +41,6 @@ namespace MedicalApp.ViewModels
             Complaints = entry.Complaints;
             DoctorConclusion = entry.Conclusion;
             TreatmentPlan = entry.TreatmentPlan;
-
-            // Дослідження кейсу для редагування
-            CaseResearches = new ObservableCollection<ResearchSelectItem>(
-                caseModel.Researches.Select(r => new ResearchSelectItem
-                {
-                    Id = r.Id,
-                    ResearchType = r.ResearchType,
-                    StatusDisplay = r.StatusDisplay,
-                    IsSelected = false
-                })
-            );
 
             _ = LoadFullDataAsync(caseModel, medicalRecord);
         }
@@ -90,7 +81,7 @@ namespace MedicalApp.ViewModels
         public string HeaderSubtitle => $"{DoctorName} · {VisitDateDisplay}";
         public string CaseSubtitle => $"Кейс: {CaseName}";
 
-        // --- Тип запису (для редагування) ---
+        // --- Тип запису ---
         public List<string> RecordTypeOptions { get; } = new() { "EXAM", "CONSILIUM", "EPICRISIS" };
         public List<string> RecordTypeDisplayOptions { get; } = new() { "Огляд", "Консиліум", "Епікриз" };
 
@@ -153,6 +144,59 @@ namespace MedicalApp.ViewModels
         [ObservableProperty] private ObservableCollection<ConsiliumDoctorModel> _editConsiliumDoctors = new();
         [ObservableProperty] private ObservableCollection<ResearchSelectItem> _caseResearches = new();
 
+        // --- Дослідження з пагінацією ---
+        private List<ResearchSelectItem> _allCaseResearches = new();
+
+        private int _researchPage = 1;
+        public int ResearchPage
+        {
+            get => _researchPage;
+            set { SetProperty(ref _researchPage, value); UpdateResearchPage(); }
+        }
+
+        private int _researchTotalPages = 1;
+        public int ResearchTotalPages
+        {
+            get => _researchTotalPages;
+            set { SetProperty(ref _researchTotalPages, value); OnPropertyChanged(nameof(ShowResearchPagination)); }
+        }
+
+        public bool ShowResearchPagination => ResearchTotalPages > 1;
+
+        private bool _canGoResearchPrev;
+        public bool CanGoResearchPrev
+        {
+            get => _canGoResearchPrev;
+            set => SetProperty(ref _canGoResearchPrev, value);
+        }
+
+        private bool _canGoResearchNext;
+        public bool CanGoResearchNext
+        {
+            get => _canGoResearchNext;
+            set => SetProperty(ref _canGoResearchNext, value);
+        }
+
+        private readonly int _researchPageSize = 5;
+
+        private void UpdateResearchPage()
+        {
+            var page = _allCaseResearches
+                .Skip((ResearchPage - 1) * _researchPageSize)
+                .Take(_researchPageSize)
+                .ToList();
+            CaseResearches = new ObservableCollection<ResearchSelectItem>(page);
+            CanGoResearchPrev = ResearchPage > 1;
+            CanGoResearchNext = ResearchPage < ResearchTotalPages;
+            OnPropertyChanged(nameof(ShowResearchPagination));
+        }
+
+        [RelayCommand]
+        public void ResearchPrevPage() { if (ResearchPage > 1) ResearchPage--; }
+
+        [RelayCommand]
+        public void ResearchNextPage() { if (ResearchPage < ResearchTotalPages) ResearchPage++; }
+
         // --- Довідники ---
         [ObservableProperty] private ObservableCollection<AllergenItemResponse> _availableAllergens = new();
         [ObservableProperty] private ObservableCollection<DiseaseItemResponse> _availableDiseases = new();
@@ -209,7 +253,6 @@ namespace MedicalApp.ViewModels
                 _fullRecord = await _recordService.GetByIdAsync(_recordId);
                 if (_fullRecord == null) return;
 
-                // Заповнюємо поля перегляду
                 SelectedRecordType = _fullRecord.Type;
                 Complaints = _fullRecord.Complaints;
                 HistoryOfIllness = _fullRecord.HistoryOfIllness;
@@ -235,7 +278,7 @@ namespace MedicalApp.ViewModels
                 Researches = new ObservableCollection<RecordResearchResponse>(_fullRecord.RecordResearches);
                 ConsiliumDoctors = new ObservableCollection<RecordDoctorResponse>(_fullRecord.RecordDoctors);
 
-                // Списки для редагування
+                // Медикаменти для редагування
                 NewMedications = new ObservableCollection<NewMedicationModel>(
                     _fullRecord.RecordMedications.Select(m => new NewMedicationModel
                     {
@@ -249,6 +292,7 @@ namespace MedicalApp.ViewModels
                     })
                 );
 
+                // Консиліум для редагування
                 EditConsiliumDoctors = new ObservableCollection<ConsiliumDoctorModel>(
                     _fullRecord.RecordDoctors.Select(d => new ConsiliumDoctorModel
                     {
@@ -259,8 +303,9 @@ namespace MedicalApp.ViewModels
                     })
                 );
 
+                // Алергії — всі з медкарти (IsNew = false), нові можна додати
                 NewAllergies = new ObservableCollection<EditAllergyModel>(
-                    _fullRecord.RecordAllergies.Select(a => new EditAllergyModel
+                    medicalRecord.PatientAllergies.Select(a => new EditAllergyModel
                     {
                         AllergenId = a.Allergen?.Id ?? 0,
                         Name = a.Allergen?.Name ?? "—",
@@ -282,33 +327,80 @@ namespace MedicalApp.ViewModels
                             "SEVERE" => "#A32D2D",
                             "MODERATE" => "#854F0B",
                             _ => "#3B6D11"
-                        }
+                        },
+                        IsNew = false
                     })
                 );
 
+                // Діагнози — всі з медкарти (IsNew = false), нові можна додати
                 NewDiagnoses = new ObservableCollection<EditDiagnosisModel>(
-                    _fullRecord.RecordDiagnoses.Select(d => new EditDiagnosisModel
+                    medicalRecord.PatientDiseases.Select(d => new EditDiagnosisModel
                     {
                         DiseaseId = d.Disease?.Id ?? 0,
                         IcdCode = d.Disease?.IcdCode ?? "—",
                         Name = d.Disease?.Name ?? "—",
-                        Status = "ACTIVE",
-                        StatusDisplay = "Активна",
-                        StatusColor = "#FCEBEB",
-                        StatusTextColor = "#A32D2D",
-                        DiagnosedAt = DateTime.Today
+                        Status = d.Status,
+                        StatusDisplay = d.Status switch
+                        {
+                            "ACTIVE" => "Активна",
+                            "CHRONIC" => "Хронічна",
+                            _ => "Одужав"
+                        },
+                        DiagnosedAt = d.DiagnosedAt,
+                        StatusColor = d.Status switch
+                        {
+                            "ACTIVE" => "#FCEBEB",
+                            "CHRONIC" => "#FAEEDA",
+                            _ => "#EAF3DE"
+                        },
+                        StatusTextColor = d.Status switch
+                        {
+                            "ACTIVE" => "#A32D2D",
+                            "CHRONIC" => "#854F0B",
+                            _ => "#3B6D11"
+                        },
+                        IsNew = false
                     })
                 );
 
-                CaseResearches = new ObservableCollection<ResearchSelectItem>(
-                    caseModel.Researches.Select(r => new ResearchSelectItem
+                // Дослідження з пагінацією і фільтрацією
+                var alreadyLinkedIds = caseModel.Records
+                    .Where(r => r.Id != _recordId)
+                    .SelectMany(r => r.Researches)
+                    .Where(rr => rr.Research != null)
+                    .Select(rr => rr.Research!.Id)
+                    .ToHashSet();
+
+                var researchItems = caseModel.Researches.Select(r => new ResearchSelectItem
+                {
+                    Id = r.Id,
+                    ResearchType = r.ResearchType,
+                    StatusDisplay = alreadyLinkedIds.Contains(r.Id)
+                        ? "Вже прив'язано до іншого запису"
+                        : r.StatusDisplay,
+                    IsFromFile = false,
+                    FilePath = null,
+                    IsDisabled = alreadyLinkedIds.Contains(r.Id),
+                    IsSelected = _fullRecord.RecordResearches.Any(rr => rr.Research?.Id == r.Id)
+                });
+
+                var fileItems = medicalRecord.ResearchFiles
+                    .Where(f => f.ResearchId == null)
+                    .Select(f => new ResearchSelectItem
                     {
-                        Id = r.Id,
-                        ResearchType = r.ResearchType,
-                        StatusDisplay = r.StatusDisplay,
-                        IsSelected = _fullRecord.RecordResearches.Any(rr => rr.Research?.Id == r.Id)
-                    })
-                );
+                        Id = f.Id,
+                        ResearchType = $"PDF: {System.IO.Path.GetFileName(f.FilePath)}",
+                        StatusDisplay = "Очікує обробки",
+                        IsFromFile = true,
+                        FilePath = f.FilePath,
+                        IsDisabled = false,
+                        IsSelected = false
+                    });
+
+                _allCaseResearches = researchItems.Concat(fileItems).ToList();
+                ResearchTotalPages = Math.Max(1, (int)Math.Ceiling((double)_allCaseResearches.Count / _researchPageSize));
+                ResearchPage = 1;
+                UpdateResearchPage();
 
                 // Довідники
                 var allergens = await _allergenService.GetAllAsync();
@@ -334,7 +426,6 @@ namespace MedicalApp.ViewModels
                         })
                     );
 
-                // Нотифікуємо computed properties
                 OnPropertyChanged(nameof(HasAnamnesis));
                 OnPropertyChanged(nameof(HasVitals));
                 OnPropertyChanged(nameof(HasExamStatus));
@@ -419,7 +510,7 @@ namespace MedicalApp.ViewModels
             if (SelectedAllergen == null) return;
             if (NewAllergies.Any(a => a.AllergenId == SelectedAllergen.Id))
             {
-                ErrorMessage = "Ця алергія вже додана";
+                ErrorMessage = "Ця алергія вже є в медкарті";
                 return;
             }
             NewAllergies.Add(new EditAllergyModel
@@ -444,14 +535,23 @@ namespace MedicalApp.ViewModels
                     "SEVERE" => "#A32D2D",
                     "MODERATE" => "#854F0B",
                     _ => "#3B6D11"
-                }
+                },
+                IsNew = true
             });
             SelectedAllergen = null;
             ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
-        private void RemoveAllergy(EditAllergyModel allergy) => NewAllergies.Remove(allergy);
+        private async void RemoveAllergy(EditAllergyModel allergy)
+        {
+            if (!allergy.IsNew)
+            {
+                try { await _patientAllergyService.RemoveAsync(_fullRecord!.MedicalRecordId, allergy.AllergenId); }
+                catch { }
+            }
+            NewAllergies.Remove(allergy);
+        }
 
         [RelayCommand]
         private void AddDisease()
@@ -459,7 +559,7 @@ namespace MedicalApp.ViewModels
             if (SelectedDisease == null) return;
             if (NewDiagnoses.Any(d => d.DiseaseId == SelectedDisease.Id))
             {
-                ErrorMessage = "Цей діагноз вже додано";
+                ErrorMessage = "Цей діагноз вже є в медкарті";
                 return;
             }
             NewDiagnoses.Add(new EditDiagnosisModel
@@ -486,14 +586,19 @@ namespace MedicalApp.ViewModels
                     "ACTIVE" => "#A32D2D",
                     "CHRONIC" => "#854F0B",
                     _ => "#3B6D11"
-                }
+                },
+                IsNew = true
             });
             SelectedDisease = null;
             ErrorMessage = string.Empty;
         }
 
         [RelayCommand]
-        private void RemoveDiagnosis(EditDiagnosisModel d) => NewDiagnoses.Remove(d);
+        private void RemoveDiagnosis(EditDiagnosisModel d)
+        {
+            if (!d.IsNew) return;
+            NewDiagnoses.Remove(d);
+        }
 
         [RelayCommand]
         private async Task SaveAsync()
@@ -501,6 +606,19 @@ namespace MedicalApp.ViewModels
             if (string.IsNullOrWhiteSpace(Complaints) && string.IsNullOrWhiteSpace(DoctorConclusion))
             {
                 ErrorMessage = "Заповніть хоча б скарги або висновок лікаря";
+                return;
+            }
+
+            // Перевірка необроблених PDF
+            var unprocessedSelected = _allCaseResearches
+                .Where(r => r.IsSelected && r.IsFromFile)
+                .ToList();
+
+            if (unprocessedSelected.Any())
+            {
+                ErrorMessage = "Не можна прив'язати необроблені PDF-файли до запису. Спочатку обробіть їх через кнопку \"Обробити\".";
+                foreach (var item in unprocessedSelected)
+                    item.IsSelected = false;
                 return;
             }
 
@@ -534,6 +652,72 @@ namespace MedicalApp.ViewModels
                     Weight = decimal.TryParse(Weight, out var w) ? w : null,
                     Height = decimal.TryParse(Height, out var h) ? h : null,
                 });
+
+                // Дослідження — синхронізуємо
+                var selectedIds = _allCaseResearches
+                    .Where(r => r.IsSelected && !r.IsFromFile && !r.IsDisabled)
+                    .Select(r => r.Id)
+                    .ToHashSet();
+
+                var existingIds = _fullRecord.RecordResearches
+                    .Where(rr => rr.Research != null)
+                    .Select(rr => rr.Research!.Id)
+                    .ToHashSet();
+
+                foreach (var id in selectedIds.Except(existingIds))
+                {
+                    try { await _recordResearchService.AddAsync(_recordId, id); }
+                    catch { }
+                }
+
+                foreach (var rr in _fullRecord.RecordResearches
+                    .Where(rr => rr.Research != null && !selectedIds.Contains(rr.Research!.Id)))
+                {
+                    try { await _recordResearchService.RemoveAsync(rr.Id); }
+                    catch { }
+                }
+
+                // Тільки нові алергії
+                foreach (var allergy in NewAllergies.Where(a => a.IsNew))
+                {
+                    try
+                    {
+                        await _patientAllergyService.AddAsync(
+                            _fullRecord.MedicalRecordId,
+                            allergy.AllergenId,
+                            allergy.Severity,
+                            DateTime.Today);
+                    }
+                    catch { }
+                }
+
+                // Тільки нові діагнози
+                foreach (var diagnosis in NewDiagnoses.Where(d => d.IsNew))
+                {
+                    try
+                    {
+                        await _patientDiseaseService.AddAsync(
+                            _fullRecord.MedicalRecordId,
+                            diagnosis.DiseaseId,
+                            diagnosis.Status,
+                            DateTime.Today);
+                    }
+                    catch { }
+                }
+
+                // Оновлення важкості існуючих алергій
+                foreach (var allergy in NewAllergies.Where(a => !a.IsNew))
+                {
+                    try { await _patientAllergyService.UpdateSeverityAsync(_fullRecord.MedicalRecordId, allergy.AllergenId, allergy.Severity); }
+                    catch { }
+                }
+
+                // Оновлення статусу існуючих діагнозів
+                foreach (var diagnosis in NewDiagnoses.Where(d => !d.IsNew))
+                {
+                    try { await _patientDiseaseService.UpdateStatusAsync(_fullRecord.MedicalRecordId, diagnosis.DiseaseId, diagnosis.Status); }
+                    catch { }
+                }
 
                 OnSaved?.Invoke();
             }

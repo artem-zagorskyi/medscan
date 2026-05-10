@@ -8,7 +8,7 @@ namespace MedicalApp.ViewModels
     public partial class MedicalCardViewModel : ObservableObject
     {
         private readonly MedicalRecordService _medicalRecordService = new();
-        private List<CaseDisplayModel> _allCases = new();
+        internal List<CaseDisplayModel> _allCases = new();
         private List<ResearchDisplayModel> _allResearches = new();
         private List<ResearchDisplayModel> _filteredResearches = new();
 
@@ -16,33 +16,12 @@ namespace MedicalApp.ViewModels
 
         private readonly CaseService _caseService = new();
 
-        public async Task<bool> CloseCaseAsync(CaseDisplayModel caseModel)
+        public async Task ReloadAsync()
         {
-            // Перевірка на чернетки
-            var hasDrafts = caseModel.Records.Any(r => !r.IsSigned);
-            if (hasDrafts)
-                return false;
-
-            await _caseService.UpdateAsync(caseModel.Id, new UpdateCaseRequest
-            {
-                Status = "CLOSED",
-                ClosingDate = DateTime.Today.ToString("yyyy-MM-dd")
-            });
-
-            // Оновлюємо локально без перезавантаження
-            var found = _allCases.FirstOrDefault(c => c.Id == caseModel.Id);
-            if (found != null)
-            {
-                found.Status = "CLOSED";
-                found.StatusDisplay = "Закритий";
-                found.StatusColor = "#F1EFE8";
-                found.StatusTextColor = "#5F5E5A";
-                found.ClosingDate = DateTime.Today;
-            }
-
-            ApplyCasesFilter();
-            return true;
+            await LoadDataAsync();
         }
+
+        
 
         public MedicalCardViewModel(PatientDisplayModel patient)
         {
@@ -454,7 +433,8 @@ namespace MedicalApp.ViewModels
                     MainCondition = c.MainCondition ?? "—",
                     Description = c.Description,
                     RecordsCount = c.Records.Count,
-                    Researches = c.Researches,
+                    Researches = new ObservableCollection<ResearchResponse>(c.Researches),
+
                     Records = c.Records.Select(r => new MedicalRecordEntryModel
                     {
                         Id = r.Id,
@@ -472,11 +452,13 @@ namespace MedicalApp.ViewModels
                         Diagnoses = r.RecordDiagnoses.Select(d => d.Disease?.Name ?? "—").ToList(),
                         Medications = r.RecordMedications.Select(m =>
                             $"{m.Medication?.Name} {m.Dosage}").ToList(),
+                        Researches = r.RecordResearches.ToList(),
                     }).OrderByDescending(r => r.VisitDate).ToList()
                 }).ToList();
 
                 // Дослідження
-                _allResearches = record.Researches.Select(r => new ResearchDisplayModel
+                // Дослідження — з таблиці Research
+                var researchItems = record.Researches.Select(r => new ResearchDisplayModel
                 {
                     Id = r.Id,
                     ResearchType = r.ResearchType,
@@ -498,11 +480,39 @@ namespace MedicalApp.ViewModels
                         "ERROR" => "#A32D2D",
                         _ => "#5F5E5A"
                     },
-                    NeedsProcessing = r.Status == "PENDING" || r.Status == "PROCESSING",
+                    NeedsProcessing = false,
+                    IsFromFile = false,
                     CaseId = r.CaseId,
                     CreatedAt = r.CreatedAt,
-                    Results = r.Results
-                }).ToList();
+                    Results = r.Results,
+                    ExtractedText = r.ExtractedText,
+                    ProcessedAt = r.ProcessedAt
+                });
+
+                // Необроблені ResearchFile (research_id == null)
+                var fileItems = record.ResearchFiles
+                    .Where(f => f.ResearchId == null)
+                    .Select(f => new ResearchDisplayModel
+                    {
+                        Id = f.Id,
+                        ResearchType = "PDF-файл",
+                        Status = f.Status,
+                        StatusDisplay = f.StatusDisplay,
+                        StatusColor = "#FAEEDA",
+                        StatusTextColor = "#854F0B",
+                        NeedsProcessing = true,
+                        IsFromFile = true,
+                        FileId = f.Id,
+                        FilePath = f.FilePath,
+                        CaseId = null,
+                        CreatedAt = f.CreatedAt,
+                        Results = null
+                    });
+
+                _allResearches = researchItems
+                    .Concat(fileItems)
+                    .OrderByDescending(r => r.CreatedAt)
+                    .ToList();
 
                 ApplyCasesFilter();
                 ApplyResearchFilters();
@@ -596,6 +606,56 @@ namespace MedicalApp.ViewModels
             CanGoResearchPrev = ResearchCurrentPage > 1;
             CanGoResearchNext = ResearchCurrentPage < ResearchTotalPages;
         }
+
+
+        public async Task<bool> CloseCaseAsync(CaseDisplayModel caseModel)
+        {
+            // Перевірка на чернетки
+            var hasDrafts = caseModel.Records.Any(r => !r.IsSigned);
+            if (hasDrafts)
+                return false;
+
+            await _caseService.UpdateAsync(caseModel.Id, new UpdateCaseRequest
+            {
+                Status = "CLOSED",
+                ClosingDate = DateTime.Today.ToString("yyyy-MM-dd")
+            });
+
+            // Оновлюємо локально без перезавантаження
+            var found = _allCases.FirstOrDefault(c => c.Id == caseModel.Id);
+            if (found != null)
+            {
+                found.Status = "CLOSED";
+                found.StatusDisplay = "Закритий";
+                found.StatusColor = "#F1EFE8";
+                found.StatusTextColor = "#5F5E5A";
+                found.ClosingDate = DateTime.Today;
+            }
+
+            ApplyCasesFilter();
+            return true;
+        }
+
+        public async Task ReopenCaseAsync(CaseDisplayModel caseModel)
+        {
+            await _caseService.UpdateAsync(caseModel.Id, new UpdateCaseRequest
+            {
+                Status = "OPEN",
+                ClosingDate = null
+            });
+
+            var found = _allCases.FirstOrDefault(c => c.Id == caseModel.Id);
+            if (found != null)
+            {
+                found.Status = "OPEN";
+                found.StatusDisplay = "Відкритий";
+                found.StatusColor = "#EAF3DE";
+                found.StatusTextColor = "#3B6D11";
+                found.ClosingDate = null;
+            }
+
+            ApplyCasesFilter();
+        }
     }
 
     // --- Моделі ---
@@ -634,7 +694,7 @@ namespace MedicalApp.ViewModels
         public int RecordsCount { get; set; }
         public List<MedicalRecordEntryModel> Records { get; set; } = new();
 
-        public List<ResearchResponse> Researches { get; set; } = new();
+        public ObservableCollection<ResearchResponse> Researches { get; set; } = new();
 
         public string OpeningDateDisplay => OpeningDate.ToString("dd.MM.yyyy");
         public string? ClosingDateDisplay => ClosingDate?.ToString("dd.MM.yyyy");
@@ -669,6 +729,8 @@ namespace MedicalApp.ViewModels
         public List<string> Diagnoses { get; set; } = new();
         public List<string> Medications { get; set; } = new();
 
+        public List<RecordResearchResponse> Researches { get; set; } = new();
+
         private bool _isExpanded;
         public bool IsExpanded
         {
@@ -687,8 +749,17 @@ namespace MedicalApp.ViewModels
         public string StatusColor { get; set; } = string.Empty;
         public string StatusTextColor { get; set; } = string.Empty;
         public bool NeedsProcessing { get; set; }
+        public bool IsFromFile { get; set; }       
+        public int? FileId { get; set; }           
+        public string? FilePath { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedAtDisplay => CreatedAt.ToString("dd.MM.yyyy");
         public string? Results { get; set; }
+
+        public string? ExtractedText { get; set; }
+        public DateTime? ProcessedAt { get; set; }
+        public string ProcessedAtDisplay => ProcessedAt.HasValue
+            ? ProcessedAt.Value.ToString("dd.MM.yyyy")
+            : "—";
     }
 }

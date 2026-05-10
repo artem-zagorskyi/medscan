@@ -151,6 +151,7 @@
         public string ResearchType { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public string? Results { get; set; }
+        public string? ExtractedText { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ProcessedAt { get; set; }
 

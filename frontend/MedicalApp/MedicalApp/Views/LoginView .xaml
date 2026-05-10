@@ -16,7 +16,7 @@
 
         <!-- Топбар -->
         <Border Grid.Row="0"
-                Background="#749BC2"
+                Background="#185FA5"
                 Height="56">
             <Grid Margin="24,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -108,7 +108,7 @@
                     Margin="0,16,0,0">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="Background" Value="#749BC2"/>
+                            <Setter Property="Background" Value="#185FA5"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -122,10 +122,10 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#4682A9"/>
+                                                <Setter Property="Background" Value="#1A6FB8"/>
                                             </Trigger>
                                             <Trigger Property="IsPressed" Value="True">
-                                                <Setter Property="Background" Value="#749BC2"/>
+                                                <Setter Property="Background" Value="#0C447C"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
