@@ -13,5 +13,19 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: medscan_ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    entrypoint: >
+      sh -c "ollama serve & sleep 10 && ollama pull gemma3:1b && wait"
+
 volumes:
   mysql_data:
+  ollama_data:
