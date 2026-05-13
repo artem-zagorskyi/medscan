@@ -1,41 +1,64 @@
 import { PrismaClient } from '../generated/prisma/index.js'
 import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 import bcrypt from 'bcrypt'
-import 'dotenv/config'
-import { generateResearchPdf, UPLOADS_DIR, randomItem, randomInt } from './generatePdfs.js'
+import fs from 'fs'
 import path from 'path'
+import { parse } from 'csv-parse/sync'
+import 'dotenv/config'
+import {
+  generateResearchPdfFromDataset,
+  buildExtractedText,
+  UPLOADS_DIR,
+  randomItem,
+  randomInt,
+} from './generatePdfs.js'
 
 const SALT_ROUNDS = 12
-const PEPPER = process.env.PEPPER_SECRET
+const PEPPER      = process.env.PEPPER_SECRET
+const DATASET_PATH =  './dataset_uk.csv'
 
 const adapter = new PrismaMariaDb({
-  host: 'localhost',
-  port: 3306,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  connectionLimit: 5,
+  host:                    'localhost',
+  port:                    3306,
+  user:                    process.env.DB_USER,
+  password:                process.env.DB_PASSWORD,
+  database:                process.env.DB_NAME,
+  connectionLimit:         5,
   allowPublicKeyRetrieval: true,
 })
 
 const prisma = new PrismaClient({ adapter })
 
 // ─────────────────────────────────────────
+// ДАТАСЕТ
+// ─────────────────────────────────────────
+
+let datasetRecords = []
+try {
+  const raw = fs.readFileSync(DATASET_PATH, 'utf-8')
+  datasetRecords = parse(raw, { columns: true, skip_empty_lines: true })
+  console.log(`📊 Dataset loaded: ${datasetRecords.length} records from ${DATASET_PATH}`)
+} catch (e) {
+  console.warn(`⚠️  Dataset not found at ${DATASET_PATH}`)
+  console.warn('   PDF generation will be skipped. Set DATASET_PATH in .env')
+}
+
+function pickDatasetRecord() {
+  if (datasetRecords.length === 0) return null
+  return datasetRecords[Math.floor(Math.random() * datasetRecords.length)]
+}
+
+// ─────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────
 
-const hashPassword = async (password) => {
-  return await bcrypt.hash(password + PEPPER, SALT_ROUNDS)
-}
+const hashPassword = async (pw) => bcrypt.hash(pw + PEPPER, SALT_ROUNDS)
 
-const randomDate = (start, end) => {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-}
+const randomDate = (start, end) =>
+  new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 
-const randomDecimal = (min, max, decimals = 1) => {
-  const val = Math.random() * (max - min) + min
-  return parseFloat(val.toFixed(decimals))
-}
+const randomDecimal = (min, max, decimals = 1) =>
+  parseFloat((Math.random() * (max - min) + min).toFixed(decimals))
 
 // ─────────────────────────────────────────
 // STATIC DATA
@@ -44,7 +67,7 @@ const randomDecimal = (min, max, decimals = 1) => {
 const specializations = [
   'Кардіологія', 'Неврологія', 'Хірургія', 'Терапія',
   'Педіатрія', 'Офтальмологія', 'Ортопедія', 'Дерматологія',
-  'Ендокринологія', 'Пульмонологія'
+  'Ендокринологія', 'Пульмонологія',
 ]
 
 const doctorPersons = [
@@ -84,21 +107,21 @@ const patientPersons = [
 ]
 
 const diseases = [
-  { name: 'Гіпертонічна хвороба',           icd_code: 'I10' },
-  { name: 'Цукровий діабет 2 типу',          icd_code: 'E11' },
-  { name: 'Ішемічна хвороба серця',          icd_code: 'I25' },
-  { name: 'Бронхіальна астма',               icd_code: 'J45' },
-  { name: 'Хронічний гастрит',               icd_code: 'K29' },
-  { name: 'Остеохондроз хребта',             icd_code: 'M42' },
-  { name: 'Хронічний бронхіт',              icd_code: 'J42' },
-  { name: 'Залізодефіцитна анемія',          icd_code: 'D50' },
-  { name: 'Гіпотиреоз',                      icd_code: 'E03' },
-  { name: 'Варикозна хвороба вен',           icd_code: 'I83' },
-  { name: 'Пневмонія',                       icd_code: 'J18' },
-  { name: 'Хронічна ниркова недостатність',  icd_code: 'N18' },
-  { name: 'Мігрень',                         icd_code: 'G43' },
-  { name: 'Ревматоїдний артрит',             icd_code: 'M05' },
-  { name: 'Виразкова хвороба шлунка',        icd_code: 'K25' },
+  { name: 'Гіпертонічна хвороба',          icd_code: 'I10' },
+  { name: 'Цукровий діабет 2 типу',         icd_code: 'E11' },
+  { name: 'Ішемічна хвороба серця',         icd_code: 'I25' },
+  { name: 'Бронхіальна астма',              icd_code: 'J45' },
+  { name: 'Хронічний гастрит',              icd_code: 'K29' },
+  { name: 'Остеохондроз хребта',            icd_code: 'M42' },
+  { name: 'Хронічний бронхіт',             icd_code: 'J42' },
+  { name: 'Залізодефіцитна анемія',         icd_code: 'D50' },
+  { name: 'Гіпотиреоз',                     icd_code: 'E03' },
+  { name: 'Варикозна хвороба вен',          icd_code: 'I83' },
+  { name: 'Пневмонія',                      icd_code: 'J18' },
+  { name: 'Хронічна ниркова недостатність', icd_code: 'N18' },
+  { name: 'Мігрень',                        icd_code: 'G43' },
+  { name: 'Ревматоїдний артрит',            icd_code: 'M05' },
+  { name: 'Виразкова хвороба шлунка',       icd_code: 'K25' },
 ]
 
 const allergens = [
@@ -117,31 +140,18 @@ const allergens = [
 ]
 
 const medications = [
-  { name: 'Амлодипін',      form: 'Таблетки',  active_substance: 'Амлодипіну безилат',     dosage_unit: 'мг'  },
-  { name: 'Метформін',      form: 'Таблетки',  active_substance: 'Метформіну гідрохлорид',  dosage_unit: 'мг'  },
-  { name: 'Аторвастатин',   form: 'Таблетки',  active_substance: 'Аторвастатин',            dosage_unit: 'мг'  },
-  { name: 'Омепразол',      form: 'Капсули',   active_substance: 'Омепразол',               dosage_unit: 'мг'  },
-  { name: 'Еналаприл',      form: 'Таблетки',  active_substance: 'Еналаприлу малеат',       dosage_unit: 'мг'  },
-  { name: 'Бісопролол',     form: 'Таблетки',  active_substance: 'Бісопрололу фумарат',     dosage_unit: 'мг'  },
-  { name: 'Сальбутамол',    form: 'Інгалятор', active_substance: 'Сальбутамол',             dosage_unit: 'мкг' },
-  { name: 'Левотироксин',   form: 'Таблетки',  active_substance: 'Левотироксин натрій',     dosage_unit: 'мкг' },
-  { name: 'Діклофенак',     form: 'Таблетки',  active_substance: 'Діклофенак натрію',       dosage_unit: 'мг'  },
-  { name: 'Пантопразол',    form: 'Таблетки',  active_substance: 'Пантопразол',             dosage_unit: 'мг'  },
-  { name: 'Цефтріаксон',    form: 'Ін\'єкції', active_substance: 'Цефтріаксон',             dosage_unit: 'г'   },
-  { name: 'Ібупрофен',      form: 'Таблетки',  active_substance: 'Ібупрофен',               dosage_unit: 'мг'  },
-]
-
-const researchTypes = [
-  'Загальний аналіз крові',
-  'Біохімічний аналіз крові',
-  'Загальний аналіз сечі',
-  'ЕКГ',
-  'УЗД черевної порожнини',
-  'Рентген грудної клітки',
-  'МРТ головного мозку',
-  'КТ органів грудної клітки',
-  'Ехокардіографія',
-  'Спірометрія',
+  { name: 'Амлодипін',    form: 'Таблетки',  active_substance: 'Амлодипіну безилат',    dosage_unit: 'мг'  },
+  { name: 'Метформін',    form: 'Таблетки',  active_substance: 'Метформіну гідрохлорид', dosage_unit: 'мг'  },
+  { name: 'Аторвастатин', form: 'Таблетки',  active_substance: 'Аторвастатин',           dosage_unit: 'мг'  },
+  { name: 'Омепразол',    form: 'Капсули',   active_substance: 'Омепразол',              dosage_unit: 'мг'  },
+  { name: 'Еналаприл',    form: 'Таблетки',  active_substance: 'Еналаприлу малеат',      dosage_unit: 'мг'  },
+  { name: 'Бісопролол',   form: 'Таблетки',  active_substance: 'Бісопрололу фумарат',    dosage_unit: 'мг'  },
+  { name: 'Сальбутамол',  form: 'Інгалятор', active_substance: 'Сальбутамол',            dosage_unit: 'мкг' },
+  { name: 'Левотироксин', form: 'Таблетки',  active_substance: 'Левотироксин натрій',    dosage_unit: 'мкг' },
+  { name: 'Діклофенак',   form: 'Таблетки',  active_substance: 'Діклофенак натрію',      dosage_unit: 'мг'  },
+  { name: 'Пантопразол',  form: 'Таблетки',  active_substance: 'Пантопразол',            dosage_unit: 'мг'  },
+  { name: 'Цефтріаксон',  form: 'Ін\'єкції', active_substance: 'Цефтріаксон',            dosage_unit: 'г'   },
+  { name: 'Ібупрофен',    form: 'Таблетки',  active_substance: 'Ібупрофен',              dosage_unit: 'мг'  },
 ]
 
 const bloodGroups    = ['A', 'B', 'AB', 'O']
@@ -195,7 +205,7 @@ const addresses = [
 async function seed() {
   console.log('🌱 Starting seed...')
 
-  // ── CLEAR ─────────────────────────────────
+  // ── CLEAR ──
   console.log('🗑  Clearing existing data...')
   await prisma.recordAllergy.deleteMany()
   await prisma.recordMedication.deleteMany()
@@ -218,89 +228,63 @@ async function seed() {
   await prisma.disease.deleteMany()
   await prisma.allergen.deleteMany()
 
-  // ── 1. ДОВІДНИКИ ──────────────────────────
+  // ── 1. ДОВІДНИКИ ──
   console.log('💊 Seeding diseases...')
-  const createdDiseases = await Promise.all(
-    diseases.map(d => prisma.disease.create({ data: d }))
-  )
+  const createdDiseases = await Promise.all(diseases.map(d => prisma.disease.create({ data: d })))
 
   console.log('🌿 Seeding allergens...')
-  const createdAllergens = await Promise.all(
-    allergens.map(a => prisma.allergen.create({ data: a }))
-  )
+  const createdAllergens = await Promise.all(allergens.map(a => prisma.allergen.create({ data: a })))
 
   console.log('💉 Seeding medications...')
-  const createdMedications = await Promise.all(
-    medications.map(m => prisma.medication.create({ data: m }))
-  )
+  const createdMedications = await Promise.all(medications.map(m => prisma.medication.create({ data: m })))
 
-  // ── 2. ADMIN ──────────────────────────────
+  // ── 2. ADMIN ──
   console.log('👤 Seeding admin...')
   const adminPerson = await prisma.person.create({
     data: {
-      last_name:    'Адміністратор',
-      first_name:   'Головний',
-      middle_name:  'Системний',
-      birth_date:   new Date('1980-01-01'),
-      gender:       'MALE',
-      contact_info: '+380501111111',
-      role:         'ADMIN'
+      last_name: 'Адміністратор', first_name: 'Головний', middle_name: 'Системний',
+      birth_date: new Date('1980-01-01'), gender: 'MALE',
+      contact_info: '+380501111111', role: 'ADMIN',
     }
   })
   await prisma.account.create({
     data: {
-      person_id: adminPerson.id,
-      email:     'admin@medscan.com',
-      password:  await hashPassword('admin123'),
-      rights:    'ADMIN'
+      person_id: adminPerson.id, email: 'admin@medscan.com',
+      password: await hashPassword('admin123'), rights: 'ADMIN',
     }
   })
 
-  // ── 3. DOCTORS ────────────────────────────
+  // ── 3. DOCTORS ──
   console.log('👨‍⚕️ Seeding doctors...')
   const createdDoctors = []
-  const doctorNames = []  // для підпису в PDF
+  const doctorNames    = []
 
   for (let i = 0; i < doctorPersons.length; i++) {
-    const dp = doctorPersons[i]
+    const dp     = doctorPersons[i]
     const person = await prisma.person.create({
-      data: {
-        ...dp,
-        birth_date: randomDate(new Date('1965-01-01'), new Date('1990-01-01')),
-        role: 'DOCTOR'
-      }
+      data: { ...dp, birth_date: randomDate(new Date('1965-01-01'), new Date('1990-01-01')), role: 'DOCTOR' }
     })
     const doctor = await prisma.doctor.create({
       data: { person_id: person.id, specialization: specializations[i] }
     })
     await prisma.account.create({
       data: {
-        person_id: person.id,
-        email:     `doctor${i + 1}@medscan.com`,
-        password:  await hashPassword('doctor123'),
-        rights:    'USER'
+        person_id: person.id, email: `doctor${i + 1}@medscan.com`,
+        password: await hashPassword('doctor123'), rights: 'USER',
       }
     })
     createdDoctors.push(doctor)
     doctorNames.push(`${dp.last_name} ${dp.first_name[0]}. ${dp.middle_name[0]}.`)
   }
 
-  // ── 4. PATIENTS ───────────────────────────
+  // ── 4. PATIENTS ──
   console.log('🧑‍⚕️ Seeding patients...')
-  let totalRecords    = 0
-  let totalCases      = 0
-  let totalResearches = 0
-  let totalFiles      = 0
+  let totalCases = 0, totalRecords = 0, totalResearches = 0, totalFiles = 0
 
   for (let i = 0; i < patientPersons.length; i++) {
-    const pp = patientPersons[i]
-
+    const pp     = patientPersons[i]
     const person = await prisma.person.create({
-      data: {
-        ...pp,
-        birth_date: randomDate(new Date('1950-01-01'), new Date('2000-01-01')),
-        role: 'PATIENT'
-      }
+      data: { ...pp, birth_date: randomDate(new Date('1950-01-01'), new Date('2000-01-01')), role: 'PATIENT' }
     })
 
     const medicalRecord = await prisma.medicalRecord.create({
@@ -313,65 +297,47 @@ async function seed() {
     })
 
     const patient = await prisma.patient.create({
-      data: {
-        person_id:         person.id,
-        medical_record_id: medicalRecord.id,
-        address:           randomItem(addresses),
-      }
+      data: { person_id: person.id, medical_record_id: medicalRecord.id, address: randomItem(addresses) }
     })
 
     const patientName = `${pp.last_name} ${pp.first_name} ${pp.middle_name}`
 
-    // ── Призначити 1-2 лікарів ──────────────
-    const numDoctors = randomInt(1, 2)
-    const assignedDoctors = [...createdDoctors]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, numDoctors)
-
+    // Лікарі
+    const numDoctors      = randomInt(1, 2)
+    const assignedDoctors = [...createdDoctors].sort(() => Math.random() - 0.5).slice(0, numDoctors)
     for (const doctor of assignedDoctors) {
-      await prisma.doctorPatient.create({
-        data: { patient_id: patient.id, doctor_id: doctor.id }
-      })
+      await prisma.doctorPatient.create({ data: { patient_id: patient.id, doctor_id: doctor.id } })
     }
 
-    // ── Хвороби ─────────────────────────────
-    const numDiseases = randomInt(1, 3)
-    const assignedDiseases = [...createdDiseases]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, numDiseases)
-
+    // Хвороби
+    const numDiseases      = randomInt(1, 3)
+    const assignedDiseases = [...createdDiseases].sort(() => Math.random() - 0.5).slice(0, numDiseases)
     for (const disease of assignedDiseases) {
       await prisma.patientDisease.create({
         data: {
-          medical_record_id: medicalRecord.id,
-          disease_id:        disease.id,
-          status:            randomItem(diseaseStatuses),
-          diagnosed_at:      randomDate(new Date('2018-01-01'), new Date())
+          medical_record_id: medicalRecord.id, disease_id: disease.id,
+          status: randomItem(diseaseStatuses),
+          diagnosed_at: randomDate(new Date('2018-01-01'), new Date()),
         }
       })
     }
 
-    // ── Алергії ─────────────────────────────
-    const numAllergies = randomInt(0, 2)
-    const assignedAllergens = [...createdAllergens]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, numAllergies)
-
+    // Алергії
+    const numAllergies      = randomInt(0, 2)
+    const assignedAllergens = [...createdAllergens].sort(() => Math.random() - 0.5).slice(0, numAllergies)
     for (const allergen of assignedAllergens) {
       await prisma.patientAllergy.create({
         data: {
-          medical_record_id:    medicalRecord.id,
-          allergen_id:          allergen.id,
-          reaction_severity:    randomItem(severities),
+          medical_record_id: medicalRecord.id, allergen_id: allergen.id,
+          reaction_severity: randomItem(severities),
           reaction_description: 'Виявлено під час обстеження',
-          diagnosed_at:         randomDate(new Date('2018-01-01'), new Date())
+          diagnosed_at: randomDate(new Date('2018-01-01'), new Date()),
         }
       })
     }
 
-    // ── Кейси ───────────────────────────────
+    // ── Кейси ──
     const numCases = randomInt(1, 3)
-
     for (let c = 0; c < numCases; c++) {
       const caseDisease = randomItem(assignedDiseases)
       const isClosed    = Math.random() > 0.4
@@ -390,7 +356,7 @@ async function seed() {
       })
       totalCases++
 
-      // ── Записи у кейсі ──────────────────
+      // ── Записи ──
       const numRecords = randomInt(2, 5)
       let prevRecordId = null
 
@@ -411,24 +377,20 @@ async function seed() {
             visit_date:         visitDate,
             type:               recordType,
             status:             randomItem(['SIGNED', 'SIGNED', 'SIGNED', 'DRAFT']),
-
             complaints:         randomItem(complaintsPool),
             history_of_illness: 'Хворіє протягом кількох років. Лікування проводилось амбулаторно.',
             history_of_life:    'Хронічні захворювання згідно медичної карти. Операцій не було.',
             social_habits:      'Не курить. Алкоголь вживає помірно.',
-
             height:             randomDecimal(155, 190, 1),
             weight:             randomDecimal(50, 110, 1),
             temperature:        randomDecimal(36.4, 37.8, 1),
             blood_pressure:     `${randomInt(110, 160)}/${randomInt(70, 100)}`,
             heart_rate:         randomInt(60, 100),
             spo2:               randomInt(94, 100),
-
             general_condition:  randomItem(['Задовільний', 'Середньої тяжкості', 'Стабільний']),
             skin_status:        'Шкіра звичайного кольору, чиста, помірної вологості.',
             respiratory_system: 'Дихання везикулярне, хрипів немає. ЧД 16/хв.',
             cardiovascular:     'Тони серця ритмічні, приглушені. Шумів не виявлено.',
-
             doctor_conclusion:  randomItem(conclusionsPool),
             treatment_plan:     randomItem(treatmentPlansPool),
           }
@@ -436,108 +398,95 @@ async function seed() {
         totalRecords++
         prevRecordId = record.id
 
-        // ── Консиліум ───────────────────────
+        // Консиліум
         if (isConsilium) {
           const consiliumDoctors = [...createdDoctors]
             .filter(d => d.id !== author.id)
             .sort(() => Math.random() - 0.5)
             .slice(0, randomInt(1, 2))
-
           for (const doc of consiliumDoctors) {
             await prisma.recordDoctor.create({
-              data: {
-                record_id: record.id,
-                doctor_id: doc.id,
-                role:      randomItem(['Консультант', 'Голова консиліуму', 'Фахівець']),
-              }
+              data: { record_id: record.id, doctor_id: doc.id, role: randomItem(['Консультант', 'Голова консиліуму', 'Фахівець']) }
             })
           }
         }
 
-        // ── Діагнози запису ─────────────────
-        const numRecordDiagnoses = randomInt(1, 2)
-        const recordDiseases = [...assignedDiseases]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, numRecordDiagnoses)
-
+        // Діагнози
+        const recordDiseases = [...assignedDiseases].sort(() => Math.random() - 0.5).slice(0, randomInt(1, 2))
         for (let di = 0; di < recordDiseases.length; di++) {
           await prisma.recordDiagnosis.create({
             data: {
-              record_id:   record.id,
-              disease_id:  recordDiseases[di].id,
+              record_id: record.id, disease_id: recordDiseases[di].id,
               description: `Підтверджено клінічно. ${randomItem(conclusionsPool)}`,
-              is_final:    Math.random() > 0.3,
-              is_main:     di === 0,
+              is_final: Math.random() > 0.3, is_main: di === 0,
             }
           })
         }
 
-        // ── Медикаменти ─────────────────────
-        const numMeds   = randomInt(1, 3)
-        const recordMeds = [...createdMedications]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, numMeds)
-
+        // Медикаменти
+        const recordMeds = [...createdMedications].sort(() => Math.random() - 0.5).slice(0, randomInt(1, 3))
         for (const med of recordMeds) {
           await prisma.recordMedication.create({
             data: {
-              record_id:     record.id,
-              medication_id: med.id,
-              dosage:        `${randomInt(5, 500)} ${med.dosage_unit}`,
-              frequency:     randomItem(['1 раз на день', '2 рази на день', '3 рази на день', '1 раз на тиждень']),
-              duration:      randomItem(['7 днів', '14 днів', '30 днів', '3 місяці']),
-              comment:       randomItem(['Після їжі', 'До їжі', 'Незалежно від їжі', 'Вранці натщесерце']),
+              record_id: record.id, medication_id: med.id,
+              dosage:    `${randomInt(5, 500)} ${med.dosage_unit}`,
+              frequency: randomItem(['1 раз на день', '2 рази на день', '3 рази на день']),
+              duration:  randomItem(['7 днів', '14 днів', '30 днів', '3 місяці']),
+              comment:   randomItem(['Після їжі', 'До їжі', 'Незалежно від їжі']),
             }
           })
         }
 
-        // ── Алергії на прийомі ───────────────
+        // Алергії на прийомі
         if (Math.random() < 0.2 && assignedAllergens.length > 0) {
-          const allergen = randomItem(assignedAllergens)
           await prisma.recordAllergy.create({
             data: {
-              record_id:            record.id,
-              allergen_id:          allergen.id,
-              reaction_severity:    randomItem(severities),
+              record_id: record.id, allergen_id: randomItem(assignedAllergens).id,
+              reaction_severity: randomItem(severities),
               reaction_description: 'Виявлено під час огляду',
             }
           })
         }
 
-        // ── Дослідження + PDF файли ──────────
-        if (Math.random() < 0.6) {
-          const researchType = randomItem(researchTypes)
-          const isProcessed  = Math.random() < 0.65  // 65% оброблені, 35% — ні
-
-          // Генеруємо PDF файл
-          const timestamp  = Date.now() + Math.floor(Math.random() * 10000)
-          const fileName   = `research_${medicalRecord.id}_${timestamp}.pdf`
+        // ── Дослідження + PDF ──
+        if (Math.random() < 0.6 && datasetRecords.length > 0) {
+          const datasetRec  = pickDatasetRecord()
+          const timestamp   = Date.now() + Math.floor(Math.random() * 10000)
+          const fileName    = `research_${medicalRecord.id}_${timestamp}.pdf`
           const relativePath = path.join('uploads', 'research', fileName)
+          const isProcessed = Math.random() < 0.65
 
           try {
-            await generateResearchPdf({
-              researchType,
+            await generateResearchPdfFromDataset({
+              record:      datasetRec,
               patientName,
-              doctorName: authorName,
-              date:       visitDate,
+              doctorName:  authorName,
+              date:        visitDate,
               fileName,
+              outputDir:   UPLOADS_DIR,
             })
           } catch (err) {
-            console.warn(`⚠️  PDF generation failed for ${fileName}:`, err.message)
+            console.warn(`⚠️  PDF failed: ${fileName}: ${err.message}`)
           }
 
           if (isProcessed) {
-            // Оброблений: спочатку Research, потім ResearchFile прив'язаний до нього
-            const research = await prisma.research.create({
+            const reportData = JSON.parse(datasetRec.report_data)
+            const research   = await prisma.research.create({
               data: {
                 medical_record_id: medicalRecord.id,
                 case_id:           patientCase.id,
                 doctor_id:         author.id,
-                research_type:     researchType,
+                research_type:     datasetRec.long_name,
                 status:            'PROCESSED',
-                results:           'Результати в межах норми. Патологічних змін не виявлено.',
-                created_at:        visitDate,
-                processed_at:      new Date(),
+                extracted_text:    buildExtractedText(datasetRec, patientName, authorName, visitDate),
+                results:           JSON.stringify({
+                  loinc_num:     datasetRec.loinc_num,
+                  long_name:     datasetRec.long_name,
+                  raw_test_name: datasetRec.raw_test_name,
+                  parameters:    reportData.parameters,
+                }),
+                created_at:   visitDate,
+                processed_at: new Date(),
               }
             })
             totalResearches++
@@ -545,7 +494,7 @@ async function seed() {
             await prisma.researchFile.create({
               data: {
                 medical_record_id: medicalRecord.id,
-                research_id:       research.id,   // прив'язаний → оброблений
+                research_id:       research.id,
                 file_path:         relativePath,
                 status:            'PROCESSED',
                 created_at:        visitDate,
@@ -555,17 +504,13 @@ async function seed() {
             totalFiles++
 
             await prisma.recordResearch.create({
-              data: {
-                record_id:   record.id,
-                research_id: research.id,
-              }
+              data: { record_id: record.id, research_id: research.id }
             })
           } else {
-            // Необроблений: тільки ResearchFile без research_id
             await prisma.researchFile.create({
               data: {
                 medical_record_id: medicalRecord.id,
-                research_id:       null,   // не прив'язаний → чекає обробки
+                research_id:       null,
                 file_path:         relativePath,
                 status:            'PENDING',
                 created_at:        visitDate,
@@ -577,29 +522,31 @@ async function seed() {
       }
     }
 
-    // ── Додаткові необроблені PDF (inbox) ───
-    // Імітуємо "нові листи" — 1-3 файли без прив'язки
+    // ── Inbox файли ──
     const numInboxFiles = randomInt(1, 3)
     for (let f = 0; f < numInboxFiles; f++) {
-      const researchType = randomItem(researchTypes)
-      const inboxDate    = randomDate(new Date('2024-01-01'), new Date())
-      const timestamp    = Date.now() + Math.floor(Math.random() * 100000)
-      const fileName     = `inbox_${medicalRecord.id}_${timestamp}.pdf`
+      if (datasetRecords.length === 0) break
+
+      const datasetRec  = pickDatasetRecord()
+      const inboxDate   = randomDate(new Date('2024-01-01'), new Date())
+      const timestamp   = Date.now() + Math.floor(Math.random() * 100000)
+      const fileName    = `inbox_${medicalRecord.id}_${timestamp}.pdf`
       const relativePath = path.join('uploads', 'research', fileName)
       const authorDoctor = randomItem(assignedDoctors)
       const authorIdx    = createdDoctors.findIndex(d => d.id === authorDoctor.id)
       const authorName   = doctorNames[authorIdx] ?? 'Лікар'
 
       try {
-        await generateResearchPdf({
-          researchType,
+        await generateResearchPdfFromDataset({
+          record:      datasetRec,
           patientName,
-          doctorName: authorName,
-          date:       inboxDate,
+          doctorName:  authorName,
+          date:        inboxDate,
           fileName,
+          outputDir:   UPLOADS_DIR,
         })
       } catch (err) {
-        console.warn(`⚠️  PDF generation failed for ${fileName}:`, err.message)
+        console.warn(`⚠️  Inbox PDF failed: ${fileName}: ${err.message}`)
       }
 
       await prisma.researchFile.create({
@@ -615,30 +562,21 @@ async function seed() {
     }
   }
 
-  // ── ПІДСУМОК ──────────────────────────────
-  console.log('\n✅ Seed completed successfully!')
-  console.log(`   👤 Admin:           1`)
-  console.log(`   👨‍⚕️ Doctors:         ${createdDoctors.length}`)
-  console.log(`   🧑‍⚕️ Patients:        ${patientPersons.length}`)
-  console.log(`   📁 Cases:           ${totalCases}`)
-  console.log(`   📋 Records:         ${totalRecords}`)
-  console.log(`   🔬 Researches:      ${totalResearches}`)
-  console.log(`   📄 PDF files:       ${totalFiles}`)
-  console.log(`   💊 Diseases:        ${createdDiseases.length}`)
-  console.log(`   🌿 Allergens:       ${createdAllergens.length}`)
-  console.log(`   💉 Medications:     ${createdMedications.length}`)
-  console.log('\n📋 Test credentials:')
-  console.log('   Admin:    admin@medscan.com   / admin123')
-  console.log('   Doctor 1: doctor1@medscan.com / doctor123')
-  console.log('   Doctor 2: doctor2@medscan.com / doctor123')
-  console.log(`\n📂 PDF files saved to: uploads/research/`)
+  // ── ПІДСУМОК ──
+  console.log('\n✅ Seed completed!')
+  console.log(`   👤 Admin:       1`)
+  console.log(`   👨‍⚕️ Doctors:     ${createdDoctors.length}`)
+  console.log(`   🧑‍⚕️ Patients:    ${patientPersons.length}`)
+  console.log(`   📁 Cases:       ${totalCases}`)
+  console.log(`   📋 Records:     ${totalRecords}`)
+  console.log(`   🔬 Researches:  ${totalResearches}`)
+  console.log(`   📄 PDF files:   ${totalFiles}`)
+  console.log('\n📋 Credentials:')
+  console.log('   admin@medscan.com / admin123')
+  console.log('   doctor1@medscan.com / doctor123')
+  console.log(`\n📂 PDFs saved to: ${UPLOADS_DIR}`)
 }
 
 seed()
-  .catch((error) => {
-    console.error('❌ Seed failed:', error)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+  .catch(e => { console.error('❌ Seed failed:', e); process.exit(1) })
+  .finally(() => prisma.$disconnect())
