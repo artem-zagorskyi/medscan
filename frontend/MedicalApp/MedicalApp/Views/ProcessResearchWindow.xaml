@@ -153,51 +153,65 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- Місце для ML класифікації (заглушка) -->
-                    <Border Background="White"
-                            BorderBrush="#E0DEDB" BorderThickness="1"
-                            CornerRadius="8" Padding="16" Margin="0,0,0,16">
-                        <StackPanel>
-                            <TextBlock Text="АВТОМАТИЧНА КЛАСИФІКАЦІЯ"
-                                       FontSize="11" FontWeight="SemiBold"
-                                       Foreground="#888780" Margin="0,0,0,12"/>
-
-                            <!-- Заглушка ML -->
-                            <Border Background="#F8F9FA"
-                                    BorderBrush="#E0DEDB" BorderThickness="1"
-                                    CornerRadius="6" Padding="16,24">
-                                <StackPanel HorizontalAlignment="Center">
-                                    <ui:SymbolIcon Symbol="BrainCircuit24"
-                                                   FontSize="32"
-                                                   Foreground="#C0BEBC"
-                                                   HorizontalAlignment="Center"/>
-                                    <TextBlock Text="ML-класифікація"
-                                               FontSize="13" FontWeight="Medium"
-                                               Foreground="#888780"
-                                               HorizontalAlignment="Center"
-                                               Margin="0,8,0,4"/>
-                                    <TextBlock Text="Буде реалізована в наступному етапі"
-                                               FontSize="11" Foreground="#C0BEBC"
-                                               HorizontalAlignment="Center"
-                                               TextWrapping="Wrap"
-                                               TextAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
+                    <!-- Індикатор класифікації -->
+                    <Border Background="#F0F7FF" BorderBrush="#B5D4F4"
+                        BorderThickness="1" CornerRadius="8"
+                        Padding="16,12" Margin="0,0,0,16">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsClassifying}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Brain24" FontSize="16"
+                       Foreground="#185FA5" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding ClassificationStatus}"
+                   FontSize="13" Foreground="#185FA5"
+                   VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
+
 
                     <!-- Тип дослідження -->
                     <Border Background="White"
                             BorderBrush="#E0DEDB" BorderThickness="1"
                             CornerRadius="8" Padding="16" Margin="0,0,0,16">
                         <StackPanel>
-                            <TextBlock Text="ТИП ДОСЛІДЖЕННЯ"
-                                       FontSize="11" FontWeight="SemiBold"
-                                       Foreground="#888780" Margin="0,0,0,12"/>
-                            <ComboBox ItemsSource="{Binding ResearchTypeOptions}"
-                                      SelectedItem="{Binding SelectedResearchType}"
-                                      FontSize="13"
-                                      Height="36"/>
+                            <!-- Заголовок з бейджем впевненості -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="ТИП ДОСЛІДЖЕННЯ"
+                       FontSize="11" FontWeight="SemiBold"
+                       Foreground="#888780"/>
+                                <Border Background="{Binding ConfidenceColor}"
+                                        CornerRadius="8" Padding="8,2" Margin="8,0,0,0"
+                                        VerticalAlignment="Center">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Confidence}" Value="high">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Confidence}" Value="low">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding ConfidenceDisplay}"
+                                                FontSize="10" Foreground="{Binding ConfidenceTextColor}"/>
+                                </Border>
+                            </StackPanel>
+
+                            <TextBox Text="{Binding SelectedResearchType, UpdateSourceTrigger=PropertyChanged}"
+                                    FontSize="13" Height="36" Padding="10,0"
+                                    BorderBrush="#D3D1C7" BorderThickness="1"
+                                    VerticalContentAlignment="Center"/>
                         </StackPanel>
                     </Border>
 

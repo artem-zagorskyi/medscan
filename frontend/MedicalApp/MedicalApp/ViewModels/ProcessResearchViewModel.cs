@@ -49,20 +49,11 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _selectedCase, value);
         }
 
-        public List<string> ResearchTypeOptions { get; } = new()
-        {
-            "Загальний аналіз крові",
-            "Біохімічний аналіз крові",
-            "Загальний аналіз сечі",
-            "ЕКГ",
-            "УЗД черевної порожнини",
-            "Рентген грудної клітки",
-            "МРТ головного мозку",
-            "КТ органів грудної клітки",
-            "Ехокардіографія",
-            "Спірометрія",
-            "Інше",
-        };
+        public string Confidence { get; set; } = string.Empty;
+
+        public string ConfidenceDisplay => Confidence == "high" ? "Висока впевненість" : "Низька впевненість";
+        public string ConfidenceColor => Confidence == "high" ? "#EAF3DE" : "#FAEEDA";
+        public string ConfidenceTextColor => Confidence == "high" ? "#3B6D11" : "#854F0B";
 
         private string? _selectedResearchType;
         public string? SelectedResearchType
@@ -94,7 +85,6 @@ namespace MedicalApp.ViewModels
         }
 
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
-        public bool CanSave => !string.IsNullOrEmpty(SelectedResearchType);
 
         public async Task<bool> SaveAsync()
         {
@@ -121,6 +111,71 @@ namespace MedicalApp.ViewModels
             {
                 ErrorMessage = ex.Message;
                 return false;
+            }
+        }
+
+
+        private readonly MlService _mlService = new();
+
+        private bool _isClassifying;
+        public bool IsClassifying
+        {
+            get => _isClassifying;
+            set
+            {
+                SetProperty(ref _isClassifying, value);
+                OnPropertyChanged(nameof(CanSave));
+            }
+        }
+
+        private string _classificationStatus = string.Empty;
+        public string ClassificationStatus
+        {
+            get => _classificationStatus;
+            set => SetProperty(ref _classificationStatus, value);
+        }
+
+        // Оновити CanSave щоб блокував під час класифікації
+        public bool CanSave => !string.IsNullOrEmpty(SelectedResearchType) && !IsClassifying;
+
+        public async Task ClassifyAsync()
+        {
+            if (_file.FileId == null) return;
+
+            try
+            {
+                IsClassifying = true;
+                ClassificationStatus = "Аналізую файл...";
+                ErrorMessage = string.Empty;
+
+                var result = await _mlService.ClassifyAsync(_file.FileId.Value);
+
+                if (result != null)
+                {
+                    SelectedResearchType = result.ResearchType;
+                    Results = result.ExtractedText?.Length > 500
+                        ? result.ExtractedText[..500]
+                        : result.ExtractedText;
+                    ClassificationStatus = $"Визначено: {result.ResearchType}";
+
+                    Confidence = result.Confidence ?? "low";
+                    OnPropertyChanged(nameof(ConfidenceDisplay));
+                    OnPropertyChanged(nameof(ConfidenceColor));
+                    OnPropertyChanged(nameof(ConfidenceTextColor));
+                }
+                else
+                {
+                    ClassificationStatus = "Не вдалося класифікувати";
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassificationStatus = "Помилка класифікації";
+                ErrorMessage = ex.Message;
+            }
+            finally
+            {
+                IsClassifying = false;
             }
         }
     }

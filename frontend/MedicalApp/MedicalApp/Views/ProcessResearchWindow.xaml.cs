@@ -52,6 +52,9 @@ namespace MedicalApp.Views
                         </div>
                     </body></html>");
             }
+
+            if (_vm.FilePath != null)
+                await _vm.ClassifyAsync();
         }
 
         private void PdfViewer_NavigationStarting(object sender,
