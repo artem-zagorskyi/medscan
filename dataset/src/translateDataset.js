@@ -1,12 +1,12 @@
 import fs from 'fs';
 import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
+import http from 'http';
 
-const INPUT_PATH    = './output/dataset.csv';
-const OUTPUT_PATH   = './output/dataset_uk.csv';
-const CACHE_PATH    = './output/translation_cache.json';
-const OLLAMA_URL = 'http://127.0.0.1:11434/api/generate';
-const MODEL         = 'gemma3:4b';
+const INPUT_PATH  = './output/dataset_output/expanded_dataset.csv';
+const OUTPUT_PATH = './output/dataset_output/dataset_uk.csv';
+const CACHE_PATH  = './output/translation_cache.json';
+const MODEL       = 'gemma3:27b';
 
 // ── CLI args ─────────────────────────────────────────────────────────────────
 const args = process.argv;
@@ -16,33 +16,33 @@ const getArg = (name) => {
 };
 const LIMIT = getArg('--limit');
 
-// ── Кеш переводов ───────────────────────────────────────────────────────────
+// ── Кеш перекладів ───────────────────────────────────────────────────────────
 let cache = {};
 if (fs.existsSync(CACHE_PATH)) {
   cache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf-8'));
   console.log(`Loaded cache: ${Object.keys(cache).length} entries`);
 }
 
-const DOCTORS_UK = {
-  'Dr. M. Schneider': 'Лікар М. Шнайдер',
-  'Dr. K. Hoffmann':  'Лікар К. Гофман',
-  'Dr. A. Weber':     'Лікар А. Вебер',
-  'Dr. J. Fischer':   'Лікар Й. Фішер',
-  'Dr. S. Müller':    'Лікар С. Мюллер',
-  'Dr. L. Bauer':     'Лікар Л. Бауер',
+// Захардкоджені значення — щоб не гонити через модель
+const FIXED_TRANSLATIONS = {
+  'Blood':       'Кров',
+  'Urine':       'Сеча',
+  'CSF':         'СМР',
+  'Chemistry':   'Хімія',
+  'Hematology':  'Гематологія',
+  'Coagulation': 'Коагуляція',
+  'abnormal':    'аномальний',
+  'normal':      'нормальний',
+  'critical':    'критичний',
 };
+Object.assign(cache, FIXED_TRANSLATIONS);
 
 function saveCache() {
   fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2));
 }
-
-Object.assign(cache, DOCTORS_UK);
 saveCache();
 
-// ── Вызов Ollama ────────────────────────────────────────────────────────────
-import https from 'https';
-import http from 'http';
-
+// ── Виклик Ollama ────────────────────────────────────────────────────────────
 async function callOllama(prompt) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
@@ -53,8 +53,8 @@ async function callOllama(prompt) {
     });
 
     const req = http.request({
-      hostname: '127.0.0.1',
-      port:     11434,
+      hostname: '194.68.245.82',
+      port:     22188,
       path:     '/api/generate',
       method:   'POST',
       headers: {
@@ -80,16 +80,20 @@ async function callOllama(prompt) {
   });
 }
 
-
-
-// ── Перевод одной строки с кешем ────────────────────────────────────────────
+// ── Переклад одного рядка з кешем ────────────────────────────────────────────
 async function translate(text) {
   if (!text || typeof text !== 'string') return text;
   const trimmed = text.trim();
   if (!trimmed) return text;
-  if (cache[trimmed]) return cache[trimmed];
+  if (cache[trimmed] !== undefined) return cache[trimmed];
 
-  const prompt = `Translate the following English medical laboratory text into Ukrainian. Output ONLY the translation, no explanation, no quotes, no extra text. If the text is a proper noun, abbreviation, or code, keep it as is.
+  // Якщо це аббревіатура (всі великі або короткий код) — лишаємо як є
+  if (/^[A-Z0-9\-\.\/\[\]<>]+$/.test(trimmed) && trimmed.length <= 6) {
+    cache[trimmed] = trimmed;
+    return trimmed;
+  }
+
+  const prompt = `Translate the following English medical laboratory text into Ukrainian. Output ONLY the translation, no explanation, no quotes, no extra text. If the text is a proper noun, abbreviation, or short code, keep it as is.
 
 Text: ${trimmed}
 
@@ -97,46 +101,19 @@ Ukrainian translation:`;
 
   try {
     let result = await callOllama(prompt);
-    // Чистка: убираем кавычки и префиксы которые модель иногда добавляет
+    // Чистимо зайві лапки і префікси які модель іноді додає
     result = result.replace(/^["'«»]|["'«»]$/g, '').trim();
-    result = result.replace(/^(Translation|Переклад|Ukrainian):\s*/i, '').trim();
+    result = result.replace(/^(Translation|Переклад|Ukrainian translation):\s*/i, '').trim();
 
     cache[trimmed] = result;
     return result;
   } catch (e) {
-    console.error(`  Error translating "${trimmed}": ${e.message}`);
-    return text;
+    console.error(`\n  Error translating "${trimmed}": ${e.message}`);
+    return text; // fallback — оригінал
   }
 }
 
-// ── Перевод объекта report_data ─────────────────────────────────────────────
-async function translateReportData(data) {
-  // Переводим только текстовые поля, оставляем ID, даты, числа
-  data.lab        = await translate(data.lab);
-  data.sampleType = await translate(data.sampleType);
-
-  data.physician = await translate(data.physician);
-
-  for (const p of data.parameters) {
-    p.name = await translate(p.name);
-
-    // result: переводим только если это качественное значение (не число)
-    if (isNaN(parseFloat(p.result))) {
-      p.result = await translate(p.result);
-    }
-
-    p.status = await translate(p.status);
-    if (p.refRange && isNaN(parseFloat(p.refRange)) && p.refRange !== 'See report') {
-      p.refRange = await translate(p.refRange);
-    } else if (p.refRange === 'See report') {
-      p.refRange = 'Див. звіт';  // просто захардкодь — это фиксированная фраза
-    }
-  }
-
-  return data;
-}
-
-// ── Основной цикл ───────────────────────────────────────────────────────────
+// ── Основний цикл ────────────────────────────────────────────────────────────
 async function main() {
   console.log('Loading dataset...');
   const raw = fs.readFileSync(INPUT_PATH, 'utf-8');
@@ -148,16 +125,16 @@ async function main() {
     console.log(`Limited to: ${records.length}`);
   }
 
-  // Проверка что Ollama жива
+  // Перевірка що Ollama жива
   try {
     await callOllama('Say OK');
     console.log('Ollama connection OK\n');
-   } catch (e) {
-     console.error(`Cannot reach Ollama at ${OLLAMA_URL}`);
-     console.error(`Error: ${e.message}`);
-     console.error(`Make sure 'ollama serve' is running and '${MODEL}' is pulled`);
-     process.exit(1);
-   }
+  } catch (e) {
+    console.error(`Cannot reach Ollama at http://127.0.0.1:11434`);
+    console.error(`Error: ${e.message}`);
+    console.error(`Make sure 'ollama serve' is running and '${MODEL}' is pulled`);
+    process.exit(1);
+  }
 
   const translated = [];
   const startTime = Date.now();
@@ -165,57 +142,50 @@ async function main() {
   for (let i = 0; i < records.length; i++) {
     const rec = records[i];
 
-    // Текстовые поля верхнего уровня
-    const new_raw_test_name = await translate(rec.raw_test_name);
-    const new_long_name     = await translate(rec.long_name);
-    const new_component     = await translate(rec.component);
+    // Перекладаємо текстові поля
+    const new_mimic_label     = await translate(rec.mimic_label);
+    const new_common_name     = await translate(rec.common_name);
+    const new_unofficial_name = await translate(rec.unofficial_name);
+    const new_category        = await translate(rec.category);
+    const new_fluid           = await translate(rec.fluid);
+    const new_flag            = rec.flag ? await translate(rec.flag) : '';
 
-    // JSON-данные внутри report_data
-    let new_report_data = rec.report_data;
-    try {
-      const parsed    = JSON.parse(rec.report_data);
-      const translatedData = await translateReportData(parsed);
-      new_report_data = JSON.stringify(translatedData);
-    } catch (e) {
-      console.error(`  JSON parse error on record ${i}: ${e.message}`);
-    }
-
+    // Числа та одиниці — залишаємо без змін
     translated.push({
-      loinc_num:     rec.loinc_num,
-      raw_test_name: new_raw_test_name,
-      long_name:     new_long_name,
-      class:         rec.class,
-      component:     new_component,
-      system:        rec.system,
-      scale_typ:     rec.scale_typ,
-      report_data:   new_report_data,
+      mimic_label:    new_mimic_label,
+      common_name:    new_common_name,
+      unofficial_name: new_unofficial_name,
+      category:       new_category,
+      fluid:          new_fluid,
+      value:          rec.value,
+      valuenum:       rec.valuenum,
+      unit:           rec.unit,   // mEq/L, mg/dL тощо — не перекладаємо
+      flag:           new_flag,
     });
 
-    // Прогресс и периодическое сохранение
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    const rate    = ((i + 1) / elapsed).toFixed(2);
-    const eta     = ((records.length - i - 1) / rate).toFixed(0);
-    const pct     = (((i + 1) / records.length) * 100).toFixed(1);
+    // Прогрес і збереження кожні 100 записів
+    const elapsed  = ((Date.now() - startTime) / 1000).toFixed(1);
+    const rate     = ((i + 1) / elapsed).toFixed(2);
+    const eta      = ((records.length - i - 1) / rate).toFixed(0);
+    const pct      = (((i + 1) / records.length) * 100).toFixed(1);
     const cacheSize = Object.keys(cache).length;
 
     process.stdout.write(
-      `\r[${pct}%] ${i + 1}/${records.length}  |  ${rate} rec/s  |  ETA ${eta}s  |  кеш: ${cacheSize}    `
+      `\r[${pct}%] ${i + 1}/${records.length}  |  ${rate} rec/s  |  ETA ${eta}s  |  cache: ${cacheSize}    `
     );
 
-    if ((i + 1) % 100 === 0) {
+    if ((i + 1) % 1000 === 0) {
       saveCache();
       fs.writeFileSync(OUTPUT_PATH, stringify(translated, { header: true }));
     }
   }
-
-  
 
   saveCache();
   fs.writeFileSync(OUTPUT_PATH, stringify(translated, { header: true }));
 
   const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
   process.stdout.write('\n');
-  console.log(`\nДone in ${totalTime}s`);
+  console.log(`\nDone in ${totalTime}s`);
   console.log(`Translated: ${translated.length} records`);
   console.log(`Cache size: ${Object.keys(cache).length} unique strings`);
   console.log(`Saved to: ${OUTPUT_PATH}`);

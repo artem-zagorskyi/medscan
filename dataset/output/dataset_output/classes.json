@@ -1,0 +1,6038 @@
+{
+  "BLOOD GAS": [
+    {
+      "itemid": "50800",
+      "mimic_label": "SPECIMEN TYPE",
+      "official_name": "SPECIMEN TYPE",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "51544",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51545",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    }
+  ],
+  "Blood Gas": [
+    {
+      "itemid": "50801",
+      "mimic_label": "Alveolar-arterial Gradient",
+      "official_name": "Alveolar-arterial oxygen Partial pressure difference",
+      "loinc_code": "19991-9",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "50802",
+      "mimic_label": "Base Excess",
+      "official_name": "Base excess in Blood by calculation",
+      "loinc_code": "11555-0",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "50803",
+      "mimic_label": "Calculated Bicarbonate, Whole Blood",
+      "official_name": "Bicarbonate [Moles/volume] in Blood",
+      "loinc_code": "1959-6",
+      "all_names_count": 24,
+      "results_count": 18
+    },
+    {
+      "itemid": "50804",
+      "mimic_label": "Calculated Total CO2",
+      "official_name": "Carbon dioxide, total [Moles/volume] in Blood by calculation",
+      "loinc_code": "34728-6",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "50805",
+      "mimic_label": "Carboxyhemoglobin",
+      "official_name": "Carboxyhemoglobin/Hemoglobin.total in Blood",
+      "loinc_code": "20563-3",
+      "all_names_count": 39,
+      "results_count": 5
+    },
+    {
+      "itemid": "50806",
+      "mimic_label": "Chloride, Whole Blood",
+      "official_name": "Chloride [Moles/volume] in Blood",
+      "loinc_code": "2069-3",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "50807",
+      "mimic_label": "Comments",
+      "official_name": "Comments",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50808",
+      "mimic_label": "Free Calcium",
+      "official_name": "Calcium.ionized [Moles/volume] in Blood",
+      "loinc_code": "1994-3",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "50809",
+      "mimic_label": "Glucose",
+      "official_name": "Glucose [Mass/volume] in Blood",
+      "loinc_code": "2339-0",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "50810",
+      "mimic_label": "Hematocrit, Calculated",
+      "official_name": "Hematocrit [Volume Fraction] of Blood by calculation",
+      "loinc_code": "20570-8",
+      "all_names_count": 30,
+      "results_count": 50
+    },
+    {
+      "itemid": "50811",
+      "mimic_label": "Hemoglobin",
+      "official_name": "Hemoglobin [Mass/volume] in Blood",
+      "loinc_code": "718-7",
+      "all_names_count": 20,
+      "results_count": 50
+    },
+    {
+      "itemid": "50812",
+      "mimic_label": "Intubated",
+      "official_name": "Intubated",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50813",
+      "mimic_label": "Lactate",
+      "official_name": "Lactate [Moles/volume] in Blood",
+      "loinc_code": "32693-4",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "50814",
+      "mimic_label": "Methemoglobin",
+      "official_name": "Methemoglobin/Hemoglobin.total in Blood",
+      "loinc_code": "2614-6",
+      "all_names_count": 27,
+      "results_count": 5
+    },
+    {
+      "itemid": "50815",
+      "mimic_label": "O2 Flow",
+      "official_name": "Inhaled oxygen flow rate",
+      "loinc_code": "3151-8",
+      "all_names_count": 24,
+      "results_count": 44
+    },
+    {
+      "itemid": "50816",
+      "mimic_label": "Oxygen",
+      "official_name": "Oxygen/Total gas setting [Volume Fraction] Ventilator",
+      "loinc_code": "19994-3",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "50817",
+      "mimic_label": "Oxygen Saturation",
+      "official_name": "Oxygen saturation in Blood",
+      "loinc_code": "20564-1",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "50818",
+      "mimic_label": "pCO2",
+      "official_name": "Carbon dioxide [Partial pressure] in Blood",
+      "loinc_code": "11557-6",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "50819",
+      "mimic_label": "PEEP",
+      "official_name": "Positive end expiratory pressure setting Ventilator",
+      "loinc_code": "20077-4",
+      "all_names_count": 16,
+      "results_count": 50
+    },
+    {
+      "itemid": "50820",
+      "mimic_label": "pH",
+      "official_name": "pH of Blood",
+      "loinc_code": "11558-4",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "50821",
+      "mimic_label": "pO2",
+      "official_name": "Oxygen [Partial pressure] in Blood",
+      "loinc_code": "11556-8",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "50822",
+      "mimic_label": "Potassium, Whole Blood",
+      "official_name": "Potassium [Moles/volume] in Blood",
+      "loinc_code": "6298-4",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "50823",
+      "mimic_label": "Required O2",
+      "official_name": "Required O2",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50824",
+      "mimic_label": "Sodium, Whole Blood",
+      "official_name": "Sodium [Moles/volume] in Blood",
+      "loinc_code": "2947-0",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "50825",
+      "mimic_label": "Temperature",
+      "official_name": "Temperature",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50826",
+      "mimic_label": "Tidal Volume",
+      "official_name": "Tidal volume setting Ventilator",
+      "loinc_code": "20112-9",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "50827",
+      "mimic_label": "Ventilation Rate",
+      "official_name": "Ventilation Rate",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50828",
+      "mimic_label": "Ventilator",
+      "official_name": "Ventilator",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50829",
+      "mimic_label": "Fluid Type",
+      "official_name": "[Type] of Body fluid",
+      "loinc_code": "14725-6",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "50830",
+      "mimic_label": "pCO2, Body Fluid",
+      "official_name": "Carbon dioxide [Partial pressure] in Body fluid",
+      "loinc_code": "2023-0",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "50831",
+      "mimic_label": "pH",
+      "official_name": "pH of Body fluid",
+      "loinc_code": "2748-2",
+      "all_names_count": 20,
+      "results_count": 2
+    },
+    {
+      "itemid": "50832",
+      "mimic_label": "pO2, Body Fluid",
+      "official_name": "Oxygen [Partial pressure] in Body fluid",
+      "loinc_code": "2706-0",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "50833",
+      "mimic_label": "Potassium",
+      "official_name": "Potassium [Moles/volume] in Body fluid",
+      "loinc_code": "2821-7",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "50834",
+      "mimic_label": "Sodium, Body Fluid",
+      "official_name": "Sodium [Moles/volume] in Body fluid",
+      "loinc_code": "2950-4",
+      "all_names_count": 25,
+      "results_count": 0
+    }
+  ],
+  "Chemistry": [
+    {
+      "itemid": "50835",
+      "mimic_label": "Albumin, Ascites",
+      "official_name": "Albumin [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "1749-1",
+      "all_names_count": 20,
+      "results_count": 11
+    },
+    {
+      "itemid": "50836",
+      "mimic_label": "Amylase, Ascites",
+      "official_name": "Amylase [Enzymatic activity/volume] in Peritoneal fluid",
+      "loinc_code": "1797-0",
+      "all_names_count": 25,
+      "results_count": 4
+    },
+    {
+      "itemid": "50837",
+      "mimic_label": "Bicarbonate, Ascites",
+      "official_name": "Bicarbonate [Moles/volume] in Peritoneal fluid",
+      "loinc_code": "54360-3",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "50838",
+      "mimic_label": "Bilirubin, Total, Ascites",
+      "official_name": "Bilirubin.total [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "14422-0",
+      "all_names_count": 22,
+      "results_count": 5
+    },
+    {
+      "itemid": "50839",
+      "mimic_label": "Chloride, Ascites",
+      "official_name": "Chloride [Moles/volume] in Peritoneal fluid",
+      "loinc_code": "33366-6",
+      "all_names_count": 20,
+      "results_count": 0
+    },
+    {
+      "itemid": "50840",
+      "mimic_label": "Cholesterol, Ascites",
+      "official_name": "Cholesterol [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "14441-0",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "50841",
+      "mimic_label": "Creatinine, Ascites",
+      "official_name": "Creatinine [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "12191-3",
+      "all_names_count": 21,
+      "results_count": 5
+    },
+    {
+      "itemid": "50842",
+      "mimic_label": "Glucose, Ascites",
+      "official_name": "Glucose [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "2347-3",
+      "all_names_count": 21,
+      "results_count": 6
+    },
+    {
+      "itemid": "50843",
+      "mimic_label": "Lactate Dehydrogenase, Ascites",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Peritoneal fluid",
+      "loinc_code": "2531-2",
+      "all_names_count": 31,
+      "results_count": 7
+    },
+    {
+      "itemid": "50844",
+      "mimic_label": "Lipase, Ascites",
+      "official_name": "Lipase [Enzymatic activity/volume] in Peritoneal fluid",
+      "loinc_code": "32722-1",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "50845",
+      "mimic_label": "Miscellaneous, Ascites",
+      "official_name": "Miscellaneous, Ascites",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50846",
+      "mimic_label": "Osmolality, Ascites",
+      "official_name": "Osmolality of Peritoneal fluid",
+      "loinc_code": "2691-4",
+      "all_names_count": 18,
+      "results_count": 0
+    },
+    {
+      "itemid": "50847",
+      "mimic_label": "Potassium, Ascites",
+      "official_name": "Potassium [Moles/volume] in Peritoneal fluid",
+      "loinc_code": "49789-1",
+      "all_names_count": 20,
+      "results_count": 0
+    },
+    {
+      "itemid": "50848",
+      "mimic_label": "Sodium, Ascites",
+      "official_name": "Sodium [Moles/volume] in Peritoneal fluid",
+      "loinc_code": "49790-9",
+      "all_names_count": 20,
+      "results_count": 0
+    },
+    {
+      "itemid": "50849",
+      "mimic_label": "Total Protein, Ascites",
+      "official_name": "Protein [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "2883-7",
+      "all_names_count": 20,
+      "results_count": 9
+    },
+    {
+      "itemid": "50850",
+      "mimic_label": "Triglycerides, Ascites",
+      "official_name": "Triglyceride [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "14447-7",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "50851",
+      "mimic_label": "Urea Nitrogen, Ascites",
+      "official_name": "Urea nitrogen [Mass/volume] in Peritoneal fluid",
+      "loinc_code": "12265-5",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "50852",
+      "mimic_label": "% Hemoglobin A1c",
+      "official_name": "Hemoglobin A1c/Hemoglobin.total in Blood",
+      "loinc_code": "4548-4",
+      "all_names_count": 31,
+      "results_count": 23
+    },
+    {
+      "itemid": "50853",
+      "mimic_label": "25-OH Vitamin D",
+      "official_name": "25-OH Vitamin D",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "50854",
+      "mimic_label": "Absolute A1c",
+      "official_name": "Hemoglobin A1c/Hemoglobin.total in Blood",
+      "loinc_code": "4548-4",
+      "all_names_count": 31,
+      "results_count": 4
+    },
+    {
+      "itemid": "50855",
+      "mimic_label": "Absolute Hemoglobin",
+      "official_name": "Hemoglobin [Mass/volume] in Blood",
+      "loinc_code": "718-7",
+      "all_names_count": 20,
+      "results_count": 4
+    },
+    {
+      "itemid": "50856",
+      "mimic_label": "Acetaminophen",
+      "official_name": "Acetaminophen [Presence] in Serum or Plasma",
+      "loinc_code": "3297-9",
+      "all_names_count": 45,
+      "results_count": 25
+    },
+    {
+      "itemid": "50857",
+      "mimic_label": "Acetone",
+      "official_name": "Acetone [Presence] in Serum or Plasma",
+      "loinc_code": "5567-3",
+      "all_names_count": 26,
+      "results_count": 2
+    },
+    {
+      "itemid": "50858",
+      "mimic_label": "Acid Phosphatase",
+      "official_name": "Acid phosphatase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "1715-2",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "50859",
+      "mimic_label": "Acid Phosphatase, Non-Prostatic",
+      "official_name": "Acid Phosphatase, Non-Prostatic",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50860",
+      "mimic_label": "AFP, Maternal Screen",
+      "official_name": "AFP, Maternal Screen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50861",
+      "mimic_label": "Alanine Aminotransferase (ALT)",
+      "official_name": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "1742-6",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "50862",
+      "mimic_label": "Albumin",
+      "official_name": "Albumin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1751-7",
+      "all_names_count": 30,
+      "results_count": 50
+    },
+    {
+      "itemid": "50863",
+      "mimic_label": "Alkaline Phosphatase",
+      "official_name": "Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "6768-6",
+      "all_names_count": 37,
+      "results_count": 50
+    },
+    {
+      "itemid": "50864",
+      "mimic_label": "Alpha-Fetoprotein",
+      "official_name": "Alpha-1-Fetoprotein [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1834-1",
+      "all_names_count": 30,
+      "results_count": 7
+    },
+    {
+      "itemid": "50865",
+      "mimic_label": "Amikacin",
+      "official_name": "Amikacin",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50866",
+      "mimic_label": "Ammonia",
+      "official_name": "Ammonia [Moles/volume] in Plasma",
+      "loinc_code": "16362-6",
+      "all_names_count": 26,
+      "results_count": 23
+    },
+    {
+      "itemid": "50867",
+      "mimic_label": "Amylase",
+      "official_name": "Amylase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "1798-8",
+      "all_names_count": 30,
+      "results_count": 50
+    },
+    {
+      "itemid": "50868",
+      "mimic_label": "Anion Gap",
+      "official_name": "Anion gap in Serum or Plasma by Calculated.4Ions",
+      "loinc_code": "1863-0",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "50869",
+      "mimic_label": "Anti-DGP (IgA/IgG)",
+      "official_name": "Anti-DGP (IgA/IgG)",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50870",
+      "mimic_label": "Anti-Gliadin Antibody, IgA",
+      "official_name": "Gliadin Ab [Units/volume] in Serum",
+      "loinc_code": "7893-1",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "50871",
+      "mimic_label": "Anti-Mitochondrial Antibody",
+      "official_name": "Mitochondria Ab [Presence] in Serum",
+      "loinc_code": "14236-4",
+      "all_names_count": 37,
+      "results_count": 2
+    },
+    {
+      "itemid": "50872",
+      "mimic_label": "Anti-Neutrophil Cytoplasmic Antibody",
+      "official_name": "Neutrophil cytoplasmic Ab [Presence] in Serum by Immunofluorescence",
+      "loinc_code": "35279-9",
+      "all_names_count": 48,
+      "results_count": 0
+    },
+    {
+      "itemid": "50873",
+      "mimic_label": "Anti-Nuclear Antibody",
+      "official_name": "Nuclear Ab [Units/volume] in Serum by Immunoassay",
+      "loinc_code": "5047-6",
+      "all_names_count": 35,
+      "results_count": 3
+    },
+    {
+      "itemid": "50874",
+      "mimic_label": "Anti-Nuclear Antibody, Titer",
+      "official_name": "Nuclear Ab [Presence] in Serum",
+      "loinc_code": "8061-4",
+      "all_names_count": 29,
+      "results_count": 2
+    },
+    {
+      "itemid": "50875",
+      "mimic_label": "Anti-Parietal Cell Antibody",
+      "official_name": "Parietal cell Ab [Presence] in Serum by Immunofluorescence",
+      "loinc_code": "26969-6",
+      "all_names_count": 41,
+      "results_count": 0
+    },
+    {
+      "itemid": "50876",
+      "mimic_label": "Anti-Smooth Muscle Antibody",
+      "official_name": "Smooth muscle Ab [Presence] in Serum",
+      "loinc_code": "14252-1",
+      "all_names_count": 31,
+      "results_count": 1
+    },
+    {
+      "itemid": "50877",
+      "mimic_label": "Anti-Thyroglobulin Antibodies",
+      "official_name": "Thyroglobulin Ab [Units/volume] in Serum by Radioimmunoassay (RIA)",
+      "loinc_code": "5380-1",
+      "all_names_count": 33,
+      "results_count": 0
+    },
+    {
+      "itemid": "50878",
+      "mimic_label": "Asparate Aminotransferase (AST)",
+      "official_name": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "1920-8",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "50879",
+      "mimic_label": "Barbiturate Screen",
+      "official_name": "Barbiturates [Presence] in Serum, Plasma or Blood",
+      "loinc_code": "3376-1",
+      "all_names_count": 37,
+      "results_count": 26
+    },
+    {
+      "itemid": "50880",
+      "mimic_label": "Benzodiazepine Screen",
+      "official_name": "Benzodiazepines [Presence] in Blood",
+      "loinc_code": "42662-7",
+      "all_names_count": 20,
+      "results_count": 26
+    },
+    {
+      "itemid": "50881",
+      "mimic_label": "Beta-2 Microglobulin",
+      "official_name": "Beta 2 globulin [Mass/volume] in Serum or Plasma by Electrophoresis",
+      "loinc_code": "32731-2",
+      "all_names_count": 39,
+      "results_count": 2
+    },
+    {
+      "itemid": "50882",
+      "mimic_label": "Bicarbonate",
+      "official_name": "Bicarbonate [Moles/volume] in Serum or Plasma",
+      "loinc_code": "1963-8",
+      "all_names_count": 28,
+      "results_count": 50
+    },
+    {
+      "itemid": "50883",
+      "mimic_label": "Bilirubin, Direct",
+      "official_name": "Bilirubin.direct [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1968-7",
+      "all_names_count": 49,
+      "results_count": 50
+    },
+    {
+      "itemid": "50884",
+      "mimic_label": "Bilirubin, Indirect",
+      "official_name": "Bilirubin.indirect [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1971-1",
+      "all_names_count": 36,
+      "results_count": 50
+    },
+    {
+      "itemid": "50885",
+      "mimic_label": "Bilirubin, Total",
+      "official_name": "Bilirubin.total [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1975-2",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "50886",
+      "mimic_label": "Blood Culture Hold",
+      "official_name": "Blood Culture Hold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50887",
+      "mimic_label": "Blue Top Hold",
+      "official_name": "Blue Top Hold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50888",
+      "mimic_label": "Blue Top Hold Frozen",
+      "official_name": "Blue Top Hold Frozen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50889",
+      "mimic_label": "C-Reactive Protein",
+      "official_name": "C reactive protein [Mass/volume] in Serum or Plasma",
+      "loinc_code": "1988-5",
+      "all_names_count": 28,
+      "results_count": 3
+    },
+    {
+      "itemid": "50890",
+      "mimic_label": "C3",
+      "official_name": "Complement C3 [Mass/volume] in Serum or Plasma",
+      "loinc_code": "4485-9",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "50891",
+      "mimic_label": "C4",
+      "official_name": "Complement C4 [Mass/volume] in Serum or Plasma",
+      "loinc_code": "4498-2",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "50892",
+      "mimic_label": "CA-125",
+      "official_name": "Cancer Ag 125 [Units/volume] in Serum or Plasma",
+      "loinc_code": "10334-1",
+      "all_names_count": 36,
+      "results_count": 1
+    },
+    {
+      "itemid": "50893",
+      "mimic_label": "Calcium, Total",
+      "official_name": "Calcium [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2000-8",
+      "all_names_count": 24,
+      "results_count": 50
+    },
+    {
+      "itemid": "50894",
+      "mimic_label": "Calculated Free Testosterone",
+      "official_name": "Testosterone Free [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2991-8",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "50895",
+      "mimic_label": "Calculated TBG",
+      "official_name": "Thyroxine (T4)/Thyroxine binding globulin [Mass Ratio] in Serum or Plasma",
+      "loinc_code": "3027-0",
+      "all_names_count": 44,
+      "results_count": 3
+    },
+    {
+      "itemid": "50896",
+      "mimic_label": "Calculated Thyroxine (T4) Index",
+      "official_name": "Thyroxine (T4) free index in Serum or Plasma by calculation",
+      "loinc_code": "32215-6",
+      "all_names_count": 45,
+      "results_count": 3
+    },
+    {
+      "itemid": "50897",
+      "mimic_label": "Call",
+      "official_name": "Call",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50898",
+      "mimic_label": "Cancer Antigen 27.29",
+      "official_name": "Cancer Ag 27-29 [Units/volume] in Serum or Plasma",
+      "loinc_code": "17842-6",
+      "all_names_count": 32,
+      "results_count": 9
+    },
+    {
+      "itemid": "50899",
+      "mimic_label": "Carbamazepine",
+      "official_name": "carBAMazepine [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3432-2",
+      "all_names_count": 33,
+      "results_count": 1
+    },
+    {
+      "itemid": "50900",
+      "mimic_label": "Carcinoembyronic Antigen (CEA)",
+      "official_name": "Carcinoembryonic Ag [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2039-6",
+      "all_names_count": 28,
+      "results_count": 18
+    },
+    {
+      "itemid": "50901",
+      "mimic_label": "Centromere",
+      "official_name": "Centromere Ab [Presence] in Serum by Immunofluorescence",
+      "loinc_code": "16570-4",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "50902",
+      "mimic_label": "Chloride",
+      "official_name": "Chloride [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2075-0",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "50903",
+      "mimic_label": "Cholesterol Ratio (Total/HDL)",
+      "official_name": "Cholesterol.total/Cholesterol in HDL [Percentile]",
+      "loinc_code": "9322-9",
+      "all_names_count": 34,
+      "results_count": 24
+    },
+    {
+      "itemid": "50904",
+      "mimic_label": "Cholesterol, HDL",
+      "official_name": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2085-9",
+      "all_names_count": 36,
+      "results_count": 24
+    },
+    {
+      "itemid": "50905",
+      "mimic_label": "Cholesterol, LDL, Calculated",
+      "official_name": "Deprecated Cholesterol.in LDL [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2090-9",
+      "all_names_count": 32,
+      "results_count": 24
+    },
+    {
+      "itemid": "50906",
+      "mimic_label": "Cholesterol, LDL, Measured",
+      "official_name": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+      "loinc_code": "18262-6",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "50907",
+      "mimic_label": "Cholesterol, Total",
+      "official_name": "Cholesterol [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2093-3",
+      "all_names_count": 32,
+      "results_count": 25
+    },
+    {
+      "itemid": "50908",
+      "mimic_label": "CK-MB Index",
+      "official_name": "Creatine kinase.MB/Creatine kinase.total in Serum or Plasma",
+      "loinc_code": "20569-0",
+      "all_names_count": 35,
+      "results_count": 46
+    },
+    {
+      "itemid": "50909",
+      "mimic_label": "Cortisol",
+      "official_name": "Cortisol [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2143-6",
+      "all_names_count": 28,
+      "results_count": 50
+    },
+    {
+      "itemid": "50910",
+      "mimic_label": "Creatine Kinase (CK)",
+      "official_name": "Creatine kinase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "2157-6",
+      "all_names_count": 28,
+      "results_count": 50
+    },
+    {
+      "itemid": "50911",
+      "mimic_label": "Creatine Kinase, MB Isoenzyme",
+      "official_name": "Deprecated Creatine kinase.MB",
+      "loinc_code": "6773-6",
+      "all_names_count": 35,
+      "results_count": 50
+    },
+    {
+      "itemid": "50912",
+      "mimic_label": "Creatinine",
+      "official_name": "Creatinine [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2160-0",
+      "all_names_count": 29,
+      "results_count": 50
+    },
+    {
+      "itemid": "50913",
+      "mimic_label": "Cryoglobulin",
+      "official_name": "Cryoglobulin [Presence] in Serum",
+      "loinc_code": "5117-7",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "50914",
+      "mimic_label": "Cyclosporin",
+      "official_name": "cycloSPORINE [Mass/volume] in Serum",
+      "loinc_code": "3521-2",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "50915",
+      "mimic_label": "D-Dimer",
+      "official_name": "D-Dimer",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 5
+    },
+    {
+      "itemid": "50916",
+      "mimic_label": "DHEA-Sulfate",
+      "official_name": "Dehydroepiandrosterone sulfate (DHEA-S) [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2191-5",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "50917",
+      "mimic_label": "Digoxin",
+      "official_name": "Digoxin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "10535-3",
+      "all_names_count": 29,
+      "results_count": 18
+    },
+    {
+      "itemid": "50918",
+      "mimic_label": "Double Stranded DNA",
+      "official_name": "DNA double strand Ab [Units/volume] in Serum",
+      "loinc_code": "5130-0",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "50919",
+      "mimic_label": "EDTA Hold",
+      "official_name": "EDTA Hold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 19
+    },
+    {
+      "itemid": "50920",
+      "mimic_label": "Estimated GFR (MDRD equation)",
+      "official_name": "Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M",
+      "loinc_code": "33914-3",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "50921",
+      "mimic_label": "Estradiol",
+      "official_name": "Estradiol (E2) [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2243-4",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "50922",
+      "mimic_label": "Ethanol",
+      "official_name": "Ethanol [Presence] in Serum or Plasma",
+      "loinc_code": "5642-4",
+      "all_names_count": 27,
+      "results_count": 28
+    },
+    {
+      "itemid": "50923",
+      "mimic_label": "Fax",
+      "official_name": "Fax",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50924",
+      "mimic_label": "Ferritin",
+      "official_name": "Ferritin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2276-4",
+      "all_names_count": 24,
+      "results_count": 50
+    },
+    {
+      "itemid": "50925",
+      "mimic_label": "Folate",
+      "official_name": "Folate [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2284-8",
+      "all_names_count": 29,
+      "results_count": 33
+    },
+    {
+      "itemid": "50926",
+      "mimic_label": "Follicle Stimulating Hormone",
+      "official_name": "Follitropin [Units/volume] in Serum or Plasma",
+      "loinc_code": "15067-2",
+      "all_names_count": 24,
+      "results_count": 5
+    },
+    {
+      "itemid": "50927",
+      "mimic_label": "Gamma Glutamyltransferase",
+      "official_name": "Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "2324-2",
+      "all_names_count": 29,
+      "results_count": 6
+    },
+    {
+      "itemid": "50928",
+      "mimic_label": "Gastrin",
+      "official_name": "Gastrin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2333-3",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "50929",
+      "mimic_label": "Gentamicin",
+      "official_name": "Gentamicin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "35668-3",
+      "all_names_count": 30,
+      "results_count": 6
+    },
+    {
+      "itemid": "50930",
+      "mimic_label": "Globulin",
+      "official_name": "Globulin [Mass/volume] in Serum",
+      "loinc_code": "2336-6",
+      "all_names_count": 20,
+      "results_count": 13
+    },
+    {
+      "itemid": "50931",
+      "mimic_label": "Glucose",
+      "official_name": "Glucose [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2345-7",
+      "all_names_count": 28,
+      "results_count": 50
+    },
+    {
+      "itemid": "50932",
+      "mimic_label": "Gray Top Hold (plasma)",
+      "official_name": "Gray Top Hold (plasma)",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "50933",
+      "mimic_label": "Green Top Hold (plasma)",
+      "official_name": "Green Top Hold (plasma)",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50934",
+      "mimic_label": "H",
+      "official_name": "H",
+      "loinc_code": "",
+      "all_names_count": 0,
+      "results_count": 0
+    },
+    {
+      "itemid": "50935",
+      "mimic_label": "Haptoglobin",
+      "official_name": "Haptoglobin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "4542-7",
+      "all_names_count": 26,
+      "results_count": 41
+    },
+    {
+      "itemid": "50936",
+      "mimic_label": "HCG, Maternal Screen",
+      "official_name": "HCG, Maternal Screen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50937",
+      "mimic_label": "Hepatitis A Virus Antibody",
+      "official_name": "Hepatitis A virus Ab [Units/volume] in Serum or Plasma by Immunoassay",
+      "loinc_code": "5183-9",
+      "all_names_count": 47,
+      "results_count": 3
+    },
+    {
+      "itemid": "50938",
+      "mimic_label": "Hepatitis A Virus IgM Antibody",
+      "official_name": "Hepatitis A virus IgM Ab [Presence] in Serum",
+      "loinc_code": "22314-9",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "50939",
+      "mimic_label": "Hepatitis B Core Antibody, IgM",
+      "official_name": "Hepatitis B virus core IgM Ab [Presence] in Serum",
+      "loinc_code": "31204-1",
+      "all_names_count": 41,
+      "results_count": 3
+    },
+    {
+      "itemid": "50940",
+      "mimic_label": "Hepatitis B Surface Antibody",
+      "official_name": "Hepatitis B virus surface Ab [Units/volume] in Serum or Plasma by Immunoassay",
+      "loinc_code": "5193-8",
+      "all_names_count": 52,
+      "results_count": 23
+    },
+    {
+      "itemid": "50941",
+      "mimic_label": "Hepatitis B Surface Antigen",
+      "official_name": "Hepatitis B virus surface Ag [Presence] in Serum or Plasma by Immunoassay",
+      "loinc_code": "5196-1",
+      "all_names_count": 49,
+      "results_count": 21
+    },
+    {
+      "itemid": "50942",
+      "mimic_label": "Hepatitis B Virus Core Antibody",
+      "official_name": "Deprecated Hepatitis B virus core Ab [Units/volume] in Serum by Immunoassay",
+      "loinc_code": "5187-0",
+      "all_names_count": 44,
+      "results_count": 7
+    },
+    {
+      "itemid": "50943",
+      "mimic_label": "Hepatitis C Virus Antibody",
+      "official_name": "Hepatitis C virus Ab [Presence] in Serum",
+      "loinc_code": "16128-1",
+      "all_names_count": 35,
+      "results_count": 7
+    },
+    {
+      "itemid": "50944",
+      "mimic_label": "HIV Antibody",
+      "official_name": "HIV 1 Ab [Units/volume] in Serum or Plasma by Immunoassay",
+      "loinc_code": "5220-9",
+      "all_names_count": 44,
+      "results_count": 1
+    },
+    {
+      "itemid": "50945",
+      "mimic_label": "Homocysteine",
+      "official_name": "Homocysteine [Moles/volume] in Serum or Plasma",
+      "loinc_code": "13965-9",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "50946",
+      "mimic_label": "Human Chorionic Gonadotropin",
+      "official_name": "Choriogonadotropin [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2119-6",
+      "all_names_count": 27,
+      "results_count": 1
+    },
+    {
+      "itemid": "50947",
+      "mimic_label": "I",
+      "official_name": "I",
+      "loinc_code": "",
+      "all_names_count": 0,
+      "results_count": 0
+    },
+    {
+      "itemid": "50948",
+      "mimic_label": "Immunofixation",
+      "official_name": "Immunofixation for Serum or Plasma Narrative",
+      "loinc_code": "49275-1",
+      "all_names_count": 30,
+      "results_count": 7
+    },
+    {
+      "itemid": "50949",
+      "mimic_label": "Immunoglobulin A",
+      "official_name": "IgA [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2458-8",
+      "all_names_count": 24,
+      "results_count": 9
+    },
+    {
+      "itemid": "50950",
+      "mimic_label": "Immunoglobulin G",
+      "official_name": "IgG [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2465-3",
+      "all_names_count": 24,
+      "results_count": 23
+    },
+    {
+      "itemid": "50951",
+      "mimic_label": "Immunoglobulin M",
+      "official_name": "IgM [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2472-9",
+      "all_names_count": 24,
+      "results_count": 9
+    },
+    {
+      "itemid": "50952",
+      "mimic_label": "Iron",
+      "official_name": "Iron [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2498-4",
+      "all_names_count": 24,
+      "results_count": 50
+    },
+    {
+      "itemid": "50953",
+      "mimic_label": "Iron Binding Capacity, Total",
+      "official_name": "Iron binding capacity [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2500-7",
+      "all_names_count": 29,
+      "results_count": 49
+    },
+    {
+      "itemid": "50954",
+      "mimic_label": "Lactate Dehydrogenase (LD)",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "2532-0",
+      "all_names_count": 35,
+      "results_count": 50
+    },
+    {
+      "itemid": "50955",
+      "mimic_label": "Light Green Top Hold",
+      "official_name": "Light Green Top Hold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 33
+    },
+    {
+      "itemid": "50956",
+      "mimic_label": "Lipase",
+      "official_name": "Lipase [Enzymatic activity/volume] in Serum or Plasma",
+      "loinc_code": "3040-3",
+      "all_names_count": 28,
+      "results_count": 50
+    },
+    {
+      "itemid": "50957",
+      "mimic_label": "Lithium",
+      "official_name": "Lithium [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3719-2",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "50958",
+      "mimic_label": "Luteinizing Hormone",
+      "official_name": "Lutropin [Mass/volume] in Serum or Plasma --baseline",
+      "loinc_code": "1599-0",
+      "all_names_count": 32,
+      "results_count": 5
+    },
+    {
+      "itemid": "50959",
+      "mimic_label": "Macro Prolactin",
+      "official_name": "Macro Prolactin",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50960",
+      "mimic_label": "Magnesium",
+      "official_name": "Magnesium [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2601-3",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "50961",
+      "mimic_label": "Methotrexate",
+      "official_name": "Methotrexate",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 36
+    },
+    {
+      "itemid": "50962",
+      "mimic_label": "N-Acetylprocainamide (NAPA)",
+      "official_name": "N-acetylprocainamide [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3834-9",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "50963",
+      "mimic_label": "NTproBNP",
+      "official_name": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma",
+      "loinc_code": "33762-6",
+      "all_names_count": 35,
+      "results_count": 31
+    },
+    {
+      "itemid": "50964",
+      "mimic_label": "Osmolality, Measured",
+      "official_name": "Osmolality of Serum or Plasma",
+      "loinc_code": "2692-2",
+      "all_names_count": 23,
+      "results_count": 47
+    },
+    {
+      "itemid": "50965",
+      "mimic_label": "Parathyroid Hormone",
+      "official_name": "Parathyrin.intact [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2731-8",
+      "all_names_count": 31,
+      "results_count": 12
+    },
+    {
+      "itemid": "50966",
+      "mimic_label": "Phenobarbital",
+      "official_name": "PHENobarbital [Presence] in Serum or Plasma",
+      "loinc_code": "3947-9",
+      "all_names_count": 29,
+      "results_count": 31
+    },
+    {
+      "itemid": "50967",
+      "mimic_label": "Phenytoin",
+      "official_name": "Phenytoin [Presence] in Serum or Plasma",
+      "loinc_code": "3967-7",
+      "all_names_count": 35,
+      "results_count": 50
+    },
+    {
+      "itemid": "50968",
+      "mimic_label": "Phenytoin, Free",
+      "official_name": "Phenytoin Free [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3969-3",
+      "all_names_count": 39,
+      "results_count": 9
+    },
+    {
+      "itemid": "50969",
+      "mimic_label": "Phenytoin, Percent Free",
+      "official_name": "Phenytoin Free/Phenytoin.total in Serum or Plasma",
+      "loinc_code": "10548-6",
+      "all_names_count": 41,
+      "results_count": 8
+    },
+    {
+      "itemid": "50970",
+      "mimic_label": "Phosphate",
+      "official_name": "Phosphate [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2777-1",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "50971",
+      "mimic_label": "Potassium",
+      "official_name": "Potassium [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2823-3",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "50972",
+      "mimic_label": "Procainamide",
+      "official_name": "Procainamide [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3982-6",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "50973",
+      "mimic_label": "Prolactin",
+      "official_name": "Prolactin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2842-3",
+      "all_names_count": 29,
+      "results_count": 6
+    },
+    {
+      "itemid": "50974",
+      "mimic_label": "Prostate Specific Antigen",
+      "official_name": "Prostate specific Ag [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2857-1",
+      "all_names_count": 37,
+      "results_count": 10
+    },
+    {
+      "itemid": "50975",
+      "mimic_label": "Protein Electrophoresis",
+      "official_name": "Protein electrophoresis panel - Serum or Plasma",
+      "loinc_code": "24351-9",
+      "all_names_count": 34,
+      "results_count": 11
+    },
+    {
+      "itemid": "50976",
+      "mimic_label": "Protein, Total",
+      "official_name": "Protein [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2885-2",
+      "all_names_count": 25,
+      "results_count": 29
+    },
+    {
+      "itemid": "50977",
+      "mimic_label": "Quinidine",
+      "official_name": "quiNIDine [Mass/volume] in Serum or Plasma",
+      "loinc_code": "6694-4",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "50978",
+      "mimic_label": "Rapamycin",
+      "official_name": "Sirolimus [Mass/volume] in Blood",
+      "loinc_code": "29247-4",
+      "all_names_count": 20,
+      "results_count": 2
+    },
+    {
+      "itemid": "50979",
+      "mimic_label": "Red Top Hold",
+      "official_name": "Red Top Hold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50980",
+      "mimic_label": "Rheumatoid Factor",
+      "official_name": "Rheumatoid factor [Units/volume] in Serum by Immunoassay",
+      "loinc_code": "6928-6",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "50981",
+      "mimic_label": "Salicylate",
+      "official_name": "Salicylates [Presence] in Serum or Plasma",
+      "loinc_code": "4023-8",
+      "all_names_count": 33,
+      "results_count": 24
+    },
+    {
+      "itemid": "50982",
+      "mimic_label": "Sex Hormone Binding Globulin",
+      "official_name": "Sex hormone binding globulin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2942-1",
+      "all_names_count": 40,
+      "results_count": 0
+    },
+    {
+      "itemid": "50983",
+      "mimic_label": "Sodium",
+      "official_name": "Sodium [Moles/volume] in Serum or Plasma",
+      "loinc_code": "2951-2",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "50984",
+      "mimic_label": "Stat",
+      "official_name": "Stat",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50985",
+      "mimic_label": "Study Tubes",
+      "official_name": "Study Tubes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "50986",
+      "mimic_label": "tacroFK",
+      "official_name": "tacroFK",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 50
+    },
+    {
+      "itemid": "50988",
+      "mimic_label": "Testosterone",
+      "official_name": "Testosterone [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2986-8",
+      "all_names_count": 26,
+      "results_count": 2
+    },
+    {
+      "itemid": "50989",
+      "mimic_label": "Testosterone, Free",
+      "official_name": "Testosterone Free [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2991-8",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "50990",
+      "mimic_label": "Theophylline",
+      "official_name": "Theophylline [Mass/volume] in Serum or Plasma",
+      "loinc_code": "4049-3",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "50991",
+      "mimic_label": "Thyroglobulin",
+      "official_name": "Thyroglobulin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3013-0",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "50992",
+      "mimic_label": "Thyroid Peroxidase Antibodies",
+      "official_name": "Thyroperoxidase Ab [Units/volume] in Serum or Plasma",
+      "loinc_code": "8099-4",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "50993",
+      "mimic_label": "Thyroid Stimulating Hormone",
+      "official_name": "Thyrotropin [Units/volume] in Serum or Plasma",
+      "loinc_code": "3016-3",
+      "all_names_count": 27,
+      "results_count": 50
+    },
+    {
+      "itemid": "50994",
+      "mimic_label": "Thyroxine (T4)",
+      "official_name": "Thyroxine (T4) [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3026-2",
+      "all_names_count": 36,
+      "results_count": 11
+    },
+    {
+      "itemid": "50995",
+      "mimic_label": "Thyroxine (T4), Free",
+      "official_name": "Thyroxine (T4) free [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3024-7",
+      "all_names_count": 41,
+      "results_count": 22
+    },
+    {
+      "itemid": "50996",
+      "mimic_label": "Tissue Transglutaminase Ab, IgA",
+      "official_name": "Tissue transglutaminase IgA Ab [Units/volume] in Serum",
+      "loinc_code": "31017-7",
+      "all_names_count": 33,
+      "results_count": 0
+    },
+    {
+      "itemid": "50997",
+      "mimic_label": "Tobramycin",
+      "official_name": "Tobramycin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "35670-9",
+      "all_names_count": 29,
+      "results_count": 6
+    },
+    {
+      "itemid": "50998",
+      "mimic_label": "Transferrin",
+      "official_name": "Iron binding capacity [Mass/volume] in Serum or Plasma",
+      "loinc_code": "2500-7",
+      "all_names_count": 29,
+      "results_count": 49
+    },
+    {
+      "itemid": "50999",
+      "mimic_label": "Tricyclic Antidepressant Screen",
+      "official_name": "Tricyclic antidepressants [Presence] in Serum or Plasma",
+      "loinc_code": "4073-3",
+      "all_names_count": 28,
+      "results_count": 24
+    },
+    {
+      "itemid": "51000",
+      "mimic_label": "Triglycerides",
+      "official_name": "Triglyceride [Mass/volume] in Serum or Plasma --12 hours fasting",
+      "loinc_code": "1644-4",
+      "all_names_count": 36,
+      "results_count": 37
+    },
+    {
+      "itemid": "51001",
+      "mimic_label": "Triiodothyronine (T3)",
+      "official_name": "Triiodothyronine (T3) [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3053-6",
+      "all_names_count": 30,
+      "results_count": 10
+    },
+    {
+      "itemid": "51002",
+      "mimic_label": "Troponin I",
+      "official_name": "Troponin I.cardiac [Mass/volume] in Serum or Plasma",
+      "loinc_code": "10839-9",
+      "all_names_count": 31,
+      "results_count": 14
+    },
+    {
+      "itemid": "51003",
+      "mimic_label": "Troponin T",
+      "official_name": "Troponin T.cardiac [Mass/volume] in Serum or Plasma",
+      "loinc_code": "6598-7",
+      "all_names_count": 30,
+      "results_count": 50
+    },
+    {
+      "itemid": "51004",
+      "mimic_label": "UE3, Maternal Screen",
+      "official_name": "UE3, Maternal Screen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51005",
+      "mimic_label": "Uptake Ratio",
+      "official_name": "Triiodothyronine resin uptake (T3RU) in Serum or Plasma",
+      "loinc_code": "3050-2",
+      "all_names_count": 37,
+      "results_count": 3
+    },
+    {
+      "itemid": "51006",
+      "mimic_label": "Urea Nitrogen",
+      "official_name": "Urea nitrogen [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3094-0",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51007",
+      "mimic_label": "Uric Acid",
+      "official_name": "Urate [Mass/volume] in Serum or Plasma",
+      "loinc_code": "3084-1",
+      "all_names_count": 26,
+      "results_count": 50
+    },
+    {
+      "itemid": "51008",
+      "mimic_label": "Valproic Acid",
+      "official_name": "Valproate [Mass/volume] in Serum or Plasma",
+      "loinc_code": "4086-5",
+      "all_names_count": 28,
+      "results_count": 15
+    },
+    {
+      "itemid": "51009",
+      "mimic_label": "Vancomycin",
+      "official_name": "Vancomycin [Mass/volume] in Serum or Plasma",
+      "loinc_code": "20578-1",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51010",
+      "mimic_label": "Vitamin B12",
+      "official_name": "Deprecated Cobalamin [Mass/volume] in Serum",
+      "loinc_code": "2170-9",
+      "all_names_count": 18,
+      "results_count": 38
+    },
+    {
+      "itemid": "51011",
+      "mimic_label": "<Albumin>",
+      "official_name": "Albumin [Mass/volume] in Cerebral spinal fluid",
+      "loinc_code": "1746-7",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51012",
+      "mimic_label": "Bilirubin, Total, CSF",
+      "official_name": "Bilirubin.total [Mass/volume] in Cerebral spinal fluid",
+      "loinc_code": "1973-7",
+      "all_names_count": 23,
+      "results_count": 0
+    },
+    {
+      "itemid": "51013",
+      "mimic_label": "Chloride, CSF",
+      "official_name": "Chloride, CSF",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51014",
+      "mimic_label": "Glucose, CSF",
+      "official_name": "Glucose [Mass/volume] in Cerebral spinal fluid",
+      "loinc_code": "2342-4",
+      "all_names_count": 25,
+      "results_count": 11
+    },
+    {
+      "itemid": "51015",
+      "mimic_label": "Lactate Dehydrogenase, CSF",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Cerebral spinal fluid",
+      "loinc_code": "2528-8",
+      "all_names_count": 32,
+      "results_count": 2
+    },
+    {
+      "itemid": "51016",
+      "mimic_label": "Miscellaneous, CSF",
+      "official_name": "Miscellaneous, CSF",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51017",
+      "mimic_label": "PEP, CSF",
+      "official_name": "Protein electrophoresis panel - Cerebral spinal fluid",
+      "loinc_code": "24352-7",
+      "all_names_count": 30,
+      "results_count": 2
+    },
+    {
+      "itemid": "51018",
+      "mimic_label": "Total Protein, CSF",
+      "official_name": "Protein [Mass/volume] in Cerebral spinal fluid",
+      "loinc_code": "2880-3",
+      "all_names_count": 24,
+      "results_count": 11
+    },
+    {
+      "itemid": "51019",
+      "mimic_label": "Albumin, Joint Fluid",
+      "official_name": "Albumin, Joint Fluid",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51020",
+      "mimic_label": "Amylase, Joint Fluid",
+      "official_name": "Amylase [Enzymatic activity/volume] in Synovial fluid",
+      "loinc_code": "14388-3",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51021",
+      "mimic_label": "Creatinine, Joint Fluid",
+      "official_name": "Creatinine [Mass/volume] in Synovial fluid",
+      "loinc_code": "14401-4",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51022",
+      "mimic_label": "Glucose, Joint Fluid",
+      "official_name": "Glucose [Mass/volume] in Synovial fluid",
+      "loinc_code": "2348-1",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51023",
+      "mimic_label": "LD, Joint Fluid",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Synovial fluid",
+      "loinc_code": "2533-8",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51024",
+      "mimic_label": "Total Protein, Joint Fluid",
+      "official_name": "Protein [Mass/volume] in Synovial fluid",
+      "loinc_code": "2886-0",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51025",
+      "mimic_label": "Albumin, Body Fluid",
+      "official_name": "Albumin [Mass/volume] in Body fluid",
+      "loinc_code": "1747-5",
+      "all_names_count": 31,
+      "results_count": 2
+    },
+    {
+      "itemid": "51026",
+      "mimic_label": "Amylase, Body Fluid",
+      "official_name": "Amylase [Enzymatic activity/volume] in Body fluid",
+      "loinc_code": "1795-4",
+      "all_names_count": 31,
+      "results_count": 3
+    },
+    {
+      "itemid": "51027",
+      "mimic_label": "Bicarbonate, Other Fluid",
+      "official_name": "Carbon dioxide, total [Moles/volume] in Body fluid",
+      "loinc_code": "11211-0",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51028",
+      "mimic_label": "Bilirubin, Total, Body Fluid",
+      "official_name": "Bilirubin.total [Mass/volume] in Body fluid",
+      "loinc_code": "1974-5",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51029",
+      "mimic_label": "Calcium, Body Fluid",
+      "official_name": "Calcium [Mass/volume] in Body fluid",
+      "loinc_code": "15155-5",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51030",
+      "mimic_label": "Chloride, Body Fluid",
+      "official_name": "Chloride [Moles/volume] in Body fluid",
+      "loinc_code": "2072-7",
+      "all_names_count": 25,
+      "results_count": 1
+    },
+    {
+      "itemid": "51031",
+      "mimic_label": "Cholesterol, Body Fluid",
+      "official_name": "Cholesterol [Mass/volume] in Body fluid",
+      "loinc_code": "12183-0",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51032",
+      "mimic_label": "Creatinine, Body Fluid",
+      "official_name": "Creatinine [Mass/volume] in Body fluid",
+      "loinc_code": "12190-5",
+      "all_names_count": 30,
+      "results_count": 1
+    },
+    {
+      "itemid": "51033",
+      "mimic_label": "FetalFN",
+      "official_name": "FetalFN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51034",
+      "mimic_label": "Glucose, Body Fluid",
+      "official_name": "Glucose [Mass/volume] in Body fluid",
+      "loinc_code": "2344-0",
+      "all_names_count": 27,
+      "results_count": 2
+    },
+    {
+      "itemid": "51035",
+      "mimic_label": "LD, Body Fluid",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Body fluid",
+      "loinc_code": "2529-6",
+      "all_names_count": 36,
+      "results_count": 2
+    },
+    {
+      "itemid": "51036",
+      "mimic_label": "Lipase, Body Fluid",
+      "official_name": "Lipase [Enzymatic activity/volume] in Body fluid",
+      "loinc_code": "15212-4",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51037",
+      "mimic_label": "Magnesium, Body Fluid",
+      "official_name": "Magnesium [Mass/volume] in Body fluid",
+      "loinc_code": "29365-4",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51038",
+      "mimic_label": "Miscellaneous, Body Fluid",
+      "official_name": "Miscellaneous, Body Fluid",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51039",
+      "mimic_label": "Osmolality, Body Fluid",
+      "official_name": "Osmolality of Body fluid",
+      "loinc_code": "15200-9",
+      "all_names_count": 23,
+      "results_count": 0
+    },
+    {
+      "itemid": "51040",
+      "mimic_label": "Phosphate, Body Fluid",
+      "official_name": "Phosphate [Mass/volume] in Body fluid",
+      "loinc_code": "12242-4",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51041",
+      "mimic_label": "Potassium, Body Fluid",
+      "official_name": "Potassium [Moles/volume] in Body fluid",
+      "loinc_code": "2821-7",
+      "all_names_count": 25,
+      "results_count": 1
+    },
+    {
+      "itemid": "51042",
+      "mimic_label": "Sodium, Body Fluid",
+      "official_name": "Sodium [Moles/volume] in Body fluid",
+      "loinc_code": "2950-4",
+      "all_names_count": 25,
+      "results_count": 1
+    },
+    {
+      "itemid": "51043",
+      "mimic_label": "Total Protein, Body Fluid",
+      "official_name": "Protein [Mass/volume] in Body fluid",
+      "loinc_code": "2881-1",
+      "all_names_count": 26,
+      "results_count": 2
+    },
+    {
+      "itemid": "51044",
+      "mimic_label": "Triglycer",
+      "official_name": "Triglyceride [Mass/volume] in Body fluid",
+      "loinc_code": "12228-3",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51045",
+      "mimic_label": "Urea Nitrogen, Body Fluid",
+      "official_name": "Urea nitrogen [Mass/volume] in Body fluid",
+      "loinc_code": "3093-2",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51046",
+      "mimic_label": "Albumin, Pleural",
+      "official_name": "Albumin [Mass/volume] in Pleural fluid",
+      "loinc_code": "1748-3",
+      "all_names_count": 24,
+      "results_count": 3
+    },
+    {
+      "itemid": "51047",
+      "mimic_label": "Amylase, Pleural",
+      "official_name": "Amylase [Enzymatic activity/volume] in Pleural fluid",
+      "loinc_code": "1796-2",
+      "all_names_count": 24,
+      "results_count": 4
+    },
+    {
+      "itemid": "51048",
+      "mimic_label": "Bicarbonate, Pleural",
+      "official_name": "Bicarbonate [Moles/volume] in Pleural fluid",
+      "loinc_code": "54361-1",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51049",
+      "mimic_label": "Bilirubin, Total, Pleural",
+      "official_name": "Bilirubin.total [Mass/volume] in Pleural fluid",
+      "loinc_code": "14421-2",
+      "all_names_count": 20,
+      "results_count": 2
+    },
+    {
+      "itemid": "51050",
+      "mimic_label": "Chloride, Pleural",
+      "official_name": "Chloride [Moles/volume] in Pleural fluid",
+      "loinc_code": "53627-6",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "51051",
+      "mimic_label": "Cholesterol, Pleural",
+      "official_name": "Cholesterol [Mass/volume] in Pleural fluid",
+      "loinc_code": "9618-0",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51052",
+      "mimic_label": "Creatinine, Pleural",
+      "official_name": "Creatinine [Mass/volume] in Pleural fluid",
+      "loinc_code": "14399-0",
+      "all_names_count": 23,
+      "results_count": 1
+    },
+    {
+      "itemid": "51053",
+      "mimic_label": "Glucose, Pleural",
+      "official_name": "Glucose [Mass/volume] in Pleural fluid",
+      "loinc_code": "2346-5",
+      "all_names_count": 19,
+      "results_count": 7
+    },
+    {
+      "itemid": "51054",
+      "mimic_label": "Lactate Dehydrogenase, Pleural",
+      "official_name": "Lactate dehydrogenase [Enzymatic activity/volume] in Pleural fluid",
+      "loinc_code": "2530-4",
+      "all_names_count": 29,
+      "results_count": 8
+    },
+    {
+      "itemid": "51055",
+      "mimic_label": "Lipase, Pleural",
+      "official_name": "Lipase, Pleural",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51056",
+      "mimic_label": "Miscellaneous, Pleural",
+      "official_name": "Miscellaneous, Pleural",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51057",
+      "mimic_label": "Potassium, Pleural",
+      "official_name": "Potassium, Pleural",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51058",
+      "mimic_label": "Sodium, Pleural",
+      "official_name": "Sodium, Pleural",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51059",
+      "mimic_label": "Total Protein, Pleural",
+      "official_name": "Protein [Mass/volume] in Pleural fluid",
+      "loinc_code": "2882-9",
+      "all_names_count": 18,
+      "results_count": 8
+    },
+    {
+      "itemid": "51060",
+      "mimic_label": "Triglycerides, Pleural",
+      "official_name": "Triglyceride [Mass/volume] in Pleural fluid",
+      "loinc_code": "9619-8",
+      "all_names_count": 25,
+      "results_count": 3
+    },
+    {
+      "itemid": "51061",
+      "mimic_label": "Bicarbonate, Stool",
+      "official_name": "Carbon dioxide, total [Moles/volume] in Stool",
+      "loinc_code": "14040-0",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "51062",
+      "mimic_label": "Chloride, Stool",
+      "official_name": "Chloride [Moles/volume] in Stool",
+      "loinc_code": "15158-9",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51063",
+      "mimic_label": "Osmolality, Stool",
+      "official_name": "Osmolality of Stool",
+      "loinc_code": "2693-0",
+      "all_names_count": 20,
+      "results_count": 0
+    },
+    {
+      "itemid": "51064",
+      "mimic_label": "Potassium, Stool",
+      "official_name": "Potassium [Moles/volume] in Stool",
+      "loinc_code": "15202-5",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51065",
+      "mimic_label": "Sodium, Stool",
+      "official_name": "Sodium [Moles/volume] in Stool",
+      "loinc_code": "15207-4",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51066",
+      "mimic_label": "24 hr Calcium",
+      "official_name": "Calcium [Mass/time] in 24 hour Urine",
+      "loinc_code": "6874-2",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "51067",
+      "mimic_label": "24 hr Creatinine",
+      "official_name": "Creatinine [Mass/time] in 24 hour Urine",
+      "loinc_code": "2162-6",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51068",
+      "mimic_label": "24 hr Protein",
+      "official_name": "Protein [Mass/time] in 24 hour Urine",
+      "loinc_code": "2889-4",
+      "all_names_count": 23,
+      "results_count": 0
+    },
+    {
+      "itemid": "51069",
+      "mimic_label": "Albumin, Urine",
+      "official_name": "Albumin [Mass/volume] in Urine",
+      "loinc_code": "1754-1",
+      "all_names_count": 21,
+      "results_count": 3
+    },
+    {
+      "itemid": "51070",
+      "mimic_label": "Albumin/Creatinine, Urine",
+      "official_name": "Microalbumin/Creatinine [Mass Ratio] in 24 hour Urine",
+      "loinc_code": "14958-3",
+      "all_names_count": 34,
+      "results_count": 3
+    },
+    {
+      "itemid": "51071",
+      "mimic_label": "Amphetamine Screen, Urine",
+      "official_name": "Amphetamines [Presence] in Urine",
+      "loinc_code": "3349-8",
+      "all_names_count": 26,
+      "results_count": 19
+    },
+    {
+      "itemid": "51072",
+      "mimic_label": "Amylase, Urine",
+      "official_name": "Amylase [Enzymatic activity/volume] in Urine",
+      "loinc_code": "1799-6",
+      "all_names_count": 23,
+      "results_count": 1
+    },
+    {
+      "itemid": "51073",
+      "mimic_label": "Amylase/Creatinine Ratio, Urine",
+      "official_name": "Amylase/Creatinine [Ratio] in Urine",
+      "loinc_code": "34235-2",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51074",
+      "mimic_label": "Barbiturate Screen, Urine",
+      "official_name": "Barbiturates [Presence] in Urine",
+      "loinc_code": "3377-9",
+      "all_names_count": 25,
+      "results_count": 19
+    },
+    {
+      "itemid": "51075",
+      "mimic_label": "Benzodiazepine Screen, Urine",
+      "official_name": "Benzodiazepines [Presence] in Urine",
+      "loinc_code": "3390-2",
+      "all_names_count": 21,
+      "results_count": 19
+    },
+    {
+      "itemid": "51076",
+      "mimic_label": "Bicarbonate, Urine",
+      "official_name": "Bicarbonate [Moles/volume] in Urine",
+      "loinc_code": "1964-6",
+      "all_names_count": 20,
+      "results_count": 4
+    },
+    {
+      "itemid": "51077",
+      "mimic_label": "Calcium, Urine",
+      "official_name": "Calcium [Moles/volume] in Urine",
+      "loinc_code": "2004-0",
+      "all_names_count": 18,
+      "results_count": 0
+    },
+    {
+      "itemid": "51078",
+      "mimic_label": "Chloride, Urine",
+      "official_name": "Chloride [Moles/volume] in Urine",
+      "loinc_code": "2078-4",
+      "all_names_count": 19,
+      "results_count": 25
+    },
+    {
+      "itemid": "51079",
+      "mimic_label": "Cocaine, Urine",
+      "official_name": "Cocaine [Presence] in Urine",
+      "loinc_code": "3397-7",
+      "all_names_count": 27,
+      "results_count": 19
+    },
+    {
+      "itemid": "51080",
+      "mimic_label": "Creatinine Clearance",
+      "official_name": "Creatinine renal clearance in Urine and Serum or Plasma collected for unspecified duration",
+      "loinc_code": "33558-8",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "51081",
+      "mimic_label": "Creatinine, Serum",
+      "official_name": "Creatinine, Serum",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51082",
+      "mimic_label": "Creatinine, Urine",
+      "official_name": "Creatinine [Mass/volume] in Urine",
+      "loinc_code": "2161-8",
+      "all_names_count": 24,
+      "results_count": 50
+    },
+    {
+      "itemid": "51083",
+      "mimic_label": "Ethanol, Urine",
+      "official_name": "Ethanol [Presence] in Urine",
+      "loinc_code": "5644-0",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "51084",
+      "mimic_label": "Glucose, Urine",
+      "official_name": "Glucose [Mass/volume] in Urine",
+      "loinc_code": "2350-7",
+      "all_names_count": 20,
+      "results_count": 0
+    },
+    {
+      "itemid": "51085",
+      "mimic_label": "HCG, Urine, Qualitative",
+      "official_name": "Choriogonadotropin [Presence] in Urine",
+      "loinc_code": "2106-3",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "51086",
+      "mimic_label": "Immunofixation, Urine",
+      "official_name": "Immunofixation for Urine Narrative",
+      "loinc_code": "49276-9",
+      "all_names_count": 25,
+      "results_count": 4
+    },
+    {
+      "itemid": "51087",
+      "mimic_label": "Length of Urine Collection",
+      "official_name": "Specimen collection [Time] of Urine",
+      "loinc_code": "13362-9",
+      "all_names_count": 15,
+      "results_count": 50
+    },
+    {
+      "itemid": "51088",
+      "mimic_label": "Magnesium, Urine",
+      "official_name": "Magnesium [Moles/volume] in Urine",
+      "loinc_code": "2598-1",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51089",
+      "mimic_label": "Marijuana",
+      "official_name": "Cannabinoids [Presence] in Urine",
+      "loinc_code": "3427-2",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51090",
+      "mimic_label": "Methadone, Urine",
+      "official_name": "Methadone [Presence] in Urine",
+      "loinc_code": "3773-9",
+      "all_names_count": 27,
+      "results_count": 19
+    },
+    {
+      "itemid": "51091",
+      "mimic_label": "Myoglobin, Urine",
+      "official_name": "Myoglobin [Presence] in Urine",
+      "loinc_code": "2640-1",
+      "all_names_count": 19,
+      "results_count": 1
+    },
+    {
+      "itemid": "51092",
+      "mimic_label": "Opiate Screen, Urine",
+      "official_name": "Opiates [Presence] in Urine",
+      "loinc_code": "3879-4",
+      "all_names_count": 26,
+      "results_count": 19
+    },
+    {
+      "itemid": "51093",
+      "mimic_label": "Osmolality, Urine",
+      "official_name": "Osmolality of Urine",
+      "loinc_code": "2695-5",
+      "all_names_count": 20,
+      "results_count": 50
+    },
+    {
+      "itemid": "51094",
+      "mimic_label": "pH",
+      "official_name": "pH of Urine",
+      "loinc_code": "2756-5",
+      "all_names_count": 16,
+      "results_count": 5
+    },
+    {
+      "itemid": "51095",
+      "mimic_label": "Phosphate, Urine",
+      "official_name": "Phosphate [Mass/volume] in Urine",
+      "loinc_code": "2778-9",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51096",
+      "mimic_label": "Porphobilinogen Screen",
+      "official_name": "Porphobilinogen [Presence] in Urine",
+      "loinc_code": "2809-2",
+      "all_names_count": 23,
+      "results_count": 1
+    },
+    {
+      "itemid": "51097",
+      "mimic_label": "Potassium, Urine",
+      "official_name": "Potassium [Moles/volume] in Urine",
+      "loinc_code": "2828-2",
+      "all_names_count": 19,
+      "results_count": 26
+    },
+    {
+      "itemid": "51098",
+      "mimic_label": "Prot. Electrophoresis, Urine",
+      "official_name": "Protein Fractions [Interpretation] in Urine by Electrophoresis",
+      "loinc_code": "13438-7",
+      "all_names_count": 34,
+      "results_count": 8
+    },
+    {
+      "itemid": "51099",
+      "mimic_label": "Protein/Creatinine Ratio",
+      "official_name": "Protein/Creatinine [Mass Ratio] in Urine",
+      "loinc_code": "2890-2",
+      "all_names_count": 24,
+      "results_count": 12
+    },
+    {
+      "itemid": "51100",
+      "mimic_label": "Sodium, Urine",
+      "official_name": "Sodium [Moles/volume] in Urine",
+      "loinc_code": "2955-3",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "51101",
+      "mimic_label": "Total Collection Time",
+      "official_name": "Specimen collection [Time] of Urine",
+      "loinc_code": "13362-9",
+      "all_names_count": 15,
+      "results_count": 0
+    },
+    {
+      "itemid": "51102",
+      "mimic_label": "Total Protein, Urine",
+      "official_name": "Protein [Presence] in Urine",
+      "loinc_code": "2887-8",
+      "all_names_count": 20,
+      "results_count": 17
+    },
+    {
+      "itemid": "51103",
+      "mimic_label": "Uhold",
+      "official_name": "Uhold",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 8
+    },
+    {
+      "itemid": "51104",
+      "mimic_label": "Urea Nitrogen, Urine",
+      "official_name": "Urea nitrogen [Mass/volume] in Urine",
+      "loinc_code": "3095-7",
+      "all_names_count": 22,
+      "results_count": 44
+    },
+    {
+      "itemid": "51105",
+      "mimic_label": "Uric Acid, Urine",
+      "official_name": "Urate [Mass/volume] in Urine",
+      "loinc_code": "3086-6",
+      "all_names_count": 19,
+      "results_count": 1
+    },
+    {
+      "itemid": "51106",
+      "mimic_label": "Urine Creatinine",
+      "official_name": "Urine Creatinine",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51107",
+      "mimic_label": "Urine tube, held",
+      "official_name": "Urine tube, held",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51108",
+      "mimic_label": "Urine Volume",
+      "official_name": "Volume of Urine",
+      "loinc_code": "28009-9",
+      "all_names_count": 17,
+      "results_count": 5
+    },
+    {
+      "itemid": "51109",
+      "mimic_label": "Urine Volume, Total",
+      "official_name": "Volume of Urine",
+      "loinc_code": "28009-9",
+      "all_names_count": 17,
+      "results_count": 0
+    }
+  ],
+  "Hematology": [
+    {
+      "itemid": "51110",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes/Leukocytes in Peritoneal fluid",
+      "loinc_code": "33369-0",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51111",
+      "mimic_label": "Bands",
+      "official_name": "Bands",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51112",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils/Leukocytes in Peritoneal fluid",
+      "loinc_code": "35069-4",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51113",
+      "mimic_label": "Blasts",
+      "official_name": "Blasts",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51114",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils/Leukocytes in Peritoneal fluid",
+      "loinc_code": "30380-0",
+      "all_names_count": 31,
+      "results_count": 5
+    },
+    {
+      "itemid": "51115",
+      "mimic_label": "Hematocrit, Ascites",
+      "official_name": "Hematocrit, Ascites",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51116",
+      "mimic_label": "Lymphocytes",
+      "official_name": "Lymphocytes/Leukocytes in Peritoneal fluid",
+      "loinc_code": "26482-0",
+      "all_names_count": 32,
+      "results_count": 19
+    },
+    {
+      "itemid": "51117",
+      "mimic_label": "Macrophage",
+      "official_name": "Macrophages/Leukocytes in Peritoneal fluid by Manual count",
+      "loinc_code": "40517-5",
+      "all_names_count": 30,
+      "results_count": 13
+    },
+    {
+      "itemid": "51118",
+      "mimic_label": "Mesothelial Cell",
+      "official_name": "Mesothelial cells/Leukocytes in Peritoneal fluid",
+      "loinc_code": "30432-9",
+      "all_names_count": 30,
+      "results_count": 13
+    },
+    {
+      "itemid": "51119",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51120",
+      "mimic_label": "Monocytes",
+      "official_name": "Monocytes/Leukocytes in Peritoneal fluid",
+      "loinc_code": "26488-7",
+      "all_names_count": 29,
+      "results_count": 19
+    },
+    {
+      "itemid": "51121",
+      "mimic_label": "Myelocytes",
+      "official_name": "Myelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51122",
+      "mimic_label": "Nucleated RBC",
+      "official_name": "Nucleated RBC",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51123",
+      "mimic_label": "Other",
+      "official_name": "Other",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51124",
+      "mimic_label": "Plasma",
+      "official_name": "Plasma cells/Leukocytes in Peritoneal fluid by Manual count",
+      "loinc_code": "40518-3",
+      "all_names_count": 32,
+      "results_count": 1
+    },
+    {
+      "itemid": "51125",
+      "mimic_label": "Polys",
+      "official_name": "Granulocytes/Leukocytes in Peritoneal fluid",
+      "loinc_code": "26520-7",
+      "all_names_count": 30,
+      "results_count": 19
+    },
+    {
+      "itemid": "51126",
+      "mimic_label": "Promyelocytes",
+      "official_name": "Promyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51127",
+      "mimic_label": "RBC, Ascites",
+      "official_name": "Erythrocytes [#/volume] in Peritoneal fluid",
+      "loinc_code": "26457-2",
+      "all_names_count": 36,
+      "results_count": 19
+    },
+    {
+      "itemid": "51128",
+      "mimic_label": "WBC, Ascites",
+      "official_name": "Leukocytes [#/volume] in Peritoneal fluid",
+      "loinc_code": "26468-9",
+      "all_names_count": 33,
+      "results_count": 19
+    },
+    {
+      "itemid": "51129",
+      "mimic_label": "Young",
+      "official_name": "Young",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51130",
+      "mimic_label": "Absolute CD3 Count",
+      "official_name": "CD3 cells/cells in Blood",
+      "loinc_code": "8124-0",
+      "all_names_count": 22,
+      "results_count": 1
+    },
+    {
+      "itemid": "51131",
+      "mimic_label": "Absolute CD4 Count",
+      "official_name": "Deprecated CD4 cells/100 cells in Blood",
+      "loinc_code": "8128-1",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51132",
+      "mimic_label": "Absolute CD8 Count",
+      "official_name": "Deprecated CD8 cells/100 cells in Blood",
+      "loinc_code": "8138-0",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51133",
+      "mimic_label": "Absolute Lymphocyte Count",
+      "official_name": "Lymphocytes [#/volume] in Blood",
+      "loinc_code": "26474-7",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51134",
+      "mimic_label": "Acanthocytes",
+      "official_name": "Acanthocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "7789-1",
+      "all_names_count": 22,
+      "results_count": 7
+    },
+    {
+      "itemid": "51135",
+      "mimic_label": "ADP",
+      "official_name": "ADP",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51136",
+      "mimic_label": "Alpha Antiplasmin",
+      "official_name": "Alpha Antiplasmin",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51137",
+      "mimic_label": "Anisocytosis",
+      "official_name": "Anisocytosis [Presence] in Blood by Light microscopy",
+      "loinc_code": "702-1",
+      "all_names_count": 21,
+      "results_count": 50
+    },
+    {
+      "itemid": "51138",
+      "mimic_label": "Anticardiolipin Antibody IgG",
+      "official_name": "Cardiolipin IgG Ab [Units/volume] in Serum or Plasma",
+      "loinc_code": "8065-5",
+      "all_names_count": 41,
+      "results_count": 0
+    },
+    {
+      "itemid": "51139",
+      "mimic_label": "Anticardiolipin Antibody IgM",
+      "official_name": "Cardiolipin IgM Ab [Units/volume] in Serum by Immunoassay",
+      "loinc_code": "3182-3",
+      "all_names_count": 42,
+      "results_count": 0
+    },
+    {
+      "itemid": "51140",
+      "mimic_label": "Antithrombin",
+      "official_name": "Antithrombin actual/normal in Platelet poor plasma by Chromogenic method",
+      "loinc_code": "27811-9",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51141",
+      "mimic_label": "APT Test",
+      "official_name": "APT Test",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51142",
+      "mimic_label": "Arachadonic Acid",
+      "official_name": "Arachadonic Acid",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51143",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "733-6",
+      "all_names_count": 30,
+      "results_count": 50
+    },
+    {
+      "itemid": "51144",
+      "mimic_label": "Bands",
+      "official_name": "Band form neutrophils [#/volume] in Blood by Manual count",
+      "loinc_code": "763-3",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "51145",
+      "mimic_label": "Basophilic Stippling",
+      "official_name": "Basophilic stippling [Presence] in Blood by Light microscopy",
+      "loinc_code": "703-9",
+      "all_names_count": 23,
+      "results_count": 20
+    },
+    {
+      "itemid": "51146",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils [#/volume] in Blood by Automated count",
+      "loinc_code": "704-7",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "51147",
+      "mimic_label": "Bite Cells",
+      "official_name": "Bite cells [Presence] in Blood by Light microscopy",
+      "loinc_code": "10371-3",
+      "all_names_count": 23,
+      "results_count": 4
+    },
+    {
+      "itemid": "51148",
+      "mimic_label": "Blasts",
+      "official_name": "Blasts [#/volume] in Blood by Manual count",
+      "loinc_code": "708-8",
+      "all_names_count": 25,
+      "results_count": 10
+    },
+    {
+      "itemid": "51149",
+      "mimic_label": "Bleeding Time",
+      "official_name": "Bleeding time",
+      "loinc_code": "11067-6",
+      "all_names_count": 16,
+      "results_count": 0
+    },
+    {
+      "itemid": "51150",
+      "mimic_label": "Blood Parasite Smear",
+      "official_name": "Parasite identified in Blood",
+      "loinc_code": "24429-3",
+      "all_names_count": 16,
+      "results_count": 1
+    },
+    {
+      "itemid": "51151",
+      "mimic_label": "Burr Cells",
+      "official_name": "Burr cells [Presence] in Blood by Light microscopy",
+      "loinc_code": "7790-9",
+      "all_names_count": 26,
+      "results_count": 31
+    },
+    {
+      "itemid": "51152",
+      "mimic_label": "CD10",
+      "official_name": "CD10 cells/cells in Blood",
+      "loinc_code": "8107-5",
+      "all_names_count": 28,
+      "results_count": 3
+    },
+    {
+      "itemid": "51153",
+      "mimic_label": "CD103",
+      "official_name": "CD103",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51154",
+      "mimic_label": "CD117",
+      "official_name": "CD117 cells/cells in Blood",
+      "loinc_code": "17107-4",
+      "all_names_count": 22,
+      "results_count": 2
+    },
+    {
+      "itemid": "51155",
+      "mimic_label": "CD11c",
+      "official_name": "CD11c cells/cells in Blood",
+      "loinc_code": "8109-1",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51156",
+      "mimic_label": "CD13",
+      "official_name": "CD13 cells/cells in Blood",
+      "loinc_code": "8110-9",
+      "all_names_count": 26,
+      "results_count": 3
+    },
+    {
+      "itemid": "51157",
+      "mimic_label": "CD138",
+      "official_name": "CD138 cells/cells in Blood",
+      "loinc_code": "42869-8",
+      "all_names_count": 21,
+      "results_count": 0
+    },
+    {
+      "itemid": "51158",
+      "mimic_label": "CD14",
+      "official_name": "CD14 cells/cells in Blood",
+      "loinc_code": "8111-7",
+      "all_names_count": 27,
+      "results_count": 2
+    },
+    {
+      "itemid": "51159",
+      "mimic_label": "CD15",
+      "official_name": "CD15 cells/cells in Blood",
+      "loinc_code": "17117-3",
+      "all_names_count": 32,
+      "results_count": 2
+    },
+    {
+      "itemid": "51160",
+      "mimic_label": "CD16/56",
+      "official_name": "CD16+CD56+ cells/cells in Blood",
+      "loinc_code": "18267-5",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51161",
+      "mimic_label": "CD16",
+      "official_name": "CD16 cells/cells in Blood",
+      "loinc_code": "8115-8",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51162",
+      "mimic_label": "CD16/56 Absolute Count",
+      "official_name": "CD16/56 Absolute Count",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51163",
+      "mimic_label": "CD16/56%",
+      "official_name": "CD16/56%",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51164",
+      "mimic_label": "CD19",
+      "official_name": "CD19 cells/cells in Blood",
+      "loinc_code": "8117-4",
+      "all_names_count": 25,
+      "results_count": 3
+    },
+    {
+      "itemid": "51165",
+      "mimic_label": "CD19 %",
+      "official_name": "CD19 %",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51166",
+      "mimic_label": "CD19 Absolute Count",
+      "official_name": "CD19 Absolute Count",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51167",
+      "mimic_label": "CD2",
+      "official_name": "CD2 cells/cells in Blood",
+      "loinc_code": "8118-2",
+      "all_names_count": 26,
+      "results_count": 2
+    },
+    {
+      "itemid": "51168",
+      "mimic_label": "CD20",
+      "official_name": "CD20 cells/cells in Blood",
+      "loinc_code": "8119-0",
+      "all_names_count": 25,
+      "results_count": 3
+    },
+    {
+      "itemid": "51169",
+      "mimic_label": "CD20 %",
+      "official_name": "CD20 %",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51170",
+      "mimic_label": "CD20 Absolute Count",
+      "official_name": "CD20 Absolute Count",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51171",
+      "mimic_label": "CD22",
+      "official_name": "CD22 cells/cells in Blood",
+      "loinc_code": "14017-8",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51172",
+      "mimic_label": "CD23",
+      "official_name": "CD23 cells/cells in Blood",
+      "loinc_code": "14018-6",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51173",
+      "mimic_label": "CD25",
+      "official_name": "CD25",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51174",
+      "mimic_label": "CD3 %",
+      "official_name": "CD3 %",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51175",
+      "mimic_label": "CD3 Absolute Count",
+      "official_name": "CD3 Absolute Count",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51176",
+      "mimic_label": "CD3 Cells, Percent",
+      "official_name": "CD3 cells [#/volume] in Blood",
+      "loinc_code": "8122-4",
+      "all_names_count": 29,
+      "results_count": 3
+    },
+    {
+      "itemid": "51177",
+      "mimic_label": "CD33",
+      "official_name": "CD33 cells/cells in Blood",
+      "loinc_code": "8102-6",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51178",
+      "mimic_label": "CD34",
+      "official_name": "CD34 cells/cells in Blood",
+      "loinc_code": "8125-7",
+      "all_names_count": 25,
+      "results_count": 3
+    },
+    {
+      "itemid": "51179",
+      "mimic_label": "CD38",
+      "official_name": "CD38 cells/cells in Blood",
+      "loinc_code": "8126-5",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51180",
+      "mimic_label": "CD4 Cells, Percent",
+      "official_name": "Deprecated CD4 cells [#/volume] in Blood",
+      "loinc_code": "8127-3",
+      "all_names_count": 34,
+      "results_count": 3
+    },
+    {
+      "itemid": "51181",
+      "mimic_label": "CD4/CD8 Ratio",
+      "official_name": "Deprecated CD4 cells/CD8 Cells [# Ratio] in Blood",
+      "loinc_code": "8129-9",
+      "all_names_count": 33,
+      "results_count": 1
+    },
+    {
+      "itemid": "51182",
+      "mimic_label": "CD41",
+      "official_name": "CD41 cells/cells in Blood",
+      "loinc_code": "17148-8",
+      "all_names_count": 22,
+      "results_count": 2
+    },
+    {
+      "itemid": "51183",
+      "mimic_label": "CD45",
+      "official_name": "CD45 (Lymphs) cells/cells in Blood",
+      "loinc_code": "8130-7",
+      "all_names_count": 29,
+      "results_count": 3
+    },
+    {
+      "itemid": "51184",
+      "mimic_label": "CD5",
+      "official_name": "CD5 cells/cells in Blood",
+      "loinc_code": "8132-3",
+      "all_names_count": 24,
+      "results_count": 3
+    },
+    {
+      "itemid": "51185",
+      "mimic_label": "CD5 %",
+      "official_name": "CD5 %",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51186",
+      "mimic_label": "CD5 Absolute Count",
+      "official_name": "CD5 Absolute Count",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51187",
+      "mimic_label": "CD55",
+      "official_name": "CD55 cells/cells in Blood",
+      "loinc_code": "17175-1",
+      "all_names_count": 21,
+      "results_count": 0
+    },
+    {
+      "itemid": "51188",
+      "mimic_label": "CD56",
+      "official_name": "CD56 cells/cells in Blood",
+      "loinc_code": "8133-1",
+      "all_names_count": 24,
+      "results_count": 2
+    },
+    {
+      "itemid": "51189",
+      "mimic_label": "CD57",
+      "official_name": "CD57",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51190",
+      "mimic_label": "CD59",
+      "official_name": "CD59 cells/cells in Blood",
+      "loinc_code": "17177-7",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51191",
+      "mimic_label": "CD64",
+      "official_name": "CD64 cells/cells in Blood",
+      "loinc_code": "17183-5",
+      "all_names_count": 23,
+      "results_count": 2
+    },
+    {
+      "itemid": "51192",
+      "mimic_label": "CD7",
+      "official_name": "CD7 cells/cells in Blood",
+      "loinc_code": "8135-6",
+      "all_names_count": 24,
+      "results_count": 2
+    },
+    {
+      "itemid": "51193",
+      "mimic_label": "CD71",
+      "official_name": "CD71 cells/cells in Blood",
+      "loinc_code": "8136-4",
+      "all_names_count": 22,
+      "results_count": 2
+    },
+    {
+      "itemid": "51194",
+      "mimic_label": "CD8 Cells, Percent",
+      "official_name": "Deprecated CD8 cells [#/volume] in Blood",
+      "loinc_code": "8137-2",
+      "all_names_count": 32,
+      "results_count": 3
+    },
+    {
+      "itemid": "51195",
+      "mimic_label": "Collagen",
+      "official_name": "Collagen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51196",
+      "mimic_label": "D-Dimer",
+      "official_name": "Fibrin D-dimer FEU [Mass/volume] in Platelet poor plasma",
+      "loinc_code": "48065-7",
+      "all_names_count": 21,
+      "results_count": 26
+    },
+    {
+      "itemid": "51197",
+      "mimic_label": "Elliptocytes",
+      "official_name": "Microscopic observation [Identifier] in Tissue by Wright stain",
+      "loinc_code": "6681-1",
+      "all_names_count": 19,
+      "results_count": 9
+    },
+    {
+      "itemid": "51198",
+      "mimic_label": "Envelope Cells",
+      "official_name": "Microscopic observation [Identifier] in Specimen by Wright stain",
+      "loinc_code": "681-7",
+      "all_names_count": 24,
+      "results_count": 2
+    },
+    {
+      "itemid": "51199",
+      "mimic_label": "Eosinophil Count",
+      "official_name": "Eosinophils [#/volume] in Blood",
+      "loinc_code": "26449-9",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51200",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils [#/volume] in Blood by Automated count",
+      "loinc_code": "711-2",
+      "all_names_count": 34,
+      "results_count": 50
+    },
+    {
+      "itemid": "51201",
+      "mimic_label": "Epinepherine",
+      "official_name": "Epinepherine",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51202",
+      "mimic_label": "Factor II",
+      "official_name": "Prothrombin activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3289-6",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51203",
+      "mimic_label": "Factor IX",
+      "official_name": "Coagulation factor IX activity [Units/volume] in Platelet poor plasma by Chromogenic method",
+      "loinc_code": "3188-0",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51204",
+      "mimic_label": "Factor V",
+      "official_name": "Coagulation factor V activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3193-0",
+      "all_names_count": 34,
+      "results_count": 1
+    },
+    {
+      "itemid": "51205",
+      "mimic_label": "Factor VII",
+      "official_name": "Coagulation factor VII activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3198-9",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51206",
+      "mimic_label": "Factor VIII",
+      "official_name": "Coagulation factor VIII activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3209-4",
+      "all_names_count": 40,
+      "results_count": 2
+    },
+    {
+      "itemid": "51207",
+      "mimic_label": "Factor VIII Inhibitor",
+      "official_name": "Coagulation factor VIII inhibitor [Units/volume] in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3204-5",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "51208",
+      "mimic_label": "Factor X",
+      "official_name": "Coagulation factor X activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3218-5",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51209",
+      "mimic_label": "Factor XI",
+      "official_name": "Coagulation factor XI activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3226-8",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51210",
+      "mimic_label": "Factor XII",
+      "official_name": "Coagulation factor XII activity actual/normal in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3232-6",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51211",
+      "mimic_label": "Factor XIII",
+      "official_name": "Coagulation factor XIII coagulum dissolution [Units/volume] in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3240-9",
+      "all_names_count": 32,
+      "results_count": 1
+    },
+    {
+      "itemid": "51212",
+      "mimic_label": "Fetal Hemoglobin",
+      "official_name": "Hemoglobin F/Hemoglobin.total in Blood",
+      "loinc_code": "4576-5",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51213",
+      "mimic_label": "Fibrin Degradation Products",
+      "official_name": "Fibrin+Fibrinogen fragments [Mass/volume] in Platelet poor plasma",
+      "loinc_code": "30226-5",
+      "all_names_count": 30,
+      "results_count": 21
+    },
+    {
+      "itemid": "51214",
+      "mimic_label": "Fibrinogen, Functional",
+      "official_name": "Fibrinogen [Mass/volume] in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "3255-7",
+      "all_names_count": 24,
+      "results_count": 50
+    },
+    {
+      "itemid": "51215",
+      "mimic_label": "FMC-7",
+      "official_name": "FMC7 cells/cells in Blood",
+      "loinc_code": "17220-5",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51216",
+      "mimic_label": "Fragmented Cells",
+      "official_name": "Fragments [Presence] in Blood by Light microscopy",
+      "loinc_code": "10373-9",
+      "all_names_count": 22,
+      "results_count": 9
+    },
+    {
+      "itemid": "51217",
+      "mimic_label": "Glyco A",
+      "official_name": "CD235a cells/cells in Blood",
+      "loinc_code": "17221-3",
+      "all_names_count": 21,
+      "results_count": 2
+    },
+    {
+      "itemid": "51218",
+      "mimic_label": "Granulocyte Count",
+      "official_name": "Granulocytes [#/volume] in Blood",
+      "loinc_code": "30394-1",
+      "all_names_count": 27,
+      "results_count": 50
+    },
+    {
+      "itemid": "51219",
+      "mimic_label": "H/O Smear",
+      "official_name": "TBX5 gene mutations found [Identifier] in Blood or Tissue by Molecular genetics method Nominal",
+      "loinc_code": "38924-7",
+      "all_names_count": 29,
+      "results_count": 4
+    },
+    {
+      "itemid": "51220",
+      "mimic_label": "Heinz Body Prep",
+      "official_name": "Heinz bodies [Presence] in Blood",
+      "loinc_code": "48068-1",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51221",
+      "mimic_label": "Hematocrit",
+      "official_name": "Hematocrit [Volume Fraction] of Blood by Automated count",
+      "loinc_code": "4544-3",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "51222",
+      "mimic_label": "Hemoglobin",
+      "official_name": "Hemoglobin [Mass/volume] in Blood",
+      "loinc_code": "718-7",
+      "all_names_count": 20,
+      "results_count": 50
+    },
+    {
+      "itemid": "51223",
+      "mimic_label": "Hemoglobin A2",
+      "official_name": "Hemoglobin A2/Hemoglobin.total in Blood by Electrophoresis",
+      "loinc_code": "4552-6",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51224",
+      "mimic_label": "Hemoglobin C",
+      "official_name": "Hemoglobin C/Hemoglobin.total in Blood by Electrophoresis acid (pH 6.3)",
+      "loinc_code": "4561-7",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51225",
+      "mimic_label": "Hemoglobin F",
+      "official_name": "Hemoglobin F [Units/volume] in Blood by Electrophoresis",
+      "loinc_code": "9749-3",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51226",
+      "mimic_label": "Hemogloblin A",
+      "official_name": "Hemoglobin A [Units/volume] in Blood by Electrophoresis",
+      "loinc_code": "10346-5",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51227",
+      "mimic_label": "Hemogloblin S",
+      "official_name": "Hemoglobin S [Presence] in Blood by Electrophoresis acid (pH 6.3)",
+      "loinc_code": "4622-7",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "51228",
+      "mimic_label": "Heparin",
+      "official_name": "Heparin [Units/volume] in Platelet poor plasma",
+      "loinc_code": "13055-9",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51229",
+      "mimic_label": "Heparin, LMW",
+      "official_name": "LMW Heparin [Units/volume] in Platelet poor plasma",
+      "loinc_code": "32684-3",
+      "all_names_count": 24,
+      "results_count": 4
+    },
+    {
+      "itemid": "51230",
+      "mimic_label": "HLA-DR",
+      "official_name": "HLA-DR [Presence]",
+      "loinc_code": "32621-5",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51231",
+      "mimic_label": "Howell-Jolly Bodies",
+      "official_name": "Howell-Jolly bodies [Presence] in Blood by Light microscopy",
+      "loinc_code": "7793-3",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51232",
+      "mimic_label": "Hypersegmented Neutrophils",
+      "official_name": "Neutrophils.hypersegmented [#/volume] in Blood by Manual count",
+      "loinc_code": "766-6",
+      "all_names_count": 33,
+      "results_count": 1
+    },
+    {
+      "itemid": "51233",
+      "mimic_label": "Hypochromia",
+      "official_name": "Hypochromia [Presence] in Blood by Light microscopy",
+      "loinc_code": "728-6",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51234",
+      "mimic_label": "Immunophenotyping",
+      "official_name": "Immunophenotyping",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51235",
+      "mimic_label": "Inhibitor Screen",
+      "official_name": "Inhibitor Screen",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51236",
+      "mimic_label": "Inpatient Hematology/Oncology Smear",
+      "official_name": "Inpatient Hematology/Oncology Smear",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 7
+    },
+    {
+      "itemid": "51237",
+      "mimic_label": "INR(PT)",
+      "official_name": "Deprecated INR in Platelet poor plasma by Coagulation assay",
+      "loinc_code": "5895-7",
+      "all_names_count": 34,
+      "results_count": 50
+    },
+    {
+      "itemid": "51238",
+      "mimic_label": "Kappa",
+      "official_name": "Kappa",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 3
+    },
+    {
+      "itemid": "51239",
+      "mimic_label": "Lambda",
+      "official_name": "Lambda",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 3
+    },
+    {
+      "itemid": "51240",
+      "mimic_label": "Large Platelets",
+      "official_name": "Platelets Large [Presence] in Blood by Automated count",
+      "loinc_code": "34167-7",
+      "all_names_count": 30,
+      "results_count": 23
+    },
+    {
+      "itemid": "51241",
+      "mimic_label": "Leukocyte Alkaline Phosphatase",
+      "official_name": "Leukocyte phosphatase [Enzymatic activity/volume] in Leukocytes",
+      "loinc_code": "4659-9",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51242",
+      "mimic_label": "LUC",
+      "official_name": "LUC",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51243",
+      "mimic_label": "Lupus Anticoagulant",
+      "official_name": "Lupus Anticoagulant",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51244",
+      "mimic_label": "Lymphocytes",
+      "official_name": "Lymphocytes [#/volume] in Blood by Automated count",
+      "loinc_code": "731-0",
+      "all_names_count": 34,
+      "results_count": 50
+    },
+    {
+      "itemid": "51245",
+      "mimic_label": "Lymphocytes, Percent",
+      "official_name": "Lymphocytes/Leukocytes in Blood",
+      "loinc_code": "26478-8",
+      "all_names_count": 30,
+      "results_count": 1
+    },
+    {
+      "itemid": "51246",
+      "mimic_label": "Macrocytes",
+      "official_name": "Macrocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "738-5",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51247",
+      "mimic_label": "MacroOvalocytes",
+      "official_name": "Oval macrocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "10376-2",
+      "all_names_count": 24,
+      "results_count": 1
+    },
+    {
+      "itemid": "51248",
+      "mimic_label": "MCH",
+      "official_name": "MCH [Entitic mass] by Automated count",
+      "loinc_code": "785-6",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51249",
+      "mimic_label": "MCHC",
+      "official_name": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+      "loinc_code": "786-4",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51250",
+      "mimic_label": "MCV",
+      "official_name": "MCV [Entitic mean volume] in Red Blood Cells by Automated count",
+      "loinc_code": "787-2",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "51251",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes/Leukocytes in Blood",
+      "loinc_code": "28541-1",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51252",
+      "mimic_label": "Microcytes",
+      "official_name": "Microcytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "741-9",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51253",
+      "mimic_label": "Monocyte Count",
+      "official_name": "Monocytes [#/volume] in Blood",
+      "loinc_code": "26484-6",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51254",
+      "mimic_label": "Monocytes",
+      "official_name": "Monocytes [#/volume] in Blood by Automated count",
+      "loinc_code": "742-7",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51255",
+      "mimic_label": "Myelocytes",
+      "official_name": "Myelocytes/Leukocytes in Blood",
+      "loinc_code": "26498-6",
+      "all_names_count": 29,
+      "results_count": 50
+    },
+    {
+      "itemid": "51256",
+      "mimic_label": "Neutrophils",
+      "official_name": "Neutrophils [#/volume] in Urine by Automated count",
+      "loinc_code": "761-7",
+      "all_names_count": 33,
+      "results_count": 50
+    },
+    {
+      "itemid": "51257",
+      "mimic_label": "Nucleated Red Cells",
+      "official_name": "Nucleated erythrocytes [#/volume] in Blood by Manual count",
+      "loinc_code": "772-4",
+      "all_names_count": 40,
+      "results_count": 33
+    },
+    {
+      "itemid": "51258",
+      "mimic_label": "Osmotic Fragility",
+      "official_name": "Osmotic fragility [Interpretation] of Red Blood Cells",
+      "loinc_code": "34964-7",
+      "all_names_count": 21,
+      "results_count": 0
+    },
+    {
+      "itemid": "51259",
+      "mimic_label": "Other Cells",
+      "official_name": "Leukocytes other [#/volume] in Blood by Manual count",
+      "loinc_code": "729-4",
+      "all_names_count": 34,
+      "results_count": 6
+    },
+    {
+      "itemid": "51260",
+      "mimic_label": "Ovalocytes",
+      "official_name": "Ovalocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "774-0",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51261",
+      "mimic_label": "Pappenheimer Bodies",
+      "official_name": "Pappenheimer bodies [Presence] in Blood by Light microscopy",
+      "loinc_code": "7795-8",
+      "all_names_count": 22,
+      "results_count": 0
+    },
+    {
+      "itemid": "51262",
+      "mimic_label": "Pencil Cells",
+      "official_name": "Pencil cells [Presence] in Blood by Light microscopy",
+      "loinc_code": "10377-0",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51263",
+      "mimic_label": "Plasma Cells",
+      "official_name": "Plasma cells/Leukocytes in Blood",
+      "loinc_code": "13047-6",
+      "all_names_count": 29,
+      "results_count": 4
+    },
+    {
+      "itemid": "51264",
+      "mimic_label": "Platelet Clumps",
+      "official_name": "Platelet clump [Presence] in Blood by Automated count",
+      "loinc_code": "40741-1",
+      "all_names_count": 27,
+      "results_count": 1
+    },
+    {
+      "itemid": "51265",
+      "mimic_label": "Platelet Count",
+      "official_name": "Platelets [#/volume] in Blood by Automated count",
+      "loinc_code": "777-3",
+      "all_names_count": 36,
+      "results_count": 50
+    },
+    {
+      "itemid": "51266",
+      "mimic_label": "Platelet Smear",
+      "official_name": "Platelets [#/volume] in Blood by Manual count",
+      "loinc_code": "778-1",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51267",
+      "mimic_label": "Poikilocytosis",
+      "official_name": "Poikilocytosis [Presence] in Blood by Light microscopy",
+      "loinc_code": "779-9",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51268",
+      "mimic_label": "Polychromasia",
+      "official_name": "Polychromasia [Presence] in Blood by Light microscopy",
+      "loinc_code": "10378-8",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51269",
+      "mimic_label": "Promyelocytes",
+      "official_name": "Promyelocytes [#/volume] in Blood by Manual count",
+      "loinc_code": "781-5",
+      "all_names_count": 31,
+      "results_count": 9
+    },
+    {
+      "itemid": "51270",
+      "mimic_label": "Protein C, Antigen",
+      "official_name": "Protein C Ag actual/normal in Platelet poor plasma by Immunoassay",
+      "loinc_code": "27820-0",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "51271",
+      "mimic_label": "Protein C, Functional",
+      "official_name": "Protein C actual/normal in Platelet poor plasma by Chromogenic method",
+      "loinc_code": "27818-4",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "51272",
+      "mimic_label": "Protein S, Antigen",
+      "official_name": "Protein S Ag actual/normal in Platelet poor plasma by Immunoassay",
+      "loinc_code": "27823-4",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51273",
+      "mimic_label": "Protein S, Functional",
+      "official_name": "Protein S actual/normal in Platelet poor plasma by Chromogenic method",
+      "loinc_code": "31102-7",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51274",
+      "mimic_label": "PT",
+      "official_name": "Prothrombin time (PT)",
+      "loinc_code": "5902-2",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51275",
+      "mimic_label": "PTT",
+      "official_name": "aPTT in Blood by Coagulation assay",
+      "loinc_code": "3173-2",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51276",
+      "mimic_label": "Quantitative G6PD",
+      "official_name": "Glucose-6-Phosphate dehydrogenase [Enzymatic activity/mass] in Red Blood Cells",
+      "loinc_code": "32546-4",
+      "all_names_count": 40,
+      "results_count": 1
+    },
+    {
+      "itemid": "51277",
+      "mimic_label": "RDW",
+      "official_name": "Erythrocyte [DistWidth] in Blood by Automated count",
+      "loinc_code": "788-0",
+      "all_names_count": 29,
+      "results_count": 50
+    },
+    {
+      "itemid": "51278",
+      "mimic_label": "Red Blood Cell Fragments",
+      "official_name": "Red Blood Cell Fragments",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 7
+    },
+    {
+      "itemid": "51279",
+      "mimic_label": "Red Blood Cells",
+      "official_name": "Erythrocytes [#/volume] in Blood by Automated count",
+      "loinc_code": "789-8",
+      "all_names_count": 40,
+      "results_count": 50
+    },
+    {
+      "itemid": "51280",
+      "mimic_label": "Reptilase Time",
+      "official_name": "Reptilase time",
+      "loinc_code": "6683-7",
+      "all_names_count": 18,
+      "results_count": 0
+    },
+    {
+      "itemid": "51281",
+      "mimic_label": "Reptilase Time Control",
+      "official_name": "Reptilase Time Control",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51282",
+      "mimic_label": "Reticulocyte Count, Absolute",
+      "official_name": "Reticulocytes [#/volume] in Blood",
+      "loinc_code": "14196-0",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51283",
+      "mimic_label": "Reticulocyte Count, Automated",
+      "official_name": "Reticulocytes/Erythrocytes in Blood by Automated count",
+      "loinc_code": "17849-1",
+      "all_names_count": 39,
+      "results_count": 37
+    },
+    {
+      "itemid": "51284",
+      "mimic_label": "Reticulocyte Count, Manual",
+      "official_name": "Reticulocytes/Erythrocytes in Blood by Manual",
+      "loinc_code": "31112-6",
+      "all_names_count": 34,
+      "results_count": 2
+    },
+    {
+      "itemid": "51285",
+      "mimic_label": "Reticulocyte, Cellular Hemoglobin",
+      "official_name": "Reticulocyte, Cellular Hemoglobin",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51286",
+      "mimic_label": "Ristocetin",
+      "official_name": "Ristocetin",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51287",
+      "mimic_label": "Schistocytes",
+      "official_name": "Schistocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "800-3",
+      "all_names_count": 23,
+      "results_count": 50
+    },
+    {
+      "itemid": "51288",
+      "mimic_label": "Sedimentation Rate",
+      "official_name": "Erythrocyte [Sedimentation Rate] in Blood by Westergren method",
+      "loinc_code": "4537-7",
+      "all_names_count": 28,
+      "results_count": 3
+    },
+    {
+      "itemid": "51289",
+      "mimic_label": "Serum Viscosity",
+      "official_name": "Viscosity of Serum",
+      "loinc_code": "3128-6",
+      "all_names_count": 17,
+      "results_count": 1
+    },
+    {
+      "itemid": "51290",
+      "mimic_label": "Sickle Cell Preparation",
+      "official_name": "Hemoglobin S [Presence] in Blood by Solubility test",
+      "loinc_code": "6864-3",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51291",
+      "mimic_label": "Sickle Cells",
+      "official_name": "Sickle cells [Presence] in Blood by Light microscopy",
+      "loinc_code": "801-1",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51292",
+      "mimic_label": "Spherocytes",
+      "official_name": "Spherocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "802-9",
+      "all_names_count": 24,
+      "results_count": 26
+    },
+    {
+      "itemid": "51293",
+      "mimic_label": "Sugar Water Test",
+      "official_name": "Sucrose hemolysis [Presence] of Red Blood Cells",
+      "loinc_code": "12260-6",
+      "all_names_count": 21,
+      "results_count": 0
+    },
+    {
+      "itemid": "51294",
+      "mimic_label": "Target Cells",
+      "official_name": "Target cells [Presence] in Blood by Light microscopy",
+      "loinc_code": "10381-2",
+      "all_names_count": 25,
+      "results_count": 22
+    },
+    {
+      "itemid": "51295",
+      "mimic_label": "TdT",
+      "official_name": "TdT",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51296",
+      "mimic_label": "Teardrop Cells",
+      "official_name": "Dacrocytes [Presence] in Blood by Light microscopy",
+      "loinc_code": "7791-7",
+      "all_names_count": 26,
+      "results_count": 42
+    },
+    {
+      "itemid": "51297",
+      "mimic_label": "Thrombin",
+      "official_name": "Thrombin time",
+      "loinc_code": "3243-3",
+      "all_names_count": 21,
+      "results_count": 3
+    },
+    {
+      "itemid": "51298",
+      "mimic_label": "Von Willebrand Factor Activity",
+      "official_name": "von Willebrand factor (vWf) actual/normal in Platelet poor plasma by Aggregometry.ristocetin cofactor activity",
+      "loinc_code": "6014-5",
+      "all_names_count": 29,
+      "results_count": 2
+    },
+    {
+      "itemid": "51299",
+      "mimic_label": "Von Willebrand Factor Antigen",
+      "official_name": "von Willebrand factor (vWf) Ag [Units/volume] in Platelet poor plasma by Immunoassay",
+      "loinc_code": "6012-9",
+      "all_names_count": 32,
+      "results_count": 2
+    },
+    {
+      "itemid": "51300",
+      "mimic_label": "WBC Count",
+      "official_name": "Leukocytes [#/volume] in Blood",
+      "loinc_code": "26464-8",
+      "all_names_count": 32,
+      "results_count": 1
+    },
+    {
+      "itemid": "51301",
+      "mimic_label": "White Blood Cells",
+      "official_name": "Leukocytes [#/volume] in Blood by Manual count",
+      "loinc_code": "804-5",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "51302",
+      "mimic_label": "Young Cells",
+      "official_name": "Platelets reticulated/Platelets in Blood",
+      "loinc_code": "51633-6",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51303",
+      "mimic_label": "CD10",
+      "official_name": "CD10 cells/cells in Bone marrow",
+      "loinc_code": "51216-0",
+      "all_names_count": 32,
+      "results_count": 2
+    },
+    {
+      "itemid": "51304",
+      "mimic_label": "CD103",
+      "official_name": "CD103 cells/cells in Bone marrow",
+      "loinc_code": "51221-0",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "51305",
+      "mimic_label": "CD117",
+      "official_name": "CD117 cells/cells in Bone marrow",
+      "loinc_code": "42866-4",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51306",
+      "mimic_label": "CD11c",
+      "official_name": "CD11c cells/cells in Bone marrow",
+      "loinc_code": "33202-3",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51307",
+      "mimic_label": "CD13",
+      "official_name": "CD13 cells/cells in Bone marrow",
+      "loinc_code": "51237-6",
+      "all_names_count": 30,
+      "results_count": 1
+    },
+    {
+      "itemid": "51308",
+      "mimic_label": "CD138",
+      "official_name": "CD138",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51309",
+      "mimic_label": "CD14",
+      "official_name": "CD14 cells/cells in Bone marrow",
+      "loinc_code": "32507-6",
+      "all_names_count": 31,
+      "results_count": 1
+    },
+    {
+      "itemid": "51310",
+      "mimic_label": "CD15",
+      "official_name": "CD15 cells/cells in Bone marrow",
+      "loinc_code": "51251-7",
+      "all_names_count": 36,
+      "results_count": 1
+    },
+    {
+      "itemid": "51311",
+      "mimic_label": "CD16",
+      "official_name": "CD16",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51312",
+      "mimic_label": "CD16/56",
+      "official_name": "CD16+CD56+ cells/cells in Bone marrow",
+      "loinc_code": "51255-8",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51313",
+      "mimic_label": "CD19",
+      "official_name": "CD19 cells/cells in Bone marrow",
+      "loinc_code": "32525-8",
+      "all_names_count": 29,
+      "results_count": 2
+    },
+    {
+      "itemid": "51314",
+      "mimic_label": "CD2",
+      "official_name": "CD2 cells/cells in Bone marrow",
+      "loinc_code": "32527-4",
+      "all_names_count": 30,
+      "results_count": 2
+    },
+    {
+      "itemid": "51315",
+      "mimic_label": "CD20",
+      "official_name": "CD20",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51316",
+      "mimic_label": "CD22",
+      "official_name": "CD22",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51317",
+      "mimic_label": "CD23",
+      "official_name": "CD23 cells/cells in Bone marrow",
+      "loinc_code": "51268-1",
+      "all_names_count": 30,
+      "results_count": 1
+    },
+    {
+      "itemid": "51318",
+      "mimic_label": "CD25",
+      "official_name": "CD25",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51319",
+      "mimic_label": "CD3",
+      "official_name": "CD3 cells/cells in Bone marrow",
+      "loinc_code": "32529-0",
+      "all_names_count": 26,
+      "results_count": 2
+    },
+    {
+      "itemid": "51320",
+      "mimic_label": "CD33",
+      "official_name": "CD33 cells/cells in Bone marrow",
+      "loinc_code": "51293-9",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51321",
+      "mimic_label": "CD34",
+      "official_name": "CD34 cells/cells in Bone marrow",
+      "loinc_code": "57400-4",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51322",
+      "mimic_label": "CD38",
+      "official_name": "CD38",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51323",
+      "mimic_label": "CD4",
+      "official_name": "Deprecated CD4 cells/100 cells in Bone marrow",
+      "loinc_code": "51301-0",
+      "all_names_count": 32,
+      "results_count": 1
+    },
+    {
+      "itemid": "51324",
+      "mimic_label": "CD41",
+      "official_name": "CD41 cells/cells in Bone marrow",
+      "loinc_code": "51319-2",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51325",
+      "mimic_label": "CD45",
+      "official_name": "CD45 (Lymphs) cells/cells in Bone marrow",
+      "loinc_code": "51340-8",
+      "all_names_count": 33,
+      "results_count": 2
+    },
+    {
+      "itemid": "51326",
+      "mimic_label": "CD5",
+      "official_name": "CD5 cells/cells in Bone marrow",
+      "loinc_code": "35640-2",
+      "all_names_count": 28,
+      "results_count": 2
+    },
+    {
+      "itemid": "51327",
+      "mimic_label": "CD55",
+      "official_name": "CD55 cells/cells in Bone marrow",
+      "loinc_code": "51344-0",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51328",
+      "mimic_label": "CD56",
+      "official_name": "CD56",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51329",
+      "mimic_label": "CD57",
+      "official_name": "CD57",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51330",
+      "mimic_label": "CD59",
+      "official_name": "CD59 cells/cells in Bone marrow",
+      "loinc_code": "51358-0",
+      "all_names_count": 23,
+      "results_count": 0
+    },
+    {
+      "itemid": "51331",
+      "mimic_label": "CD64",
+      "official_name": "CD64 cells/cells in Bone marrow",
+      "loinc_code": "51365-5",
+      "all_names_count": 27,
+      "results_count": 1
+    },
+    {
+      "itemid": "51332",
+      "mimic_label": "CD7",
+      "official_name": "CD7 cells/cells in Bone marrow",
+      "loinc_code": "35641-0",
+      "all_names_count": 28,
+      "results_count": 2
+    },
+    {
+      "itemid": "51333",
+      "mimic_label": "CD71",
+      "official_name": "CD71",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51334",
+      "mimic_label": "CD8",
+      "official_name": "CD8+HLA-DR+ cells/cells in Bone marrow",
+      "loinc_code": "51372-1",
+      "all_names_count": 32,
+      "results_count": 1
+    },
+    {
+      "itemid": "51335",
+      "mimic_label": "FMC-7",
+      "official_name": "FMC-7",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51336",
+      "mimic_label": "Glyco A",
+      "official_name": "CD235a cells/cells in Bone marrow",
+      "loinc_code": "33208-0",
+      "all_names_count": 25,
+      "results_count": 1
+    },
+    {
+      "itemid": "51337",
+      "mimic_label": "HLA-DR",
+      "official_name": "HLA-DR+ cells/cells in Bone marrow",
+      "loinc_code": "51380-4",
+      "all_names_count": 25,
+      "results_count": 2
+    },
+    {
+      "itemid": "51338",
+      "mimic_label": "Immunophenotyping",
+      "official_name": "Immunophenotyping",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51339",
+      "mimic_label": "Iron Stain",
+      "official_name": "Iron.microscopic observation [Identifier] in Bone marrow by Potassium ferrocyanide stain",
+      "loinc_code": "13513-7",
+      "all_names_count": 21,
+      "results_count": 1
+    },
+    {
+      "itemid": "51340",
+      "mimic_label": "Kappa",
+      "official_name": "Kappa",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51341",
+      "mimic_label": "Lambda",
+      "official_name": "Lambda",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51342",
+      "mimic_label": "Wright Giemsa",
+      "official_name": "Microscopic observation [Identifier] in Bone marrow by Wright Giemsa stain",
+      "loinc_code": "10355-6",
+      "all_names_count": 27,
+      "results_count": 4
+    },
+    {
+      "itemid": "51343",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30416-2",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "51344",
+      "mimic_label": "Bands",
+      "official_name": "Band form neutrophils/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26509-0",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51345",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30374-3",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51346",
+      "mimic_label": "Blasts",
+      "official_name": "Blasts/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26447-3",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51347",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26451-5",
+      "all_names_count": 32,
+      "results_count": 2
+    },
+    {
+      "itemid": "51348",
+      "mimic_label": "Hematocrit, CSF",
+      "official_name": "Hematocrit [Volume Fraction] of Cerebral spinal fluid by calculation",
+      "loinc_code": "30398-2",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51349",
+      "mimic_label": "Hypersegmented Neutrophils",
+      "official_name": "Segmented neutrophils/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26506-6",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "51350",
+      "mimic_label": "Immunophenotyping",
+      "official_name": "Immunophenotyping",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51351",
+      "mimic_label": "Lymphs",
+      "official_name": "Lymphocytes/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26479-6",
+      "all_names_count": 34,
+      "results_count": 12
+    },
+    {
+      "itemid": "51352",
+      "mimic_label": "Macrophage",
+      "official_name": "Macrophages/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30426-1",
+      "all_names_count": 30,
+      "results_count": 2
+    },
+    {
+      "itemid": "51353",
+      "mimic_label": "Mesothelial cells",
+      "official_name": "Mesothelial cells/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30429-5",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51354",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30366-9",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51355",
+      "mimic_label": "Monocytes",
+      "official_name": "Monocytes/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26486-1",
+      "all_names_count": 30,
+      "results_count": 12
+    },
+    {
+      "itemid": "51356",
+      "mimic_label": "Myelocytes",
+      "official_name": "Myelocytes/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "30447-7",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51357",
+      "mimic_label": "NRBC",
+      "official_name": "Nucleated erythrocytes/cells in Cerebral spinal fluid",
+      "loinc_code": "48778-5",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "51358",
+      "mimic_label": "Other",
+      "official_name": "Other",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51359",
+      "mimic_label": "Plasma",
+      "official_name": "Plasma cells/Leukocytes in Cerebral spinal fluid",
+      "loinc_code": "47413-0",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51360",
+      "mimic_label": "Polys",
+      "official_name": "Deprecated Polymorphonuclear cells/100 leukocytes in Cerebral spinal fluid",
+      "loinc_code": "26517-3",
+      "all_names_count": 33,
+      "results_count": 12
+    },
+    {
+      "itemid": "51361",
+      "mimic_label": "Promyelocytes",
+      "official_name": "Promyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51362",
+      "mimic_label": "RBC, CSF",
+      "official_name": "Erythrocytes [#/volume] in Cerebral spinal fluid",
+      "loinc_code": "26454-9",
+      "all_names_count": 37,
+      "results_count": 12
+    },
+    {
+      "itemid": "51363",
+      "mimic_label": "WBC, CSF",
+      "official_name": "Leukocytes [#/volume] in Cerebral spinal fluid",
+      "loinc_code": "26465-5",
+      "all_names_count": 36,
+      "results_count": 12
+    },
+    {
+      "itemid": "51364",
+      "mimic_label": "Young",
+      "official_name": "Young",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51365",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes/Leukocytes in Synovial fluid",
+      "loinc_code": "33371-6",
+      "all_names_count": 43,
+      "results_count": 0
+    },
+    {
+      "itemid": "51366",
+      "mimic_label": "Bands",
+      "official_name": "Band form neutrophils/Leukocytes in Synovial fluid",
+      "loinc_code": "33361-7",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "51367",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils/Leukocytes in Synovial fluid",
+      "loinc_code": "17833-5",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51368",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils/Leukocytes in Synovial fluid",
+      "loinc_code": "17834-3",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51369",
+      "mimic_label": "Hematocrit, Joint Fluid",
+      "official_name": "Hematocrit, Joint Fluid",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51370",
+      "mimic_label": "Joint Crystals, Birefringence",
+      "official_name": "Joint Crystals, Birefringence",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51371",
+      "mimic_label": "Joint Crystals, Comment",
+      "official_name": "Joint Crystals, Comment",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51372",
+      "mimic_label": "Joint Crystals, Location",
+      "official_name": "Joint Crystals, Location",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51373",
+      "mimic_label": "Joint Crystals, Number",
+      "official_name": "Joint Crystals, Number",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51374",
+      "mimic_label": "Joint Crystals, Shape",
+      "official_name": "Joint Crystals, Shape",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51375",
+      "mimic_label": "Lymphocytes",
+      "official_name": "Lymphocytes/Leukocytes in Synovial fluid",
+      "loinc_code": "26483-8",
+      "all_names_count": 39,
+      "results_count": 2
+    },
+    {
+      "itemid": "51376",
+      "mimic_label": "Macrophage",
+      "official_name": "Macrophages/Leukocytes in Synovial fluid",
+      "loinc_code": "33376-5",
+      "all_names_count": 34,
+      "results_count": 1
+    },
+    {
+      "itemid": "51377",
+      "mimic_label": "Mesothelial Cells",
+      "official_name": "Mesothelial cells/Leukocytes in Synovial fluid",
+      "loinc_code": "33365-8",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51378",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51379",
+      "mimic_label": "Monocytes",
+      "official_name": "Monocytes/Leukocytes in Synovial fluid",
+      "loinc_code": "17835-0",
+      "all_names_count": 34,
+      "results_count": 2
+    },
+    {
+      "itemid": "51380",
+      "mimic_label": "NRBC",
+      "official_name": "Nucleated erythrocytes/Leukocytes [Ratio] in Synovial fluid by Manual count",
+      "loinc_code": "48040-0",
+      "all_names_count": 48,
+      "results_count": 0
+    },
+    {
+      "itemid": "51381",
+      "mimic_label": "Other",
+      "official_name": "Other",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51382",
+      "mimic_label": "Polys",
+      "official_name": "Granulocytes/Leukocytes in Synovial fluid",
+      "loinc_code": "26522-3",
+      "all_names_count": 37,
+      "results_count": 2
+    },
+    {
+      "itemid": "51383",
+      "mimic_label": "RBC, Joint Fluid",
+      "official_name": "Erythrocytes [#/volume] in Synovial fluid",
+      "loinc_code": "26458-0",
+      "all_names_count": 41,
+      "results_count": 1
+    },
+    {
+      "itemid": "51384",
+      "mimic_label": "WBC, Joint Fluid",
+      "official_name": "Leukocytes [#/volume] in Synovial fluid",
+      "loinc_code": "26469-7",
+      "all_names_count": 40,
+      "results_count": 2
+    },
+    {
+      "itemid": "51385",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes/Leukocytes in Body fluid",
+      "loinc_code": "30417-0",
+      "all_names_count": 41,
+      "results_count": 1
+    },
+    {
+      "itemid": "51386",
+      "mimic_label": "Bands",
+      "official_name": "Band form neutrophils/Leukocytes in Body fluid",
+      "loinc_code": "26510-8",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "51387",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils/Leukocytes in Body fluid",
+      "loinc_code": "28543-7",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51388",
+      "mimic_label": "CD10",
+      "official_name": "CD10 cells/cells in Body fluid",
+      "loinc_code": "51217-8",
+      "all_names_count": 35,
+      "results_count": 3
+    },
+    {
+      "itemid": "51389",
+      "mimic_label": "CD103",
+      "official_name": "CD103",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51390",
+      "mimic_label": "CD117",
+      "official_name": "CD117 cells/cells in Body fluid",
+      "loinc_code": "42867-2",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51391",
+      "mimic_label": "CD11c",
+      "official_name": "CD11c cells/cells in Body fluid",
+      "loinc_code": "51232-7",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51392",
+      "mimic_label": "CD13",
+      "official_name": "CD13 cells/cells in Body fluid",
+      "loinc_code": "51238-4",
+      "all_names_count": 33,
+      "results_count": 0
+    },
+    {
+      "itemid": "51393",
+      "mimic_label": "CD138",
+      "official_name": "CD138 cells/cells in Body fluid",
+      "loinc_code": "42871-4",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51394",
+      "mimic_label": "CD14",
+      "official_name": "CD14 cells/cells in Body fluid",
+      "loinc_code": "51248-3",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51395",
+      "mimic_label": "CD15",
+      "official_name": "CD15 cells/cells in Body fluid",
+      "loinc_code": "51252-5",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "51396",
+      "mimic_label": "CD16",
+      "official_name": "CD16",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51397",
+      "mimic_label": "CD16/56",
+      "official_name": "CD16+CD56+ cells/cells in Body fluid",
+      "loinc_code": "18268-3",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "51398",
+      "mimic_label": "CD19",
+      "official_name": "CD19 cells/cells in Body fluid",
+      "loinc_code": "17829-3",
+      "all_names_count": 32,
+      "results_count": 3
+    },
+    {
+      "itemid": "51399",
+      "mimic_label": "CD2",
+      "official_name": "CD2 cells/cells in Body fluid",
+      "loinc_code": "17827-7",
+      "all_names_count": 33,
+      "results_count": 1
+    },
+    {
+      "itemid": "51400",
+      "mimic_label": "CD20",
+      "official_name": "CD20 cells/cells in Body fluid",
+      "loinc_code": "57418-6",
+      "all_names_count": 32,
+      "results_count": 3
+    },
+    {
+      "itemid": "51401",
+      "mimic_label": "CD22",
+      "official_name": "CD22 cells/cells in Body fluid",
+      "loinc_code": "42875-5",
+      "all_names_count": 33,
+      "results_count": 0
+    },
+    {
+      "itemid": "51402",
+      "mimic_label": "CD23",
+      "official_name": "CD23 cells/cells in Body fluid",
+      "loinc_code": "51269-9",
+      "all_names_count": 33,
+      "results_count": 1
+    },
+    {
+      "itemid": "51403",
+      "mimic_label": "CD25",
+      "official_name": "CD25",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51404",
+      "mimic_label": "CD3",
+      "official_name": "CD3 cells/cells in Body fluid",
+      "loinc_code": "17826-9",
+      "all_names_count": 29,
+      "results_count": 1
+    },
+    {
+      "itemid": "51405",
+      "mimic_label": "CD33",
+      "official_name": "CD33 cells/cells in Body fluid",
+      "loinc_code": "51294-7",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51406",
+      "mimic_label": "CD34",
+      "official_name": "CD34",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51407",
+      "mimic_label": "CD38",
+      "official_name": "CD38 cells/cells in Body fluid",
+      "loinc_code": "51299-6",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51408",
+      "mimic_label": "CD4",
+      "official_name": "CD3+CD4+ (T4 helper) cells/cells in Body fluid",
+      "loinc_code": "17822-8",
+      "all_names_count": 41,
+      "results_count": 0
+    },
+    {
+      "itemid": "51409",
+      "mimic_label": "CD4/CD8 Ratio",
+      "official_name": "CD3+CD4+ (T4 helper) cells/CD3+CD8+ (T8 suppressor cells) cells [# Ratio] in Body fluid",
+      "loinc_code": "18266-7",
+      "all_names_count": 51,
+      "results_count": 0
+    },
+    {
+      "itemid": "51410",
+      "mimic_label": "CD41",
+      "official_name": "CD41 cells/cells in Body fluid",
+      "loinc_code": "51320-0",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51411",
+      "mimic_label": "CD45",
+      "official_name": "CD45 (Lymphs) cells/cells in Body fluid",
+      "loinc_code": "17823-6",
+      "all_names_count": 36,
+      "results_count": 3
+    },
+    {
+      "itemid": "51412",
+      "mimic_label": "CD5",
+      "official_name": "CD5 cells/cells in Body fluid",
+      "loinc_code": "57423-6",
+      "all_names_count": 31,
+      "results_count": 1
+    },
+    {
+      "itemid": "51413",
+      "mimic_label": "CD56",
+      "official_name": "CD56 cells/cells in Body fluid",
+      "loinc_code": "57424-4",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51414",
+      "mimic_label": "CD57",
+      "official_name": "CD57",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51415",
+      "mimic_label": "CD64",
+      "official_name": "CD64 cells/cells in Body fluid",
+      "loinc_code": "51366-3",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51416",
+      "mimic_label": "CD7",
+      "official_name": "CD7 cells/cells in Body fluid",
+      "loinc_code": "57425-1",
+      "all_names_count": 31,
+      "results_count": 1
+    },
+    {
+      "itemid": "51417",
+      "mimic_label": "CD71",
+      "official_name": "CD71 cells/cells in Body fluid",
+      "loinc_code": "57426-9",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51418",
+      "mimic_label": "CD8",
+      "official_name": "CD3+CD8+ (T8 suppressor) cells/cells in Body fluid",
+      "loinc_code": "17824-4",
+      "all_names_count": 39,
+      "results_count": 0
+    },
+    {
+      "itemid": "51419",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils/Leukocytes in Body fluid",
+      "loinc_code": "26452-3",
+      "all_names_count": 36,
+      "results_count": 3
+    },
+    {
+      "itemid": "51420",
+      "mimic_label": "FMC-7",
+      "official_name": "FMC7 cells/cells in Body fluid",
+      "loinc_code": "57428-5",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51421",
+      "mimic_label": "Glyco A",
+      "official_name": "CD235a cells/cells in Body fluid",
+      "loinc_code": "57430-1",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51422",
+      "mimic_label": "Hematocrit, Other Fluid",
+      "official_name": "Hematocrit [Volume Fraction] of Body fluid by calculation",
+      "loinc_code": "11153-4",
+      "all_names_count": 37,
+      "results_count": 2
+    },
+    {
+      "itemid": "51423",
+      "mimic_label": "HLA-DR",
+      "official_name": "HLA-DR+ cells/cells in Body fluid",
+      "loinc_code": "51381-2",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51424",
+      "mimic_label": "Immunophenotyping",
+      "official_name": "Immunophenotyping",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 4
+    },
+    {
+      "itemid": "51425",
+      "mimic_label": "Kappa",
+      "official_name": "Kappa",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 3
+    },
+    {
+      "itemid": "51426",
+      "mimic_label": "Lambda",
+      "official_name": "Lambda",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 3
+    },
+    {
+      "itemid": "51427",
+      "mimic_label": "Lymphocytes",
+      "official_name": "Lymphocytes/Leukocytes in Body fluid",
+      "loinc_code": "11031-2",
+      "all_names_count": 37,
+      "results_count": 10
+    },
+    {
+      "itemid": "51428",
+      "mimic_label": "Macrophage",
+      "official_name": "Macrophages/Leukocytes in Body fluid by Manual count",
+      "loinc_code": "12230-9",
+      "all_names_count": 35,
+      "results_count": 5
+    },
+    {
+      "itemid": "51429",
+      "mimic_label": "Mesothelial cells",
+      "official_name": "Mesothelial cells/Leukocytes in Body fluid",
+      "loinc_code": "28544-5",
+      "all_names_count": 35,
+      "results_count": 2
+    },
+    {
+      "itemid": "51430",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes/Leukocytes in Body fluid",
+      "loinc_code": "17801-2",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51431",
+      "mimic_label": "Monos",
+      "official_name": "Monocytes/Leukocytes in Body fluid by Manual count",
+      "loinc_code": "10330-9",
+      "all_names_count": 34,
+      "results_count": 10
+    },
+    {
+      "itemid": "51432",
+      "mimic_label": "Myelocytes",
+      "official_name": "Myelocytes/Leukocytes in Body fluid",
+      "loinc_code": "17800-4",
+      "all_names_count": 34,
+      "results_count": 0
+    },
+    {
+      "itemid": "51433",
+      "mimic_label": "NRBC",
+      "official_name": "NRBC",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51434",
+      "mimic_label": "Other Cell",
+      "official_name": "Other Cell",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 3
+    },
+    {
+      "itemid": "51435",
+      "mimic_label": "Plasma",
+      "official_name": "Plasma cells/Leukocytes in Body fluid",
+      "loinc_code": "17803-8",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51436",
+      "mimic_label": "Polys",
+      "official_name": "Deprecated Polymorphonuclear cells/100 leukocytes in Body fluid",
+      "loinc_code": "26518-1",
+      "all_names_count": 37,
+      "results_count": 10
+    },
+    {
+      "itemid": "51437",
+      "mimic_label": "Promyelocytes",
+      "official_name": "Promyelocytes/Leukocytes in Body fluid",
+      "loinc_code": "17799-8",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51438",
+      "mimic_label": "RBC, Other Fluid",
+      "official_name": "Erythrocytes [#/volume] in Body fluid",
+      "loinc_code": "26455-6",
+      "all_names_count": 41,
+      "results_count": 9
+    },
+    {
+      "itemid": "51439",
+      "mimic_label": "WBC, Other Fluid",
+      "official_name": "Leukocytes [#/volume] in Body fluid",
+      "loinc_code": "26466-3",
+      "all_names_count": 38,
+      "results_count": 10
+    },
+    {
+      "itemid": "51440",
+      "mimic_label": "Atypical Lymphocytes",
+      "official_name": "Variant lymphocytes/Leukocytes in Pleural fluid",
+      "loinc_code": "33370-8",
+      "all_names_count": 38,
+      "results_count": 0
+    },
+    {
+      "itemid": "51441",
+      "mimic_label": "Bands",
+      "official_name": "Bands",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51442",
+      "mimic_label": "Basophils",
+      "official_name": "Basophils/Leukocytes in Pleural fluid",
+      "loinc_code": "35070-2",
+      "all_names_count": 28,
+      "results_count": 0
+    },
+    {
+      "itemid": "51443",
+      "mimic_label": "Blasts",
+      "official_name": "Blasts",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51444",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils/Leukocytes in Pleural fluid",
+      "loinc_code": "30379-2",
+      "all_names_count": 29,
+      "results_count": 3
+    },
+    {
+      "itemid": "51445",
+      "mimic_label": "Hematocrit, Pleural",
+      "official_name": "Hematocrit, Pleural",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51446",
+      "mimic_label": "Lymphocytes",
+      "official_name": "Lymphocytes/Leukocytes in Pleural fluid",
+      "loinc_code": "26481-2",
+      "all_names_count": 34,
+      "results_count": 11
+    },
+    {
+      "itemid": "51447",
+      "mimic_label": "Macrophages",
+      "official_name": "Macrophages/Leukocytes in Pleural fluid by Manual count",
+      "loinc_code": "40520-9",
+      "all_names_count": 29,
+      "results_count": 6
+    },
+    {
+      "itemid": "51448",
+      "mimic_label": "Mesothelial Cells",
+      "official_name": "Mesothelial cells/Leukocytes in Pleural fluid",
+      "loinc_code": "30431-1",
+      "all_names_count": 28,
+      "results_count": 7
+    },
+    {
+      "itemid": "51449",
+      "mimic_label": "Metamyelocytes",
+      "official_name": "Metamyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51450",
+      "mimic_label": "Monos",
+      "official_name": "Monocytes/Leukocytes in Pleural fluid",
+      "loinc_code": "33362-5",
+      "all_names_count": 26,
+      "results_count": 11
+    },
+    {
+      "itemid": "51451",
+      "mimic_label": "Myelocytes",
+      "official_name": "Myelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51452",
+      "mimic_label": "NRBC",
+      "official_name": "NRBC",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51453",
+      "mimic_label": "Other",
+      "official_name": "Other",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51454",
+      "mimic_label": "Plasma Cells",
+      "official_name": "Plasma cells/Leukocytes in Pleural fluid by Manual count",
+      "loinc_code": "40522-5",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51455",
+      "mimic_label": "Polys",
+      "official_name": "Granulocytes/Leukocytes in Pleural fluid",
+      "loinc_code": "26519-9",
+      "all_names_count": 28,
+      "results_count": 11
+    },
+    {
+      "itemid": "51456",
+      "mimic_label": "Promyelocytes",
+      "official_name": "Promyelocytes",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51457",
+      "mimic_label": "RBC, Pleural",
+      "official_name": "Erythrocytes [#/volume] in Pleural fluid",
+      "loinc_code": "26456-4",
+      "all_names_count": 34,
+      "results_count": 11
+    },
+    {
+      "itemid": "51458",
+      "mimic_label": "WBC, Pleural",
+      "official_name": "Leukocytes [#/volume] in Pleural fluid",
+      "loinc_code": "26467-1",
+      "all_names_count": 31,
+      "results_count": 11
+    },
+    {
+      "itemid": "51459",
+      "mimic_label": "Young Cells",
+      "official_name": "Young Cells",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51460",
+      "mimic_label": "Blood, Occult",
+      "official_name": "Hemoglobin [Presence] in Stool from gastrointestinal",
+      "loinc_code": "2335-8",
+      "all_names_count": 28,
+      "results_count": 1
+    },
+    {
+      "itemid": "51461",
+      "mimic_label": "Ammonium Biurate",
+      "official_name": "Urate crystals amorphous [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "12454-5",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51462",
+      "mimic_label": "Amorphous Crystals",
+      "official_name": "Amorphous sediment [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "8246-1",
+      "all_names_count": 29,
+      "results_count": 27
+    },
+    {
+      "itemid": "51463",
+      "mimic_label": "Bacteria",
+      "official_name": "Bacteria [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "5769-5",
+      "all_names_count": 29,
+      "results_count": 50
+    },
+    {
+      "itemid": "51464",
+      "mimic_label": "Bilirubin",
+      "official_name": "Bilirubin.total [Presence] in Urine by Test strip",
+      "loinc_code": "5770-3",
+      "all_names_count": 22,
+      "results_count": 50
+    },
+    {
+      "itemid": "51465",
+      "mimic_label": "Bilirubin Crystals",
+      "official_name": "Bilirubin crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5771-1",
+      "all_names_count": 33,
+      "results_count": 0
+    },
+    {
+      "itemid": "51466",
+      "mimic_label": "Blood",
+      "official_name": "Hemoglobin [Presence] in Urine by Test strip",
+      "loinc_code": "5794-3",
+      "all_names_count": 21,
+      "results_count": 50
+    },
+    {
+      "itemid": "51467",
+      "mimic_label": "Broad Casts",
+      "official_name": "Broad casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "18487-9",
+      "all_names_count": 27,
+      "results_count": 0
+    },
+    {
+      "itemid": "51468",
+      "mimic_label": "Calcium Carbonate Crystals",
+      "official_name": "Calcium carbonate crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5773-7",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51469",
+      "mimic_label": "Calcium Oxalate Crystals",
+      "official_name": "Calcium oxalate crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5774-5",
+      "all_names_count": 37,
+      "results_count": 2
+    },
+    {
+      "itemid": "51470",
+      "mimic_label": "Calcium Phosphate Crystals",
+      "official_name": "Calcium phosphate crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5775-2",
+      "all_names_count": 42,
+      "results_count": 0
+    },
+    {
+      "itemid": "51471",
+      "mimic_label": "Cellular Cast",
+      "official_name": "Cellular Cast",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51472",
+      "mimic_label": "Cholesterol Crystals",
+      "official_name": "Cholesterol crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5777-8",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51473",
+      "mimic_label": "Cysteine Crystals",
+      "official_name": "Crystals [type] in Urine sediment by Light microscopy",
+      "loinc_code": "5782-8",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51474",
+      "mimic_label": "Eosinophils",
+      "official_name": "Eosinophils [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "25156-1",
+      "all_names_count": 30,
+      "results_count": 14
+    },
+    {
+      "itemid": "51475",
+      "mimic_label": "Epithelial Casts",
+      "official_name": "Epithelial Casts",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51476",
+      "mimic_label": "Epithelial Cells",
+      "official_name": "Epithelial cells [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "5787-7",
+      "all_names_count": 31,
+      "results_count": 50
+    },
+    {
+      "itemid": "51477",
+      "mimic_label": "Free Fat",
+      "official_name": "Fat [#/area] in Urine by Computer assisted method",
+      "loinc_code": "53359-6",
+      "all_names_count": 19,
+      "results_count": 0
+    },
+    {
+      "itemid": "51478",
+      "mimic_label": "Glucose",
+      "official_name": "Glucose [Mass/volume] in Urine by Test strip",
+      "loinc_code": "5792-7",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "51479",
+      "mimic_label": "Granular Casts",
+      "official_name": "Granular casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5793-5",
+      "all_names_count": 27,
+      "results_count": 15
+    },
+    {
+      "itemid": "51480",
+      "mimic_label": "Hematocrit",
+      "official_name": "Hematocrit [Volume Fraction] of Urine by calculation",
+      "loinc_code": "17809-5",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51481",
+      "mimic_label": "Hemosiderin",
+      "official_name": "Hemosiderin [Presence] in Urine",
+      "loinc_code": "4644-1",
+      "all_names_count": 16,
+      "results_count": 0
+    },
+    {
+      "itemid": "51482",
+      "mimic_label": "Hyaline Casts",
+      "official_name": "Hyaline casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5796-8",
+      "all_names_count": 26,
+      "results_count": 43
+    },
+    {
+      "itemid": "51483",
+      "mimic_label": "Hyphenated Yeast",
+      "official_name": "Yeast.hyphae [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "41865-7",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51484",
+      "mimic_label": "Ketone",
+      "official_name": "Ketones [Mass/volume] in Urine by Test strip",
+      "loinc_code": "5797-6",
+      "all_names_count": 21,
+      "results_count": 50
+    },
+    {
+      "itemid": "51485",
+      "mimic_label": "Leucine Crystals",
+      "official_name": "Leucine crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5798-4",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51486",
+      "mimic_label": "Leukocytes",
+      "official_name": "Leukocyte esterase [Presence] in Urine by Test strip",
+      "loinc_code": "5799-2",
+      "all_names_count": 25,
+      "results_count": 50
+    },
+    {
+      "itemid": "51487",
+      "mimic_label": "Nitrite",
+      "official_name": "Nitrite [Presence] in Urine by Test strip",
+      "loinc_code": "5802-4",
+      "all_names_count": 19,
+      "results_count": 50
+    },
+    {
+      "itemid": "51488",
+      "mimic_label": "Non-squamous Epithelial Cells",
+      "official_name": "Epithelial cells.non-squamous [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "41284-1",
+      "all_names_count": 35,
+      "results_count": 0
+    },
+    {
+      "itemid": "51489",
+      "mimic_label": "NonSquamous Epithelial Cell",
+      "official_name": "Epithelial cells.non-squamous [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "41284-1",
+      "all_names_count": 35,
+      "results_count": 1
+    },
+    {
+      "itemid": "51490",
+      "mimic_label": "Oval Fat Body",
+      "official_name": "Oval Fat Body",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51491",
+      "mimic_label": "pH",
+      "official_name": "pH of Urine by Test strip",
+      "loinc_code": "5803-2",
+      "all_names_count": 18,
+      "results_count": 50
+    },
+    {
+      "itemid": "51492",
+      "mimic_label": "Protein",
+      "official_name": "Protein [Mass/volume] in Urine by Test strip",
+      "loinc_code": "5804-0",
+      "all_names_count": 20,
+      "results_count": 50
+    },
+    {
+      "itemid": "51493",
+      "mimic_label": "RBC",
+      "official_name": "Erythrocytes [#/volume] in Urine sediment by Microscopy high power field",
+      "loinc_code": "5808-1",
+      "all_names_count": 42,
+      "results_count": 50
+    },
+    {
+      "itemid": "51494",
+      "mimic_label": "RBC Casts",
+      "official_name": "RBC casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5807-3",
+      "all_names_count": 36,
+      "results_count": 0
+    },
+    {
+      "itemid": "51495",
+      "mimic_label": "RBC Clumps",
+      "official_name": "RBC Clumps",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51496",
+      "mimic_label": "Reducing Substances, Urine",
+      "official_name": "Reducing Substances, Urine",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51497",
+      "mimic_label": "Renal Epithelial Cells",
+      "official_name": "Epithelial cells.renal [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "26052-1",
+      "all_names_count": 37,
+      "results_count": 5
+    },
+    {
+      "itemid": "51498",
+      "mimic_label": "Specific Gravity",
+      "official_name": "Specific gravity of Urine by Test strip",
+      "loinc_code": "5811-5",
+      "all_names_count": 15,
+      "results_count": 50
+    },
+    {
+      "itemid": "51499",
+      "mimic_label": "Sperm",
+      "official_name": "Spermatozoa [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "8248-7",
+      "all_names_count": 25,
+      "results_count": 0
+    },
+    {
+      "itemid": "51500",
+      "mimic_label": "Sulfonamides",
+      "official_name": "Sulfonamide crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5812-3",
+      "all_names_count": 32,
+      "results_count": 0
+    },
+    {
+      "itemid": "51501",
+      "mimic_label": "Transitional Epithelial Cells",
+      "official_name": "Transitional cells [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "30089-7",
+      "all_names_count": 28,
+      "results_count": 11
+    },
+    {
+      "itemid": "51502",
+      "mimic_label": "Trichomonas",
+      "official_name": "Trichomonas sp [Presence] in Urine by Light microscopy",
+      "loinc_code": "32724-7",
+      "all_names_count": 31,
+      "results_count": 0
+    },
+    {
+      "itemid": "51503",
+      "mimic_label": "Triple Phosphate Crystals",
+      "official_name": "Triple phosphate crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5814-9",
+      "all_names_count": 46,
+      "results_count": 0
+    },
+    {
+      "itemid": "51504",
+      "mimic_label": "Tyrosine Crystals",
+      "official_name": "Tyrosine crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5815-6",
+      "all_names_count": 29,
+      "results_count": 0
+    },
+    {
+      "itemid": "51505",
+      "mimic_label": "Uric Acid Crystals",
+      "official_name": "Urate crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5817-2",
+      "all_names_count": 30,
+      "results_count": 6
+    },
+    {
+      "itemid": "51506",
+      "mimic_label": "Urine Appearance",
+      "official_name": "Appearance of Urine",
+      "loinc_code": "5767-9",
+      "all_names_count": 12,
+      "results_count": 50
+    },
+    {
+      "itemid": "51507",
+      "mimic_label": "Urine Casts, Other",
+      "official_name": "Casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "9842-6",
+      "all_names_count": 26,
+      "results_count": 1
+    },
+    {
+      "itemid": "51508",
+      "mimic_label": "Urine Color",
+      "official_name": "Color of Urine",
+      "loinc_code": "5778-6",
+      "all_names_count": 11,
+      "results_count": 50
+    },
+    {
+      "itemid": "51509",
+      "mimic_label": "Urine Comments",
+      "official_name": "Urine Comments",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51510",
+      "mimic_label": "Urine Crystals, Other",
+      "official_name": "Unidentified crystals [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "5783-6",
+      "all_names_count": 30,
+      "results_count": 0
+    },
+    {
+      "itemid": "51511",
+      "mimic_label": "Urine Fat Bodies",
+      "official_name": "Fat [Presence] in Urine",
+      "loinc_code": "2272-3",
+      "all_names_count": 16,
+      "results_count": 0
+    },
+    {
+      "itemid": "51512",
+      "mimic_label": "Urine Mucous",
+      "official_name": "Mucus [Presence] in Urine sediment by Light microscopy",
+      "loinc_code": "8247-9",
+      "all_names_count": 27,
+      "results_count": 50
+    },
+    {
+      "itemid": "51513",
+      "mimic_label": "Urine Specimen Type",
+      "official_name": "Urinalysis specimen collection method",
+      "loinc_code": "19159-3",
+      "all_names_count": 18,
+      "results_count": 2
+    },
+    {
+      "itemid": "51514",
+      "mimic_label": "Urobilinogen",
+      "official_name": "Urobilinogen [Presence] in Urine by Test strip",
+      "loinc_code": "5818-0",
+      "all_names_count": 21,
+      "results_count": 50
+    },
+    {
+      "itemid": "51515",
+      "mimic_label": "Waxy Casts",
+      "official_name": "Waxy casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5819-8",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51516",
+      "mimic_label": "WBC",
+      "official_name": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "5821-4",
+      "all_names_count": 32,
+      "results_count": 50
+    },
+    {
+      "itemid": "51517",
+      "mimic_label": "WBC Casts",
+      "official_name": "WBC casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5820-6",
+      "all_names_count": 34,
+      "results_count": 1
+    },
+    {
+      "itemid": "51518",
+      "mimic_label": "WBC Clumps",
+      "official_name": "WBC Clumps",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51519",
+      "mimic_label": "Yeast",
+      "official_name": "Yeast [#/area] in Urine sediment by Microscopy high power field",
+      "loinc_code": "5822-2",
+      "all_names_count": 28,
+      "results_count": 50
+    }
+  ],
+  "CHEMISTRY": [
+    {
+      "itemid": "51520",
+      "mimic_label": "ANTI-MC",
+      "official_name": "Thyroperoxidase Ab [Presence] in Serum or Plasma",
+      "loinc_code": "32042-4",
+      "all_names_count": 37,
+      "results_count": 0
+    },
+    {
+      "itemid": "51521",
+      "mimic_label": "ACID PHOSPHATASE, PROSTATIC",
+      "official_name": "ACID PHOSPHATASE, PROSTATIC",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51522",
+      "mimic_label": "PG",
+      "official_name": "Prostaglandin D2 [Mass/volume] in Body fluid",
+      "loinc_code": "48785-0",
+      "all_names_count": 24,
+      "results_count": 0
+    },
+    {
+      "itemid": "51523",
+      "mimic_label": "GR HOLD",
+      "official_name": "GR HOLD",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 37
+    },
+    {
+      "itemid": "51525",
+      "mimic_label": "Billed",
+      "official_name": "Billed",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51526",
+      "mimic_label": "FRUCAMN+",
+      "official_name": "FRUCAMN+",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51527",
+      "mimic_label": "MS-DIA",
+      "official_name": "MS-DIA",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51528",
+      "mimic_label": "STDY HOLD",
+      "official_name": "STDY HOLD",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51529",
+      "mimic_label": "Estimated Actual Glucose",
+      "official_name": "Estimated Actual Glucose",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 2
+    },
+    {
+      "itemid": "51530",
+      "mimic_label": "AF-AFP",
+      "official_name": "AF-AFP",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51531",
+      "mimic_label": "STDYURINE",
+      "official_name": "STDYURINE",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51540",
+      "mimic_label": "PROBLEM SPECIMEN",
+      "official_name": "PROBLEM SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51543",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51546",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51547",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51549",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51552",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51553",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51555",
+      "mimic_label": "SURFACTANT ALBUMIN RATIO",
+      "official_name": "SURFACTANT ALBUMIN RATIO",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    }
+  ],
+  "HEMATOLOGY": [
+    {
+      "itemid": "51524",
+      "mimic_label": "FATTY",
+      "official_name": "Fatty casts [#/area] in Urine sediment by Microscopy low power field",
+      "loinc_code": "5789-3",
+      "all_names_count": 26,
+      "results_count": 0
+    },
+    {
+      "itemid": "51532",
+      "mimic_label": "PLASMGN",
+      "official_name": "PLASMGN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51533",
+      "mimic_label": "WBCP",
+      "official_name": "WBCP",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51534",
+      "mimic_label": "MYELOS",
+      "official_name": "MYELOS",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51535",
+      "mimic_label": "CD55",
+      "official_name": "CD55",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51536",
+      "mimic_label": "CD59",
+      "official_name": "CD59",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51537",
+      "mimic_label": "TDT",
+      "official_name": "TDT",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 1
+    },
+    {
+      "itemid": "51541",
+      "mimic_label": "PROBLEM SPECIMEN",
+      "official_name": "PROBLEM SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51542",
+      "mimic_label": "PROBLEM SPECIMEN",
+      "official_name": "PROBLEM SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51548",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51550",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51551",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    },
+    {
+      "itemid": "51554",
+      "mimic_label": "VOIDED SPECIMEN",
+      "official_name": "VOIDED SPECIMEN",
+      "loinc_code": "",
+      "all_names_count": 1,
+      "results_count": 0
+    }
+  ]
+}

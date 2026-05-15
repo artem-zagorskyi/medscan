@@ -1,0 +1,390 @@
+class_id,common_name,count
+1,Hematocrit [Volume Fraction] of Blood by Automated count,23170
+2,Erythrocytes [#/volume] in Blood by Automated count,22077
+3,Erythrocyte [DistWidth] in Blood by Automated count,20050
+4,Leukocytes [#/volume] in Blood by Manual count,18189
+5,Phosphate [Mass/volume] in Serum or Plasma,17480
+6,Platelets [#/volume] in Blood by Automated count,16704
+7,Deprecated INR in Platelet poor plasma by Coagulation assay,16536
+8,Bicarbonate [Moles/volume] in Serum or Plasma,15057
+9,MCH [Entitic mass] by Automated count,14049
+10,Urea nitrogen [Mass/volume] in Serum or Plasma,12948
+11,MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count,12048
+12,Carbon dioxide, total [Moles/volume] in Blood by calculation,9328
+13,Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma,8880
+14,Creatinine [Mass/volume] in Serum or Plasma,8700
+15,Hemoglobin [Mass/volume] in Blood,8616
+16,Oxygen [Partial pressure] in Blood,8162
+17,Magnesium [Moles/volume] in Serum or Plasma,7672
+18,aPTT in Blood by Coagulation assay,7095
+19,Carbon dioxide [Partial pressure] in Blood,6996
+20,Potassium [Moles/volume] in Serum or Plasma,6837
+21,Sodium [Moles/volume] in Serum or Plasma,6555
+22,Chloride [Moles/volume] in Serum or Plasma,6480
+23,Anion gap in Serum or Plasma by Calculated.4Ions,6402
+24,Glucose [Mass/volume] in Serum or Plasma,6363
+25,Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma,6345
+26,Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma,6090
+27,MCV [Entitic mean volume] in Red Blood Cells by Automated count,6021
+28,Base excess in Blood by calculation,5830
+29,Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma,5427
+30,Calcium [Moles/volume] in Serum or Plasma,5271
+31,Deprecated Creatine kinase.MB,5104
+32,Calcium.ionized [Moles/volume] in Blood,5022
+33,Lymphocytes [#/volume] in Blood by Automated count,4376
+34,Prothrombin time (PT),4134
+35,Lactate [Moles/volume] in Blood,4046
+36,Eosinophils [#/volume] in Blood by Automated count,3829
+37,Neutrophils [#/volume] in Urine by Automated count,3829
+38,Bilirubin.total [Mass/volume] in Serum or Plasma,3774
+39,Oxygen saturation in Blood,3430
+40,Basophils [#/volume] in Blood by Automated count,3282
+41,Monocytes [#/volume] in Blood by Automated count,2735
+42,Oxygen/Total gas setting [Volume Fraction] Ventilator,2704
+43,Metamyelocytes/Leukocytes in Blood,2464
+44,pH of Blood,2460
+45,Erythrocytes [#/volume] in Urine sediment by Microscopy high power field,2330
+46,Band form neutrophils [#/volume] in Blood by Manual count,2310
+47,Leukocytes [#/area] in Urine sediment by Microscopy high power field,2270
+48,Leukocyte esterase [Presence] in Urine by Test strip,2248
+49,Variant lymphocytes [Presence] in Blood by Light microscopy,2112
+50,Myelocytes/Leukocytes in Blood,2112
+51,Epithelial cells [#/area] in Urine sediment by Microscopy high power field,1864
+52,Troponin T.cardiac [Mass/volume] in Serum or Plasma,1728
+53,Ketones [Mass/volume] in Urine by Test strip,1716
+54,Bilirubin.total [Presence] in Urine by Test strip,1704
+55,Creatine kinase [Enzymatic activity/volume] in Serum or Plasma,1670
+56,Albumin [Mass/volume] in Serum or Plasma,1656
+57,Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M,1656
+58,Tidal volume setting Ventilator,1603
+59,Bilirubin.direct [Mass/volume] in Serum or Plasma,1440
+60,Appearance of Urine,1425
+61,Hemoglobin [Presence] in Urine by Test strip,1420
+62,Urobilinogen [Presence] in Urine by Test strip,1420
+63,Platelets [#/volume] in Blood by Manual count,1376
+64,Hematocrit [Volume Fraction] of Blood by calculation,1260
+65,Amylase [Enzymatic activity/volume] in Serum or Plasma,1152
+66,Color of Urine,1140
+67,Bacteria [#/area] in Urine sediment by Microscopy high power field,1090
+68,Positive end expiratory pressure setting Ventilator,1068
+69,Macrocytes [Presence] in Blood by Light microscopy,1065
+70,Lipase [Enzymatic activity/volume] in Serum or Plasma,1022
+71,Specimen collection [Time] of Urine,972
+72,Poikilocytosis [Presence] in Blood by Light microscopy,955
+73,Yeast [#/area] in Urine sediment by Microscopy high power field,932
+74,Specific gravity of Urine by Test strip,900
+75,Polychromasia [Presence] in Blood by Light microscopy,870
+76,Hypochromia [Presence] in Blood by Light microscopy,864
+77,Glucose [Mass/volume] in Urine by Test strip,855
+78,Nitrite [Presence] in Urine by Test strip,852
+79,Glucose [Mass/volume] in Blood,849
+80,Phenytoin [Presence] in Serum or Plasma,812
+81,Microcytes [Presence] in Blood by Light microscopy,804
+82,Potassium [Moles/volume] in Blood,768
+83,Vancomycin [Mass/volume] in Serum or Plasma,704
+84,Iron binding capacity [Mass/volume] in Serum or Plasma,686
+85,Fibrinogen [Mass/volume] in Platelet poor plasma by Coagulation assay,650
+86,Bilirubin.indirect [Mass/volume] in Serum or Plasma,648
+87,Anisocytosis [Presence] in Blood by Light microscopy,645
+88,Creatine kinase.MB/Creatine kinase.total in Serum or Plasma,644
+89,Alveolar-arterial oxygen Partial pressure difference,640
+90,pH of Urine by Test strip,600
+91,Protein [Mass/volume] in Urine by Test strip,594
+92,Granulocytes [#/volume] in Blood,594
+93,Reticulocytes/Erythrocytes in Blood by Automated count,555
+94,Nucleated erythrocytes [#/volume] in Blood by Manual count,528
+95,Inhaled oxygen flow rate,528
+96,Triglyceride [Mass/volume] in Serum or Plasma --12 hours fasting,518
+97,Hepatitis B virus surface Ag [Presence] in Serum or Plasma by Immunoassay,504
+98,Acetaminophen [Presence] in Serum or Plasma,500
+99,Creatinine [Mass/volume] in Urine,485
+100,Urate [Mass/volume] in Serum or Plasma,474
+101,Hepatitis B virus surface Ab [Units/volume] in Serum or Plasma by Immunoassay,460
+102,Hemoglobin A1c/Hemoglobin.total in Blood,432
+103,Cholesterol.total/Cholesterol in HDL [Percentile],408
+104,Cortisol [Mass/volume] in Serum or Plasma,384
+105,Thyroxine (T4) free [Mass/volume] in Serum or Plasma,374
+106,Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma,341
+107,Dacrocytes [Presence] in Blood by Light microscopy,336
+108,Sodium [Moles/volume] in Blood,321
+109,Ovalocytes [Presence] in Blood by Light microscopy,320
+110,Fibrin+Fibrinogen fragments [Mass/volume] in Platelet poor plasma,315
+111,"Barbiturates [Presence] in Serum, Plasma or Blood",312
+112,Thyrotropin [Units/volume] in Serum or Plasma,292
+113,Cholesterol in HDL [Mass/volume] in Serum or Plasma,288
+114,Lymphocytes/Leukocytes in Peritoneal fluid,285
+115,Sodium [Moles/volume] in Urine,276
+116,Osmolality of Urine,268
+117,Deprecated Cholesterol.in LDL [Mass/volume] in Serum or Plasma,264
+118,Salicylates [Presence] in Serum or Plasma,264
+119,Urea nitrogen [Mass/volume] in Urine,264
+120,Chloride [Moles/volume] in Blood,261
+121,Schistocytes [Presence] in Blood by Light microscopy,255
+122,Granulocytes/Leukocytes in Peritoneal fluid,247
+123,Mucus [Presence] in Urine sediment by Light microscopy,244
+124,Folate [Mass/volume] in Serum or Plasma,231
+125,Platelets Large [Presence] in Blood by Automated count,230
+126,Monocytes/Leukocytes in Peritoneal fluid,228
+127,PHENobarbital [Presence] in Serum or Plasma,217
+128,Hyaline casts [#/area] in Urine sediment by Microscopy low power field,215
+129,Erythrocytes [#/volume] in Peritoneal fluid,209
+130,Cocaine [Presence] in Urine,209
+131,Methadone [Presence] in Urine,209
+132,Cholesterol [Mass/volume] in Serum or Plasma,200
+133,Amphetamines [Presence] in Urine,190
+134,Opiates [Presence] in Urine,190
+135,Osmolality of Serum or Plasma,188
+136,Burr cells [Presence] in Blood by Light microscopy,186
+137,Lymphocytes/Leukocytes in Cerebral spinal fluid,180
+138,Leukocytes [#/volume] in Peritoneal fluid,171
+139,Barbiturates [Presence] in Urine,171
+140,Ethanol [Presence] in Serum or Plasma,168
+141,Phenytoin Free/Phenytoin.total in Serum or Plasma,168
+142,Lymphocytes/Leukocytes in Pleural fluid,165
+143,Haptoglobin [Mass/volume] in Serum or Plasma,164
+144,Amorphous sediment [Presence] in Urine sediment by Light microscopy,162
+145,Macrophages/Leukocytes in Peritoneal fluid by Manual count,156
+146,Deprecated Polymorphonuclear cells/100 leukocytes in Cerebral spinal fluid,156
+147,Protein electrophoresis panel - Serum or Plasma,154
+148,Protein Fractions [Interpretation] in Urine by Electrophoresis,152
+149,Lymphocytes/Leukocytes in Body fluid,150
+150,Prostate specific Ag [Mass/volume] in Serum or Plasma,150
+151,Tricyclic antidepressants [Presence] in Serum or Plasma,144
+152,Phenytoin Free [Mass/volume] in Serum or Plasma,144
+153,Monocytes/Leukocytes in Cerebral spinal fluid,144
+154,Mesothelial cells/Leukocytes in Peritoneal fluid,143
+155,Granulocytes/Leukocytes in Pleural fluid,143
+156,Ammonia [Moles/volume] in Plasma,138
+157,Deprecated Hepatitis B virus core Ab [Units/volume] in Serum by Immunoassay,133
+158,Thyroxine (T4) [Mass/volume] in Serum or Plasma,132
+159,Erythrocytes [#/volume] in Cerebral spinal fluid,132
+160,Fibrin D-dimer FEU [Mass/volume] in Platelet poor plasma,130
+161,Deprecated Polymorphonuclear cells/100 leukocytes in Body fluid,130
+162,Benzodiazepines [Presence] in Blood,130
+163,Lactate dehydrogenase [Enzymatic activity/volume] in Pleural fluid,128
+164,Monocytes/Leukocytes in Pleural fluid,121
+165,Erythrocytes [#/volume] in Pleural fluid,121
+166,Leukocytes [#/volume] in Cerebral spinal fluid,120
+167,Protein/Creatinine [Mass Ratio] in Urine,120
+168,Deprecated Cobalamin [Mass/volume] in Serum,114
+169,Lactate dehydrogenase [Enzymatic activity/volume] in Peritoneal fluid,112
+170,Target cells [Presence] in Blood by Light microscopy,110
+171,Monocytes/Leukocytes in Body fluid by Manual count,110
+172,Parathyrin.intact [Mass/volume] in Serum or Plasma,108
+173,Carcinoembryonic Ag [Mass/volume] in Serum or Plasma,108
+174,Carboxyhemoglobin/Hemoglobin.total in Blood,105
+175,Spherocytes [Presence] in Blood by Light microscopy,104
+176,Ferritin [Mass/volume] in Serum or Plasma,100
+177,Iron [Mass/volume] in Serum or Plasma,100
+178,Basophilic stippling [Presence] in Blood by Light microscopy,100
+179,Erythrocytes [#/volume] in Body fluid,99
+180,Microscopic observation [Identifier] in Tissue by Wright stain,99
+181,Leukocytes [#/volume] in Pleural fluid,99
+182,Cancer Ag 27-29 [Units/volume] in Serum or Plasma,99
+183,Troponin I.cardiac [Mass/volume] in Serum or Plasma,98
+184,Immunofixation for Serum or Plasma Narrative,98
+185,Eosinophils [Presence] in Urine sediment by Light microscopy,98
+186,Benzodiazepines [Presence] in Urine,95
+187,Leukocytes [#/volume] in Body fluid,90
+188,Granular casts [#/area] in Urine sediment by Microscopy low power field,90
+189,Bicarbonate [Moles/volume] in Blood,90
+190,TBX5 gene mutations found [Identifier] in Blood or Tissue by Molecular genetics method Nominal,88
+191,Globulin [Mass/volume] in Serum,78
+192,Potassium [Moles/volume] in Urine,78
+193,Macrophages/Leukocytes in Pleural fluid by Manual count,78
+194,Mesothelial cells/Leukocytes in Pleural fluid,77
+195,Chloride [Moles/volume] in Urine,75
+196,Valproate [Mass/volume] in Serum or Plasma,75
+197,Digoxin [Mass/volume] in Serum or Plasma,72
+198,Thyroxine (T4)/Thyroxine binding globulin [Mass Ratio] in Serum or Plasma,72
+199,Eosinophils/Leukocytes in Peritoneal fluid,70
+200,Epithelial cells.renal [#/area] in Urine sediment by Microscopy high power field,70
+201,Leukocytes other [#/volume] in Blood by Manual count,66
+202,Methemoglobin/Hemoglobin.total in Blood,65
+203,Hepatitis C virus Ab [Presence] in Serum,63
+204,Promyelocytes [#/volume] in Blood by Manual count,63
+205,Microalbumin/Creatinine [Mass Ratio] in 24 hour Urine,63
+206,Macrophages/Leukocytes in Body fluid by Manual count,60
+207,Triiodothyronine (T3) [Mass/volume] in Serum or Plasma,60
+208,Lutropin [Mass/volume] in Serum or Plasma --baseline,60
+209,Thyroxine (T4) free index in Serum or Plasma by calculation,60
+210,Protein [Mass/volume] in Serum or Plasma,58
+211,Immunofixation for Urine Narrative,56
+212,Alpha-1-Fetoprotein [Mass/volume] in Serum or Plasma,56
+213,Transitional cells [#/area] in Urine sediment by Microscopy high power field,55
+214,Lymphocytes/Leukocytes in Synovial fluid,54
+215,Protein [Presence] in Urine,51
+216,Granulocytes/Leukocytes in Synovial fluid,50
+217,Plasma cells/Leukocytes in Blood,48
+218,IgG [Mass/volume] in Serum or Plasma,46
+219,Hepatitis B virus core IgM Ab [Presence] in Serum,45
+220,Hepatitis A virus Ab [Units/volume] in Serum or Plasma by Immunoassay,45
+221,Glucose [Mass/volume] in Cerebral spinal fluid,44
+222,Microscopic observation [Identifier] in Bone marrow by Wright Giemsa stain,44
+223,Monocytes/Leukocytes in Synovial fluid,44
+224,Urate crystals [Presence] in Urine sediment by Light microscopy,42
+225,Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma,42
+226,Coagulation factor VIII activity actual/normal in Platelet poor plasma by Coagulation assay,42
+227,Prolactin [Mass/volume] in Serum or Plasma,42
+228,Eosinophils/Leukocytes in Body fluid,42
+229,Eosinophils/Leukocytes in Pleural fluid,42
+230,Nuclear Ab [Units/volume] in Serum by Immunoassay,42
+231,Leukocytes [#/volume] in Synovial fluid,42
+232,Triiodothyronine resin uptake (T3RU) in Serum or Plasma,42
+233,LMW Heparin [Units/volume] in Platelet poor plasma,40
+234,Amylase [Enzymatic activity/volume] in Peritoneal fluid,40
+235,Erythrocyte [Sedimentation Rate] in Blood by Westergren method,39
+236,CD45 (Lymphs) cells/cells in Body fluid,39
+237,CD45 (Lymphs) cells/cells in Blood,39
+238,Gentamicin [Mass/volume] in Serum or Plasma,36
+239,Fragments [Presence] in Blood by Light microscopy,36
+240,CD10 cells/cells in Body fluid,36
+241,CD10 cells/cells in Blood,36
+242,Tobramycin [Mass/volume] in Serum or Plasma,36
+243,Albumin [Mass/volume] in Peritoneal fluid,33
+244,Protein [Mass/volume] in Cerebral spinal fluid,33
+245,Deprecated CD4 cells [#/volume] in Blood,33
+246,CD15 cells/cells in Blood,32
+247,Lactate dehydrogenase [Enzymatic activity/volume] in Cerebral spinal fluid,32
+248,Mitochondria Ab [Presence] in Serum,32
+249,Volume of Urine,30
+250,von Willebrand factor (vWf) Ag [Units/volume] in Platelet poor plasma by Immunoassay,30
+251,Blasts [#/volume] in Blood by Manual count,30
+252,Reticulocytes/Erythrocytes in Blood by Manual,30
+253,CD13 cells/cells in Blood,30
+254,Microscopic observation [Identifier] in Specimen by Wright stain,30
+255,Lactate dehydrogenase [Enzymatic activity/volume] in Body fluid,30
+256,Acanthocytes [Presence] in Blood by Light microscopy,28
+257,Protein electrophoresis panel - Cerebral spinal fluid,28
+258,Beta 2 globulin [Mass/volume] in Serum or Plasma by Electrophoresis,28
+259,Eosinophils/Leukocytes in Cerebral spinal fluid,28
+260,Amylase [Enzymatic activity/volume] in Pleural fluid,28
+261,Calcium oxalate crystals [Presence] in Urine sediment by Light microscopy,28
+262,CD19 cells/cells in Body fluid,27
+263,CD20 cells/cells in Body fluid,27
+264,CD19 cells/cells in Blood,27
+265,CD20 cells/cells in Blood,27
+266,CD34 cells/cells in Blood,27
+267,Deprecated CD8 cells [#/volume] in Blood,27
+268,Amylase [Enzymatic activity/volume] in Body fluid,27
+269,von Willebrand factor (vWf) actual/normal in Platelet poor plasma by Aggregometry.ristocetin cofactor activity,26
+270,CD45 (Lymphs) cells/cells in Bone marrow,26
+271,Bilirubin.total [Mass/volume] in Peritoneal fluid,25
+272,Macrophages/Leukocytes in Cerebral spinal fluid,24
+273,CD5 cells/cells in Blood,24
+274,HLA-DR [Presence],24
+275,CD10 cells/cells in Bone marrow,24
+276,Glucose-6-Phosphate dehydrogenase [Enzymatic activity/mass] in Red Blood Cells,23
+277,Mesothelial cells/Leukocytes in Body fluid,22
+278,Urinalysis specimen collection method,22
+279,CD14 cells/cells in Blood,22
+280,Macrophages/Leukocytes in Synovial fluid,22
+281,Glucose [Mass/volume] in Pleural fluid,21
+282,Erythrocytes [#/volume] in Synovial fluid,21
+283,Bicarbonate [Moles/volume] in Urine,20
+284,Platelets reticulated/Platelets in Blood,20
+285,Creatinine [Mass/volume] in Peritoneal fluid,20
+286,Hematocrit [Volume Fraction] of Body fluid by calculation,20
+287,CD2 cells/cells in Blood,20
+288,CD2 cells/cells in Bone marrow,20
+289,Variant lymphocytes/Leukocytes in Body fluid,19
+290,Deprecated CD4 cells/CD8 Cells [# Ratio] in Blood,19
+291,IgA [Mass/volume] in Serum or Plasma,18
+292,IgM [Mass/volume] in Serum or Plasma,18
+293,Protein [Mass/volume] in Peritoneal fluid,18
+294,Glucose [Mass/volume] in Peritoneal fluid,18
+295,CD11c cells/cells in Blood,18
+296,CD3 cells [#/volume] in Blood,18
+297,CD33 cells/cells in Blood,18
+298,CD19 cells/cells in Bone marrow,18
+299,Triglyceride [Mass/volume] in Pleural fluid,18
+300,Protein [Mass/volume] in Pleural fluid,16
+301,Hemoglobin [Presence] in Stool from gastrointestinal,16
+302,CD56 cells/cells in Blood,16
+303,CD7 cells/cells in Blood,16
+304,CD15 cells/cells in Bone marrow,16
+305,CD5 cells/cells in Bone marrow,16
+306,CD7 cells/cells in Bone marrow,16
+307,Nuclear Ab [Presence] in Serum,16
+308,C reactive protein [Mass/volume] in Serum or Plasma,15
+309,Coagulation factor V activity actual/normal in Platelet poor plasma by Coagulation assay,15
+310,Amylase/Creatinine [Ratio] in Urine,15
+311,Follitropin [Units/volume] in Serum or Plasma,15
+312,Lymphocytes/Leukocytes in Blood,15
+313,Cancer Ag 125 [Units/volume] in Serum or Plasma,15
+314,CD64 cells/cells in Blood,14
+315,Hemoglobin S [Presence] in Blood by Solubility test,13
+316,HIV 1 Ab [Units/volume] in Serum or Plasma by Immunoassay,13
+317,Thrombin time,12
+318,Epithelial cells.non-squamous [#/area] in Urine sediment by Microscopy high power field,12
+319,Coagulation factor XIII coagulum dissolution [Units/volume] in Platelet poor plasma by Coagulation assay,12
+320,WBC casts [#/area] in Urine sediment by Microscopy low power field,12
+321,Albumin [Mass/volume] in Pleural fluid,12
+322,CD117 cells/cells in Blood,12
+323,CD41 cells/cells in Blood,12
+324,CD71 cells/cells in Blood,12
+325,CD3 cells/cells in Bone marrow,12
+326,Deprecated CD4 cells/100 cells in Bone marrow,12
+327,CD8+HLA-DR+ cells/cells in Bone marrow,12
+328,Deprecated CD4 cells/100 cells in Blood,12
+329,Bite cells [Presence] in Blood by Light microscopy,12
+330,Plasma cells/Leukocytes in Peritoneal fluid by Manual count,12
+331,Neutrophils.hypersegmented [#/volume] in Blood by Manual count,11
+332,CD14 cells/cells in Bone marrow,11
+333,pH of Urine,10
+334,Acetone [Presence] in Serum or Plasma,10
+335,Pencil cells [Presence] in Blood by Light microscopy,10
+336,Phosphate [Mass/volume] in Urine,10
+337,CD2 cells/cells in Body fluid,10
+338,CD23 cells/cells in Body fluid,10
+339,CD235a cells/cells in Blood,10
+340,CD13 cells/cells in Bone marrow,10
+341,HLA-DR+ cells/cells in Bone marrow,10
+342,Deprecated CD8 cells/100 cells in Blood,10
+343,CD23 cells/cells in Bone marrow,10
+344,Bilirubin.total [Mass/volume] in Pleural fluid,10
+345,Albumin [Mass/volume] in Urine,9
+346,Iron.microscopic observation [Identifier] in Bone marrow by Potassium ferrocyanide stain,9
+347,Amylase [Enzymatic activity/volume] in Urine,9
+348,CD11c cells/cells in Bone marrow,9
+349,CD33 cells/cells in Bone marrow,9
+350,CD34 cells/cells in Bone marrow,9
+351,Leukocytes [#/volume] in Blood,9
+352,carBAMazepine [Mass/volume] in Serum or Plasma,9
+353,Smooth muscle Ab [Presence] in Serum,9
+354,CD5 cells/cells in Body fluid,8
+355,CD7 cells/cells in Body fluid,8
+356,Testosterone [Mass/volume] in Serum or Plasma,8
+357,Lymphocytes [#/volume] in Blood,8
+358,Albumin [Mass/volume] in Body fluid,8
+359,Porphobilinogen [Presence] in Urine,7
+360,Eosinophils [#/volume] in Blood,7
+361,CD64 cells/cells in Bone marrow,7
+362,Platelet clump [Presence] in Blood by Automated count,7
+363,Viscosity of Serum,6
+364,CD3 cells/cells in Body fluid,6
+365,Choriogonadotropin [Moles/volume] in Serum or Plasma,6
+366,CD117 cells/cells in Bone marrow,6
+367,CD41 cells/cells in Bone marrow,6
+368,CD3 cells/cells in Blood,6
+369,Sirolimus [Mass/volume] in Blood,6
+370,Glucose [Mass/volume] in Body fluid,6
+371,Triglyceride [Mass/volume] in Body fluid,6
+372,Oval macrocytes [Presence] in Blood by Light microscopy,6
+373,Casts [#/area] in Urine sediment by Microscopy low power field,5
+374,Parasite identified in Blood,5
+375,HLA-DR+ cells/cells in Body fluid,5
+376,CD235a cells/cells in Bone marrow,5
+377,Bilirubin.total [Mass/volume] in Body fluid,5
+378,Creatinine [Mass/volume] in Body fluid,4
+379,Complement C3 [Mass/volume] in Serum or Plasma,4
+380,Complement C4 [Mass/volume] in Serum or Plasma,4
+381,Myoglobin [Presence] in Urine,4
+382,pH of Body fluid,4
+383,Creatinine [Mass/volume] in Pleural fluid,4
+384,Protein [Mass/volume] in Body fluid,4
+385,Chloride [Moles/volume] in Body fluid,3
+386,Potassium [Moles/volume] in Body fluid,3
+387,Sodium [Moles/volume] in Body fluid,3
+388,FMC7 cells/cells in Body fluid,3
+389,Urate [Mass/volume] in Urine,3

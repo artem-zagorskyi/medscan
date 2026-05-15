@@ -12,6 +12,9 @@ lerna-debug.log*
 # DIAGNOSTIC REPORTS
 # ─────────────────────────────────────────
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+D_LABITEMS.csv
+LABEVENTS.csv
+Loinc.csv
 
 # ─────────────────────────────────────────
 # RUNTIME DATA
