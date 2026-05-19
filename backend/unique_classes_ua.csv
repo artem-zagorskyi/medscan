@@ -1,0 +1,390 @@
+class_id,common_name_en,common_name_ua,count
+1,Hematocrit [Volume Fraction] of Blood by Automated count,"Гематокрит [об'ємна частка] у крові, автоматичний підрахунок",23170
+2,Erythrocytes [#/volume] in Blood by Automated count,"Еритроцити [кількість/об'єм] у крові, автоматичний підрахунок",22077
+3,Erythrocyte [DistWidth] in Blood by Automated count,"Ширина розподілу еритроцитів (RDW) у крові, автоматичний підрахунок",20050
+4,Leukocytes [#/volume] in Blood by Manual count,"Лейкоцити [кількість/об'єм] у крові, ручний підрахунок",18189
+5,Phosphate [Mass/volume] in Serum or Plasma,Фосфати [маса/об'єм] у сироватці або плазмі,17480
+6,Platelets [#/volume] in Blood by Automated count,"Тромбоцити [кількість/об'єм] у крові, автоматичний підрахунок",16704
+7,Deprecated INR in Platelet poor plasma by Coagulation assay,"МНВ (INR) у плазмі, бідній на тромбоцити — коагуляційний аналіз (застаріле)",16536
+8,Bicarbonate [Moles/volume] in Serum or Plasma,Бікарбонат [моль/об'єм] у сироватці або плазмі,15057
+9,MCH [Entitic mass] by Automated count,"Середній вміст гемоглобіну в еритроциті (MCH), автоматичний підрахунок",14049
+10,Urea nitrogen [Mass/volume] in Serum or Plasma,Азот сечовини [маса/об'єм] у сироватці або плазмі,12948
+11,MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count,"Середня концентрація гемоглобіну в еритроциті (MCHC), автоматичний підрахунок",12048
+12,"Carbon dioxide, total [Moles/volume] in Blood by calculation","Загальний CO₂ [моль/об'єм] у крові, розрахунковий",9328
+13,Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma,Лужна фосфатаза [активність/об'єм] у сироватці або плазмі,8880
+14,Creatinine [Mass/volume] in Serum or Plasma,Креатинін [маса/об'єм] у сироватці або плазмі,8700
+15,Hemoglobin [Mass/volume] in Blood,Гемоглобін [маса/об'єм] у крові,8616
+16,Oxygen [Partial pressure] in Blood,Кисень [парціальний тиск] у крові,8162
+17,Magnesium [Moles/volume] in Serum or Plasma,Магній [моль/об'єм] у сироватці або плазмі,7672
+18,aPTT in Blood by Coagulation assay,"АЧТЧ (aPTT) у крові, коагуляційний аналіз",7095
+19,Carbon dioxide [Partial pressure] in Blood,Вуглекислий газ [парціальний тиск] у крові,6996
+20,Potassium [Moles/volume] in Serum or Plasma,Калій [моль/об'єм] у сироватці або плазмі,6837
+21,Sodium [Moles/volume] in Serum or Plasma,Натрій [моль/об'єм] у сироватці або плазмі,6555
+22,Chloride [Moles/volume] in Serum or Plasma,Хлориди [моль/об'єм] у сироватці або плазмі,6480
+23,Anion gap in Serum or Plasma by Calculated.4Ions,"Аніонний інтервал у сироватці або плазмі, розрахунок 4 іонів",6402
+24,Glucose [Mass/volume] in Serum or Plasma,Глюкоза [маса/об'єм] у сироватці або плазмі,6363
+25,Lactate dehydrogenase [Enzymatic activity/volume] in Serum or Plasma,Лактатдегідрогеназа (ЛДГ) [активність/об'єм] у сироватці або плазмі,6345
+26,Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma,Аланінамінотрансфераза (АЛТ) [активність/об'єм] у сироватці або плазмі,6090
+27,MCV [Entitic mean volume] in Red Blood Cells by Automated count,"Середній об'єм еритроцита (MCV), автоматичний підрахунок",6021
+28,Base excess in Blood by calculation,"Надлишок основ у крові, розрахунковий",5830
+29,Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma,Аспартатамінотрансфераза (АСТ) [активність/об'єм] у сироватці або плазмі,5427
+30,Calcium [Moles/volume] in Serum or Plasma,Кальцій [моль/об'єм] у сироватці або плазмі,5271
+31,Deprecated Creatine kinase.MB,Креатинкіназа-МВ (застаріле),5104
+32,Calcium.ionized [Moles/volume] in Blood,Іонізований кальцій [моль/об'єм] у крові,5022
+33,Lymphocytes [#/volume] in Blood by Automated count,"Лімфоцити [кількість/об'єм] у крові, автоматичний підрахунок",4376
+34,Prothrombin time (PT),Протромбіновий час (ПЧ),4134
+35,Lactate [Moles/volume] in Blood,Лактат [моль/об'єм] у крові,4046
+36,Eosinophils [#/volume] in Blood by Automated count,"Еозинофіли [кількість/об'єм] у крові, автоматичний підрахунок",3829
+37,Neutrophils [#/volume] in Urine by Automated count,"Нейтрофіли [кількість/об'єм] у сечі, автоматичний підрахунок",3829
+38,Bilirubin.total [Mass/volume] in Serum or Plasma,Загальний білірубін [маса/об'єм] у сироватці або плазмі,3774
+39,Oxygen saturation in Blood,Насичення крові киснем (SpO₂),3430
+40,Basophils [#/volume] in Blood by Automated count,"Базофіли [кількість/об'єм] у крові, автоматичний підрахунок",3282
+41,Monocytes [#/volume] in Blood by Automated count,"Моноцити [кількість/об'єм] у крові, автоматичний підрахунок",2735
+42,Oxygen/Total gas setting [Volume Fraction] Ventilator,Частка кисню у дихальній суміші — налаштування вентилятора,2704
+43,Metamyelocytes/Leukocytes in Blood,Метамієлоцити/Лейкоцити у крові,2464
+44,pH of Blood,pH крові,2460
+45,Erythrocytes [#/volume] in Urine sediment by Microscopy high power field,"Еритроцити [кількість/об'єм] в осаді сечі, мікроскопія (велике збільшення)",2330
+46,Band form neutrophils [#/volume] in Blood by Manual count,"Паличкоядерні нейтрофіли [кількість/об'єм] у крові, ручний підрахунок",2310
+47,Leukocytes [#/area] in Urine sediment by Microscopy high power field,"Лейкоцити [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",2270
+48,Leukocyte esterase [Presence] in Urine by Test strip,"Лейкоцитарна естераза [наявність] у сечі, тест-смужка",2248
+49,Variant lymphocytes [Presence] in Blood by Light microscopy,"Атипові лімфоцити [наявність] у крові, світлова мікроскопія",2112
+50,Myelocytes/Leukocytes in Blood,Мієлоцити/Лейкоцити у крові,2112
+51,Epithelial cells [#/area] in Urine sediment by Microscopy high power field,"Епітеліальні клітини [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",1864
+52,Troponin T.cardiac [Mass/volume] in Serum or Plasma,Серцевий тропонін Т [маса/об'єм] у сироватці або плазмі,1728
+53,Ketones [Mass/volume] in Urine by Test strip,"Кетонові тіла [маса/об'єм] у сечі, тест-смужка",1716
+54,Bilirubin.total [Presence] in Urine by Test strip,"Загальний білірубін [наявність] у сечі, тест-смужка",1704
+55,Creatine kinase [Enzymatic activity/volume] in Serum or Plasma,Креатинкіназа (КК) [активність/об'єм] у сироватці або плазмі,1670
+56,Albumin [Mass/volume] in Serum or Plasma,Альбумін [маса/об'єм] у сироватці або плазмі,1656
+57,Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M,Швидкість клубочкової фільтрації (ШКФ) за формулою MDRD,1656
+58,Tidal volume setting Ventilator,Дихальний об'єм — налаштування вентилятора,1603
+59,Bilirubin.direct [Mass/volume] in Serum or Plasma,Прямий білірубін [маса/об'єм] у сироватці або плазмі,1440
+60,Appearance of Urine,Прозорість сечі,1425
+61,Hemoglobin [Presence] in Urine by Test strip,"Гемоглобін [наявність] у сечі, тест-смужка",1420
+62,Urobilinogen [Presence] in Urine by Test strip,"Уробіліноген [наявність] у сечі, тест-смужка",1420
+63,Platelets [#/volume] in Blood by Manual count,"Тромбоцити [кількість/об'єм] у крові, ручний підрахунок",1376
+64,Hematocrit [Volume Fraction] of Blood by calculation,"Гематокрит [об'ємна частка] у крові, розрахунковий",1260
+65,Amylase [Enzymatic activity/volume] in Serum or Plasma,Амілаза [активність/об'єм] у сироватці або плазмі,1152
+66,Color of Urine,Колір сечі,1140
+67,Bacteria [#/area] in Urine sediment by Microscopy high power field,"Бактерії [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",1090
+68,Positive end expiratory pressure setting Ventilator,ПТКВ (PEEP) — налаштування вентилятора,1068
+69,Macrocytes [Presence] in Blood by Light microscopy,"Макроцити [наявність] у крові, світлова мікроскопія",1065
+70,Lipase [Enzymatic activity/volume] in Serum or Plasma,Ліпаза [активність/об'єм] у сироватці або плазмі,1022
+71,Specimen collection [Time] of Urine,Час збору зразка сечі,972
+72,Poikilocytosis [Presence] in Blood by Light microscopy,"Пойкілоцитоз [наявність] у крові, світлова мікроскопія",955
+73,Yeast [#/area] in Urine sediment by Microscopy high power field,"Дріжджові гриби [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",932
+74,Specific gravity of Urine by Test strip,"Питома вага сечі, тест-смужка",900
+75,Polychromasia [Presence] in Blood by Light microscopy,"Поліхромазія [наявність] у крові, світлова мікроскопія",870
+76,Hypochromia [Presence] in Blood by Light microscopy,"Гіпохромія [наявність] у крові, світлова мікроскопія",864
+77,Glucose [Mass/volume] in Urine by Test strip,"Глюкоза [маса/об'єм] у сечі, тест-смужка",855
+78,Nitrite [Presence] in Urine by Test strip,"Нітрити [наявність] у сечі, тест-смужка",852
+79,Glucose [Mass/volume] in Blood,Глюкоза [маса/об'єм] у крові,849
+80,Phenytoin [Presence] in Serum or Plasma,Фенітоїн [наявність] у сироватці або плазмі,812
+81,Microcytes [Presence] in Blood by Light microscopy,"Мікроцити [наявність] у крові, світлова мікроскопія",804
+82,Potassium [Moles/volume] in Blood,Калій [моль/об'єм] у крові,768
+83,Vancomycin [Mass/volume] in Serum or Plasma,Ванкоміцин [маса/об'єм] у сироватці або плазмі,704
+84,Iron binding capacity [Mass/volume] in Serum or Plasma,Загальна залізозв'язуюча здатність (ЗЗЗЗ) у сироватці або плазмі,686
+85,Fibrinogen [Mass/volume] in Platelet poor plasma by Coagulation assay,"Фібриноген [маса/об'єм] у плазмі, бідній на тромбоцити — коагуляційний аналіз",650
+86,Bilirubin.indirect [Mass/volume] in Serum or Plasma,Непрямий білірубін [маса/об'єм] у сироватці або плазмі,648
+87,Anisocytosis [Presence] in Blood by Light microscopy,"Анізоцитоз [наявність] у крові, світлова мікроскопія",645
+88,Creatine kinase.MB/Creatine kinase.total in Serum or Plasma,КК-МВ/Загальна КК у сироватці або плазмі,644
+89,Alveolar-arterial oxygen Partial pressure difference,Альвеолярно-артеріальний градієнт кисню,640
+90,pH of Urine by Test strip,"pH сечі, тест-смужка",600
+91,Protein [Mass/volume] in Urine by Test strip,"Білок [маса/об'єм] у сечі, тест-смужка",594
+92,Granulocytes [#/volume] in Blood,Гранулоцити [кількість/об'єм] у крові,594
+93,Reticulocytes/Erythrocytes in Blood by Automated count,"Ретикулоцити/Еритроцити у крові, автоматичний підрахунок",555
+94,Nucleated erythrocytes [#/volume] in Blood by Manual count,"Ядровмісні еритроцити [кількість/об'єм] у крові, ручний підрахунок",528
+95,Inhaled oxygen flow rate,Швидкість потоку інгаляційного кисню,528
+96,Triglyceride [Mass/volume] in Serum or Plasma --12 hours fasting,Тригліцериди [маса/об'єм] у сироватці або плазмі (натще 12 год),518
+97,Hepatitis B virus surface Ag [Presence] in Serum or Plasma by Immunoassay,"HBsAg [наявність] у сироватці або плазмі, імуноаналіз",504
+98,Acetaminophen [Presence] in Serum or Plasma,Парацетамол [наявність] у сироватці або плазмі,500
+99,Creatinine [Mass/volume] in Urine,Креатинін [маса/об'єм] у сечі,485
+100,Urate [Mass/volume] in Serum or Plasma,Сечова кислота [маса/об'єм] у сироватці або плазмі,474
+101,Hepatitis B virus surface Ab [Units/volume] in Serum or Plasma by Immunoassay,"Anti-HBs [од/об'єм] у сироватці або плазмі, імуноаналіз",460
+102,Hemoglobin A1c/Hemoglobin.total in Blood,Глікований гемоглобін (HbA1c)/Загальний гемоглобін у крові,432
+103,Cholesterol.total/Cholesterol in HDL [Percentile],Загальний холестерин/Холестерин ЛПВЩ [перцентиль],408
+104,Cortisol [Mass/volume] in Serum or Plasma,Кортизол [маса/об'єм] у сироватці або плазмі,384
+105,Thyroxine (T4) free [Mass/volume] in Serum or Plasma,Вільний тироксин (вТ4) [маса/об'єм] у сироватці або плазмі,374
+106,Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma,NT-proBNP [маса/об'єм] у сироватці або плазмі,341
+107,Dacrocytes [Presence] in Blood by Light microscopy,"Дакріоцити [наявність] у крові, світлова мікроскопія",336
+108,Sodium [Moles/volume] in Blood,Натрій [моль/об'єм] у крові,321
+109,Ovalocytes [Presence] in Blood by Light microscopy,"Овалоцити [наявність] у крові, світлова мікроскопія",320
+110,Fibrin+Fibrinogen fragments [Mass/volume] in Platelet poor plasma,"Продукти деградації фібрину/фібриногену [маса/об'єм] у плазмі, бідній на тромбоцити",315
+111,"Barbiturates [Presence] in Serum, Plasma or Blood","Барбітурати [наявність] у сироватці, плазмі або крові",312
+112,Thyrotropin [Units/volume] in Serum or Plasma,Тиреотропний гормон (ТТГ) [од/об'єм] у сироватці або плазмі,292
+113,Cholesterol in HDL [Mass/volume] in Serum or Plasma,Холестерин ЛПВЩ [маса/об'єм] у сироватці або плазмі,288
+114,Lymphocytes/Leukocytes in Peritoneal fluid,Лімфоцити/Лейкоцити у перитонеальній рідині,285
+115,Sodium [Moles/volume] in Urine,Натрій [моль/об'єм] у сечі,276
+116,Osmolality of Urine,Осмоляльність сечі,268
+117,Deprecated Cholesterol.in LDL [Mass/volume] in Serum or Plasma,Холестерин ЛПНЩ [маса/об'єм] у сироватці або плазмі (застаріле),264
+118,Salicylates [Presence] in Serum or Plasma,Саліцилати [наявність] у сироватці або плазмі,264
+119,Urea nitrogen [Mass/volume] in Urine,Азот сечовини [маса/об'єм] у сечі,264
+120,Chloride [Moles/volume] in Blood,Хлориди [моль/об'єм] у крові,261
+121,Schistocytes [Presence] in Blood by Light microscopy,"Шистоцити [наявність] у крові, світлова мікроскопія",255
+122,Granulocytes/Leukocytes in Peritoneal fluid,Гранулоцити/Лейкоцити у перитонеальній рідині,247
+123,Mucus [Presence] in Urine sediment by Light microscopy,"Слиз [наявність] в осаді сечі, світлова мікроскопія",244
+124,Folate [Mass/volume] in Serum or Plasma,Фолат (фолієва кислота) [маса/об'єм] у сироватці або плазмі,231
+125,Platelets Large [Presence] in Blood by Automated count,"Великі тромбоцити [наявність] у крові, автоматичний підрахунок",230
+126,Monocytes/Leukocytes in Peritoneal fluid,Моноцити/Лейкоцити у перитонеальній рідині,228
+127,PHENobarbital [Presence] in Serum or Plasma,Фенобарбітал [наявність] у сироватці або плазмі,217
+128,Hyaline casts [#/area] in Urine sediment by Microscopy low power field,"Гіалінові циліндри [кількість/площу] в осаді сечі, мікроскопія (мале збільшення)",215
+129,Erythrocytes [#/volume] in Peritoneal fluid,Еритроцити [кількість/об'єм] у перитонеальній рідині,209
+130,Cocaine [Presence] in Urine,Кокаїн [наявність] у сечі,209
+131,Methadone [Presence] in Urine,Метадон [наявність] у сечі,209
+132,Cholesterol [Mass/volume] in Serum or Plasma,Холестерин [маса/об'єм] у сироватці або плазмі,200
+133,Amphetamines [Presence] in Urine,Амфетаміни [наявність] у сечі,190
+134,Opiates [Presence] in Urine,Опіати [наявність] у сечі,190
+135,Osmolality of Serum or Plasma,Осмоляльність сироватки або плазми,188
+136,Burr cells [Presence] in Blood by Light microscopy,"Бур-клітини (ехіноцити) [наявність] у крові, світлова мікроскопія",186
+137,Lymphocytes/Leukocytes in Cerebral spinal fluid,Лімфоцити/Лейкоцити у спинномозковій рідині,180
+138,Leukocytes [#/volume] in Peritoneal fluid,Лейкоцити [кількість/об'єм] у перитонеальній рідині,171
+139,Barbiturates [Presence] in Urine,Барбітурати [наявність] у сечі,171
+140,Ethanol [Presence] in Serum or Plasma,Етанол [наявність] у сироватці або плазмі,168
+141,Phenytoin Free/Phenytoin.total in Serum or Plasma,Вільний фенітоїн/Загальний фенітоїн у сироватці або плазмі,168
+142,Lymphocytes/Leukocytes in Pleural fluid,Лімфоцити/Лейкоцити у плевральній рідині,165
+143,Haptoglobin [Mass/volume] in Serum or Plasma,Гаптоглобін [маса/об'єм] у сироватці або плазмі,164
+144,Amorphous sediment [Presence] in Urine sediment by Light microscopy,"Аморфний осад [наявність] в осаді сечі, світлова мікроскопія",162
+145,Macrophages/Leukocytes in Peritoneal fluid by Manual count,"Макрофаги/Лейкоцити у перитонеальній рідині, ручний підрахунок",156
+146,Deprecated Polymorphonuclear cells/100 leukocytes in Cerebral spinal fluid,Поліморфноядерні клітини/100 лейкоцитів у спинномозковій рідині (застаріле),156
+147,Protein electrophoresis panel - Serum or Plasma,Панель електрофорезу білків — сироватка або плазма,154
+148,Protein Fractions [Interpretation] in Urine by Electrophoresis,"Білкові фракції [інтерпретація] у сечі, електрофорез",152
+149,Lymphocytes/Leukocytes in Body fluid,Лімфоцити/Лейкоцити у біологічній рідині,150
+150,Prostate specific Ag [Mass/volume] in Serum or Plasma,ПСА (простатспецифічний антиген) [маса/об'єм] у сироватці або плазмі,150
+151,Tricyclic antidepressants [Presence] in Serum or Plasma,Трициклічні антидепресанти [наявність] у сироватці або плазмі,144
+152,Phenytoin Free [Mass/volume] in Serum or Plasma,Вільний фенітоїн [маса/об'єм] у сироватці або плазмі,144
+153,Monocytes/Leukocytes in Cerebral spinal fluid,Моноцити/Лейкоцити у спинномозковій рідині,144
+154,Mesothelial cells/Leukocytes in Peritoneal fluid,Мезотеліальні клітини/Лейкоцити у перитонеальній рідині,143
+155,Granulocytes/Leukocytes in Pleural fluid,Гранулоцити/Лейкоцити у плевральній рідині,143
+156,Ammonia [Moles/volume] in Plasma,Аміак [моль/об'єм] у плазмі,138
+157,Deprecated Hepatitis B virus core Ab [Units/volume] in Serum by Immunoassay,"Anti-HBc [од/об'єм] у сироватці, імуноаналіз (застаріле)",133
+158,Thyroxine (T4) [Mass/volume] in Serum or Plasma,Тироксин (Т4) [маса/об'єм] у сироватці або плазмі,132
+159,Erythrocytes [#/volume] in Cerebral spinal fluid,Еритроцити [кількість/об'єм] у спинномозковій рідині,132
+160,Fibrin D-dimer FEU [Mass/volume] in Platelet poor plasma,"D-димер (FEU) [маса/об'єм] у плазмі, бідній на тромбоцити",130
+161,Deprecated Polymorphonuclear cells/100 leukocytes in Body fluid,Поліморфноядерні клітини/100 лейкоцитів у біологічній рідині (застаріле),130
+162,Benzodiazepines [Presence] in Blood,Бензодіазепіни [наявність] у крові,130
+163,Lactate dehydrogenase [Enzymatic activity/volume] in Pleural fluid,ЛДГ [активність/об'єм] у плевральній рідині,128
+164,Monocytes/Leukocytes in Pleural fluid,Моноцити/Лейкоцити у плевральній рідині,121
+165,Erythrocytes [#/volume] in Pleural fluid,Еритроцити [кількість/об'єм] у плевральній рідині,121
+166,Leukocytes [#/volume] in Cerebral spinal fluid,Лейкоцити [кількість/об'єм] у спинномозковій рідині,120
+167,Protein/Creatinine [Mass Ratio] in Urine,Білок/Креатинін [масове співвідношення] у сечі,120
+168,Deprecated Cobalamin [Mass/volume] in Serum,Кобаламін (вітамін B12) [маса/об'єм] у сироватці (застаріле),114
+169,Lactate dehydrogenase [Enzymatic activity/volume] in Peritoneal fluid,ЛДГ [активність/об'єм] у перитонеальній рідині,112
+170,Target cells [Presence] in Blood by Light microscopy,"Мішенеподібні еритроцити [наявність] у крові, світлова мікроскопія",110
+171,Monocytes/Leukocytes in Body fluid by Manual count,"Моноцити/Лейкоцити у біологічній рідині, ручний підрахунок",110
+172,Parathyrin.intact [Mass/volume] in Serum or Plasma,Інтактний паратгормон (іПТГ) [маса/об'єм] у сироватці або плазмі,108
+173,Carcinoembryonic Ag [Mass/volume] in Serum or Plasma,Раково-ембріональний антиген (РЕА) [маса/об'єм] у сироватці або плазмі,108
+174,Carboxyhemoglobin/Hemoglobin.total in Blood,Карбоксигемоглобін/Загальний гемоглобін у крові,105
+175,Spherocytes [Presence] in Blood by Light microscopy,"Сфероцити [наявність] у крові, світлова мікроскопія",104
+176,Ferritin [Mass/volume] in Serum or Plasma,Феритин [маса/об'єм] у сироватці або плазмі,100
+177,Iron [Mass/volume] in Serum or Plasma,Залізо [маса/об'єм] у сироватці або плазмі,100
+178,Basophilic stippling [Presence] in Blood by Light microscopy,"Базофільна зернистість еритроцитів [наявність] у крові, світлова мікроскопія",100
+179,Erythrocytes [#/volume] in Body fluid,Еритроцити [кількість/об'єм] у біологічній рідині,99
+180,Microscopic observation [Identifier] in Tissue by Wright stain,"Мікроскопія [ідентифікатор] у тканині, фарбування за Райтом",99
+181,Leukocytes [#/volume] in Pleural fluid,Лейкоцити [кількість/об'єм] у плевральній рідині,99
+182,Cancer Ag 27-29 [Units/volume] in Serum or Plasma,CA 27-29 [од/об'єм] у сироватці або плазмі,99
+183,Troponin I.cardiac [Mass/volume] in Serum or Plasma,Серцевий тропонін І [маса/об'єм] у сироватці або плазмі,98
+184,Immunofixation for Serum or Plasma Narrative,Імунофіксація сироватки або плазми (текстовий звіт),98
+185,Eosinophils [Presence] in Urine sediment by Light microscopy,"Еозинофіли [наявність] в осаді сечі, світлова мікроскопія",98
+186,Benzodiazepines [Presence] in Urine,Бензодіазепіни [наявність] у сечі,95
+187,Leukocytes [#/volume] in Body fluid,Лейкоцити [кількість/об'єм] у біологічній рідині,90
+188,Granular casts [#/area] in Urine sediment by Microscopy low power field,"Зернисті циліндри [кількість/площу] в осаді сечі, мікроскопія (мале збільшення)",90
+189,Bicarbonate [Moles/volume] in Blood,Бікарбонат [моль/об'єм] у крові,90
+190,TBX5 gene mutations found [Identifier] in Blood or Tissue by Molecular genetics method Nominal,"Мутації гена TBX5 [ідентифікатор] у крові або тканині, молекулярна генетика",88
+191,Globulin [Mass/volume] in Serum,Глобулін [маса/об'єм] у сироватці,78
+192,Potassium [Moles/volume] in Urine,Калій [моль/об'єм] у сечі,78
+193,Macrophages/Leukocytes in Pleural fluid by Manual count,"Макрофаги/Лейкоцити у плевральній рідині, ручний підрахунок",78
+194,Mesothelial cells/Leukocytes in Pleural fluid,Мезотеліальні клітини/Лейкоцити у плевральній рідині,77
+195,Chloride [Moles/volume] in Urine,Хлориди [моль/об'єм] у сечі,75
+196,Valproate [Mass/volume] in Serum or Plasma,Вальпроат (вальпроєва кислота) [маса/об'єм] у сироватці або плазмі,75
+197,Digoxin [Mass/volume] in Serum or Plasma,Дигоксин [маса/об'єм] у сироватці або плазмі,72
+198,Thyroxine (T4)/Thyroxine binding globulin [Mass Ratio] in Serum or Plasma,Т4/Тироксинзв'язуючий глобулін [масове співвідношення] у сироватці або плазмі,72
+199,Eosinophils/Leukocytes in Peritoneal fluid,Еозинофіли/Лейкоцити у перитонеальній рідині,70
+200,Epithelial cells.renal [#/area] in Urine sediment by Microscopy high power field,"Ниркові епітеліальні клітини [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",70
+201,Leukocytes other [#/volume] in Blood by Manual count,"Інші лейкоцити [кількість/об'єм] у крові, ручний підрахунок",66
+202,Methemoglobin/Hemoglobin.total in Blood,Метгемоглобін/Загальний гемоглобін у крові,65
+203,Hepatitis C virus Ab [Presence] in Serum,Anti-HCV [наявність] у сироватці,63
+204,Promyelocytes [#/volume] in Blood by Manual count,"Промієлоцити [кількість/об'єм] у крові, ручний підрахунок",63
+205,Microalbumin/Creatinine [Mass Ratio] in 24 hour Urine,Мікроальбумін/Креатинін [масове співвідношення] у добовій сечі,63
+206,Macrophages/Leukocytes in Body fluid by Manual count,"Макрофаги/Лейкоцити у біологічній рідині, ручний підрахунок",60
+207,Triiodothyronine (T3) [Mass/volume] in Serum or Plasma,Трийодтиронін (Т3) [маса/об'єм] у сироватці або плазмі,60
+208,Lutropin [Mass/volume] in Serum or Plasma --baseline,Лютеїнізуючий гормон (ЛГ) [маса/об'єм] у сироватці або плазмі (базальний),60
+209,Thyroxine (T4) free index in Serum or Plasma by calculation,"Індекс вільного тироксину (Т4) у сироватці або плазмі, розрахунковий",60
+210,Protein [Mass/volume] in Serum or Plasma,Загальний білок [маса/об'єм] у сироватці або плазмі,58
+211,Immunofixation for Urine Narrative,Імунофіксація сечі (текстовий звіт),56
+212,Alpha-1-Fetoprotein [Mass/volume] in Serum or Plasma,Альфа-фетопротеїн (АФП) [маса/об'єм] у сироватці або плазмі,56
+213,Transitional cells [#/area] in Urine sediment by Microscopy high power field,"Перехідні епітеліальні клітини [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",55
+214,Lymphocytes/Leukocytes in Synovial fluid,Лімфоцити/Лейкоцити у синовіальній рідині,54
+215,Protein [Presence] in Urine,Білок [наявність] у сечі,51
+216,Granulocytes/Leukocytes in Synovial fluid,Гранулоцити/Лейкоцити у синовіальній рідині,50
+217,Plasma cells/Leukocytes in Blood,Плазматичні клітини/Лейкоцити у крові,48
+218,IgG [Mass/volume] in Serum or Plasma,Імуноглобулін G (IgG) [маса/об'єм] у сироватці або плазмі,46
+219,Hepatitis B virus core IgM Ab [Presence] in Serum,Anti-HBc IgM [наявність] у сироватці,45
+220,Hepatitis A virus Ab [Units/volume] in Serum or Plasma by Immunoassay,"Anti-HAV [од/об'єм] у сироватці або плазмі, імуноаналіз",45
+221,Glucose [Mass/volume] in Cerebral spinal fluid,Глюкоза [маса/об'єм] у спинномозковій рідині,44
+222,Microscopic observation [Identifier] in Bone marrow by Wright Giemsa stain,"Мікроскопія [ідентифікатор] у кістковому мозку, фарбування за Райтом-Гімзою",44
+223,Monocytes/Leukocytes in Synovial fluid,Моноцити/Лейкоцити у синовіальній рідині,44
+224,Urate crystals [Presence] in Urine sediment by Light microscopy,"Кристали уратів [наявність] в осаді сечі, світлова мікроскопія",42
+225,Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma,Гамма-глутамілтрансфераза (ГГТ) [активність/об'єм] у сироватці або плазмі,42
+226,Coagulation factor VIII activity actual/normal in Platelet poor plasma by Coagulation assay,"Активність фактора згортання VIII акт./норм. у плазмі, бідній на тромбоцити",42
+227,Prolactin [Mass/volume] in Serum or Plasma,Пролактин [маса/об'єм] у сироватці або плазмі,42
+228,Eosinophils/Leukocytes in Body fluid,Еозинофіли/Лейкоцити у біологічній рідині,42
+229,Eosinophils/Leukocytes in Pleural fluid,Еозинофіли/Лейкоцити у плевральній рідині,42
+230,Nuclear Ab [Units/volume] in Serum by Immunoassay,"Антинуклеарні антитіла (ANA) [од/об'єм] у сироватці, імуноаналіз",42
+231,Leukocytes [#/volume] in Synovial fluid,Лейкоцити [кількість/об'єм] у синовіальній рідині,42
+232,Triiodothyronine resin uptake (T3RU) in Serum or Plasma,Поглинання трийодтироніну смолою (T3RU) у сироватці або плазмі,42
+233,LMW Heparin [Units/volume] in Platelet poor plasma,"НМГ (низькомолекулярний гепарин) [од/об'єм] у плазмі, бідній на тромбоцити",40
+234,Amylase [Enzymatic activity/volume] in Peritoneal fluid,Амілаза [активність/об'єм] у перитонеальній рідині,40
+235,Erythrocyte [Sedimentation Rate] in Blood by Westergren method,ШОЕ у крові (метод Вестергрена),39
+236,CD45 (Lymphs) cells/cells in Body fluid,CD45 (лімфоцити) клітини/клітини у біологічній рідині,39
+237,CD45 (Lymphs) cells/cells in Blood,CD45 (лімфоцити) клітини/клітини у крові,39
+238,Gentamicin [Mass/volume] in Serum or Plasma,Гентаміцин [маса/об'єм] у сироватці або плазмі,36
+239,Fragments [Presence] in Blood by Light microscopy,"Фрагменти еритроцитів [наявність] у крові, світлова мікроскопія",36
+240,CD10 cells/cells in Body fluid,CD10 клітини/клітини у біологічній рідині,36
+241,CD10 cells/cells in Blood,CD10 клітини/клітини у крові,36
+242,Tobramycin [Mass/volume] in Serum or Plasma,Тобраміцин [маса/об'єм] у сироватці або плазмі,36
+243,Albumin [Mass/volume] in Peritoneal fluid,Альбумін [маса/об'єм] у перитонеальній рідині,33
+244,Protein [Mass/volume] in Cerebral spinal fluid,Білок [маса/об'єм] у спинномозковій рідині,33
+245,Deprecated CD4 cells [#/volume] in Blood,CD4 клітини [кількість/об'єм] у крові (застаріле),33
+246,CD15 cells/cells in Blood,CD15 клітини/клітини у крові,32
+247,Lactate dehydrogenase [Enzymatic activity/volume] in Cerebral spinal fluid,ЛДГ [активність/об'єм] у спинномозковій рідині,32
+248,Mitochondria Ab [Presence] in Serum,Антимітохондріальні антитіла (AMA) [наявність] у сироватці,32
+249,Volume of Urine,Об'єм сечі,30
+250,von Willebrand factor (vWf) Ag [Units/volume] in Platelet poor plasma by Immunoassay,"Антиген фактора фон Віллебранда (vWF Ag) [од/об'єм] у плазмі, імуноаналіз",30
+251,Blasts [#/volume] in Blood by Manual count,"Бласти [кількість/об'єм] у крові, ручний підрахунок",30
+252,Reticulocytes/Erythrocytes in Blood by Manual,Ретикулоцити/Еритроцити у крові (ручний метод),30
+253,CD13 cells/cells in Blood,CD13 клітини/клітини у крові,30
+254,Microscopic observation [Identifier] in Specimen by Wright stain,"Мікроскопія [ідентифікатор] у зразку, фарбування за Райтом",30
+255,Lactate dehydrogenase [Enzymatic activity/volume] in Body fluid,ЛДГ [активність/об'єм] у біологічній рідині,30
+256,Acanthocytes [Presence] in Blood by Light microscopy,"Акантоцити [наявність] у крові, світлова мікроскопія",28
+257,Protein electrophoresis panel - Cerebral spinal fluid,Панель електрофорезу білків — спинномозкова рідина,28
+258,Beta 2 globulin [Mass/volume] in Serum or Plasma by Electrophoresis,"Бета-2-глобулін [маса/об'єм] у сироватці або плазмі, електрофорез",28
+259,Eosinophils/Leukocytes in Cerebral spinal fluid,Еозинофіли/Лейкоцити у спинномозковій рідині,28
+260,Amylase [Enzymatic activity/volume] in Pleural fluid,Амілаза [активність/об'єм] у плевральній рідині,28
+261,Calcium oxalate crystals [Presence] in Urine sediment by Light microscopy,"Кристали оксалату кальцію [наявність] в осаді сечі, світлова мікроскопія",28
+262,CD19 cells/cells in Body fluid,CD19 клітини/клітини у біологічній рідині,27
+263,CD20 cells/cells in Body fluid,CD20 клітини/клітини у біологічній рідині,27
+264,CD19 cells/cells in Blood,CD19 клітини/клітини у крові,27
+265,CD20 cells/cells in Blood,CD20 клітини/клітини у крові,27
+266,CD34 cells/cells in Blood,CD34 клітини/клітини у крові,27
+267,Deprecated CD8 cells [#/volume] in Blood,CD8 клітини [кількість/об'єм] у крові (застаріле),27
+268,Amylase [Enzymatic activity/volume] in Body fluid,Амілаза [активність/об'єм] у біологічній рідині,27
+269,von Willebrand factor (vWf) actual/normal in Platelet poor plasma by Aggregometry.ristocetin cofactor activity,"Активність фактора фон Віллебранда акт./норм. у плазмі, ристоцетин-кофакторна агрегометрія",26
+270,CD45 (Lymphs) cells/cells in Bone marrow,CD45 (лімфоцити) клітини/клітини у кістковому мозку,26
+271,Bilirubin.total [Mass/volume] in Peritoneal fluid,Загальний білірубін [маса/об'єм] у перитонеальній рідині,25
+272,Macrophages/Leukocytes in Cerebral spinal fluid,Макрофаги/Лейкоцити у спинномозковій рідині,24
+273,CD5 cells/cells in Blood,CD5 клітини/клітини у крові,24
+274,HLA-DR [Presence],HLA-DR [наявність],24
+275,CD10 cells/cells in Bone marrow,CD10 клітини/клітини у кістковому мозку,24
+276,Glucose-6-Phosphate dehydrogenase [Enzymatic activity/mass] in Red Blood Cells,Глюкозо-6-фосфатдегідрогеназа (Г6ФД) [активність/маса] в еритроцитах,23
+277,Mesothelial cells/Leukocytes in Body fluid,Мезотеліальні клітини/Лейкоцити у біологічній рідині,22
+278,Urinalysis specimen collection method,Метод збору зразка для загального аналізу сечі,22
+279,CD14 cells/cells in Blood,CD14 клітини/клітини у крові,22
+280,Macrophages/Leukocytes in Synovial fluid,Макрофаги/Лейкоцити у синовіальній рідині,22
+281,Glucose [Mass/volume] in Pleural fluid,Глюкоза [маса/об'єм] у плевральній рідині,21
+282,Erythrocytes [#/volume] in Synovial fluid,Еритроцити [кількість/об'єм] у синовіальній рідині,21
+283,Bicarbonate [Moles/volume] in Urine,Бікарбонат [моль/об'єм] у сечі,20
+284,Platelets reticulated/Platelets in Blood,Ретикульовані тромбоцити/Тромбоцити у крові,20
+285,Creatinine [Mass/volume] in Peritoneal fluid,Креатинін [маса/об'єм] у перитонеальній рідині,20
+286,Hematocrit [Volume Fraction] of Body fluid by calculation,"Гематокрит [об'ємна частка] у біологічній рідині, розрахунковий",20
+287,CD2 cells/cells in Blood,CD2 клітини/клітини у крові,20
+288,CD2 cells/cells in Bone marrow,CD2 клітини/клітини у кістковому мозку,20
+289,Variant lymphocytes/Leukocytes in Body fluid,Атипові лімфоцити/Лейкоцити у біологічній рідині,19
+290,Deprecated CD4 cells/CD8 Cells [# Ratio] in Blood,Співвідношення CD4/CD8 у крові (застаріле),19
+291,IgA [Mass/volume] in Serum or Plasma,Імуноглобулін A (IgA) [маса/об'єм] у сироватці або плазмі,18
+292,IgM [Mass/volume] in Serum or Plasma,Імуноглобулін M (IgM) [маса/об'єм] у сироватці або плазмі,18
+293,Protein [Mass/volume] in Peritoneal fluid,Білок [маса/об'єм] у перитонеальній рідині,18
+294,Glucose [Mass/volume] in Peritoneal fluid,Глюкоза [маса/об'єм] у перитонеальній рідині,18
+295,CD11c cells/cells in Blood,CD11c клітини/клітини у крові,18
+296,CD3 cells [#/volume] in Blood,CD3 клітини [кількість/об'єм] у крові,18
+297,CD33 cells/cells in Blood,CD33 клітини/клітини у крові,18
+298,CD19 cells/cells in Bone marrow,CD19 клітини/клітини у кістковому мозку,18
+299,Triglyceride [Mass/volume] in Pleural fluid,Тригліцериди [маса/об'єм] у плевральній рідині,18
+300,Protein [Mass/volume] in Pleural fluid,Білок [маса/об'єм] у плевральній рідині,16
+301,Hemoglobin [Presence] in Stool from gastrointestinal,Гемоглобін [наявність] у калі (тест на приховану кров),16
+302,CD56 cells/cells in Blood,CD56 клітини/клітини у крові,16
+303,CD7 cells/cells in Blood,CD7 клітини/клітини у крові,16
+304,CD15 cells/cells in Bone marrow,CD15 клітини/клітини у кістковому мозку,16
+305,CD5 cells/cells in Bone marrow,CD5 клітини/клітини у кістковому мозку,16
+306,CD7 cells/cells in Bone marrow,CD7 клітини/клітини у кістковому мозку,16
+307,Nuclear Ab [Presence] in Serum,Антинуклеарні антитіла (ANA) [наявність] у сироватці,16
+308,C reactive protein [Mass/volume] in Serum or Plasma,С-реактивний білок (СРБ) [маса/об'єм] у сироватці або плазмі,15
+309,Coagulation factor V activity actual/normal in Platelet poor plasma by Coagulation assay,"Активність фактора згортання V акт./норм. у плазмі, бідній на тромбоцити",15
+310,Amylase/Creatinine [Ratio] in Urine,Амілаза/Креатинін [співвідношення] у сечі,15
+311,Follitropin [Units/volume] in Serum or Plasma,Фолікулостимулюючий гормон (ФСГ) [од/об'єм] у сироватці або плазмі,15
+312,Lymphocytes/Leukocytes in Blood,Лімфоцити/Лейкоцити у крові,15
+313,Cancer Ag 125 [Units/volume] in Serum or Plasma,CA-125 [од/об'єм] у сироватці або плазмі,15
+314,CD64 cells/cells in Blood,CD64 клітини/клітини у крові,14
+315,Hemoglobin S [Presence] in Blood by Solubility test,Гемоглобін S [наявність] у крові (тест на розчинність),13
+316,HIV 1 Ab [Units/volume] in Serum or Plasma by Immunoassay,"Антитіла до ВІЛ-1 [од/об'єм] у сироватці або плазмі, імуноаналіз",13
+317,Thrombin time,Тромбіновий час (ТЧ),12
+318,Epithelial cells.non-squamous [#/area] in Urine sediment by Microscopy high power field,"Несквамозні епітеліальні клітини [кількість/площу] в осаді сечі, мікроскопія (велике збільшення)",12
+319,Coagulation factor XIII coagulum dissolution [Units/volume] in Platelet poor plasma by Coagulation assay,"Розчинення коагулюму фактором XIII [од/об'єм] у плазмі, бідній на тромбоцити",12
+320,WBC casts [#/area] in Urine sediment by Microscopy low power field,"Лейкоцитарні циліндри [кількість/площу] в осаді сечі, мікроскопія (мале збільшення)",12
+321,Albumin [Mass/volume] in Pleural fluid,Альбумін [маса/об'єм] у плевральній рідині,12
+322,CD117 cells/cells in Blood,CD117 клітини/клітини у крові,12
+323,CD41 cells/cells in Blood,CD41 клітини/клітини у крові,12
+324,CD71 cells/cells in Blood,CD71 клітини/клітини у крові,12
+325,CD3 cells/cells in Bone marrow,CD3 клітини/клітини у кістковому мозку,12
+326,Deprecated CD4 cells/100 cells in Bone marrow,CD4 клітини/100 клітин у кістковому мозку (застаріле),12
+327,CD8+HLA-DR+ cells/cells in Bone marrow,CD8+HLA-DR+ клітини/клітини у кістковому мозку,12
+328,Deprecated CD4 cells/100 cells in Blood,CD4 клітини/100 клітин у крові (застаріле),12
+329,Bite cells [Presence] in Blood by Light microscopy,"Надкушені клітини (bite cells) [наявність] у крові, світлова мікроскопія",12
+330,Plasma cells/Leukocytes in Peritoneal fluid by Manual count,"Плазматичні клітини/Лейкоцити у перитонеальній рідині, ручний підрахунок",12
+331,Neutrophils.hypersegmented [#/volume] in Blood by Manual count,"Гіперсегментовані нейтрофіли [кількість/об'єм] у крові, ручний підрахунок",11
+332,CD14 cells/cells in Bone marrow,CD14 клітини/клітини у кістковому мозку,11
+333,pH of Urine,pH сечі,10
+334,Acetone [Presence] in Serum or Plasma,Ацетон [наявність] у сироватці або плазмі,10
+335,Pencil cells [Presence] in Blood by Light microscopy,"Олівцеподібні клітини [наявність] у крові, світлова мікроскопія",10
+336,Phosphate [Mass/volume] in Urine,Фосфати [маса/об'єм] у сечі,10
+337,CD2 cells/cells in Body fluid,CD2 клітини/клітини у біологічній рідині,10
+338,CD23 cells/cells in Body fluid,CD23 клітини/клітини у біологічній рідині,10
+339,CD235a cells/cells in Blood,CD235a клітини/клітини у крові,10
+340,CD13 cells/cells in Bone marrow,CD13 клітини/клітини у кістковому мозку,10
+341,HLA-DR+ cells/cells in Bone marrow,HLA-DR+ клітини/клітини у кістковому мозку,10
+342,Deprecated CD8 cells/100 cells in Blood,CD8 клітини/100 клітин у крові (застаріле),10
+343,CD23 cells/cells in Bone marrow,CD23 клітини/клітини у кістковому мозку,10
+344,Bilirubin.total [Mass/volume] in Pleural fluid,Загальний білірубін [маса/об'єм] у плевральній рідині,10
+345,Albumin [Mass/volume] in Urine,Альбумін [маса/об'єм] у сечі,9
+346,Iron.microscopic observation [Identifier] in Bone marrow by Potassium ferrocyanide stain,"Залізо в кістковому мозку [ідентифікатор], фарбування ферроціанідом калію",9
+347,Amylase [Enzymatic activity/volume] in Urine,Амілаза [активність/об'єм] у сечі,9
+348,CD11c cells/cells in Bone marrow,CD11c клітини/клітини у кістковому мозку,9
+349,CD33 cells/cells in Bone marrow,CD33 клітини/клітини у кістковому мозку,9
+350,CD34 cells/cells in Bone marrow,CD34 клітини/клітини у кістковому мозку,9
+351,Leukocytes [#/volume] in Blood,Лейкоцити [кількість/об'єм] у крові,9
+352,carBAMazepine [Mass/volume] in Serum or Plasma,Карбамазепін [маса/об'єм] у сироватці або плазмі,9
+353,Smooth muscle Ab [Presence] in Serum,Антитіла до гладких м'язів (SMA) [наявність] у сироватці,9
+354,CD5 cells/cells in Body fluid,CD5 клітини/клітини у біологічній рідині,8
+355,CD7 cells/cells in Body fluid,CD7 клітини/клітини у біологічній рідині,8
+356,Testosterone [Mass/volume] in Serum or Plasma,Тестостерон [маса/об'єм] у сироватці або плазмі,8
+357,Lymphocytes [#/volume] in Blood,Лімфоцити [кількість/об'єм] у крові,8
+358,Albumin [Mass/volume] in Body fluid,Альбумін [маса/об'єм] у біологічній рідині,8
+359,Porphobilinogen [Presence] in Urine,Порфобіліноген [наявність] у сечі,7
+360,Eosinophils [#/volume] in Blood,Еозинофіли [кількість/об'єм] у крові,7
+361,CD64 cells/cells in Bone marrow,CD64 клітини/клітини у кістковому мозку,7
+362,Platelet clump [Presence] in Blood by Automated count,"Скупчення тромбоцитів [наявність] у крові, автоматичний підрахунок",7
+363,Viscosity of Serum,В'язкість сироватки,6
+364,CD3 cells/cells in Body fluid,CD3 клітини/клітини у біологічній рідині,6
+365,Choriogonadotropin [Moles/volume] in Serum or Plasma,Хоріонічний гонадотропін (ХГЛ) [моль/об'єм] у сироватці або плазмі,6
+366,CD117 cells/cells in Bone marrow,CD117 клітини/клітини у кістковому мозку,6
+367,CD41 cells/cells in Bone marrow,CD41 клітини/клітини у кістковому мозку,6
+368,CD3 cells/cells in Blood,CD3 клітини/клітини у крові,6
+369,Sirolimus [Mass/volume] in Blood,Сиролімус [маса/об'єм] у крові,6
+370,Glucose [Mass/volume] in Body fluid,Глюкоза [маса/об'єм] у біологічній рідині,6
+371,Triglyceride [Mass/volume] in Body fluid,Тригліцериди [маса/об'єм] у біологічній рідині,6
+372,Oval macrocytes [Presence] in Blood by Light microscopy,"Овальні макроцити [наявність] у крові, світлова мікроскопія",6
+373,Casts [#/area] in Urine sediment by Microscopy low power field,"Циліндри [кількість/площу] в осаді сечі, мікроскопія (мале збільшення)",5
+374,Parasite identified in Blood,Паразит ідентифікований у крові,5
+375,HLA-DR+ cells/cells in Body fluid,HLA-DR+ клітини/клітини у біологічній рідині,5
+376,CD235a cells/cells in Bone marrow,CD235a клітини/клітини у кістковому мозку,5
+377,Bilirubin.total [Mass/volume] in Body fluid,Загальний білірубін [маса/об'єм] у біологічній рідині,5
+378,Creatinine [Mass/volume] in Body fluid,Креатинін [маса/об'єм] у біологічній рідині,4
+379,Complement C3 [Mass/volume] in Serum or Plasma,Комплемент С3 [маса/об'єм] у сироватці або плазмі,4
+380,Complement C4 [Mass/volume] in Serum or Plasma,Комплемент С4 [маса/об'єм] у сироватці або плазмі,4
+381,Myoglobin [Presence] in Urine,Міоглобін [наявність] у сечі,4
+382,pH of Body fluid,pH біологічної рідини,4
+383,Creatinine [Mass/volume] in Pleural fluid,Креатинін [маса/об'єм] у плевральній рідині,4
+384,Protein [Mass/volume] in Body fluid,Білок [маса/об'єм] у біологічній рідині,4
+385,Chloride [Moles/volume] in Body fluid,Хлориди [моль/об'єм] у біологічній рідині,3
+386,Potassium [Moles/volume] in Body fluid,Калій [моль/об'єм] у біологічній рідині,3
+387,Sodium [Moles/volume] in Body fluid,Натрій [моль/об'єм] у біологічній рідині,3
+388,FMC7 cells/cells in Body fluid,FMC7 клітини/клітини у біологічній рідині,3
+389,Urate [Mass/volume] in Urine,Сечова кислота [маса/об'єм] у сечі,3

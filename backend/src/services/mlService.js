@@ -8,6 +8,9 @@ import { AppError } from '../errors/AppError.js'
 const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434'
 const MODEL = process.env.OLLAMA_MODEL || 'gemma3:4b'
 
+//llamaindex
+//langchain
+
 
 const RESEARCH_GROUPS = {
   'Загальний аналіз крові (ЗАК)': [

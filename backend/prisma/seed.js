@@ -15,7 +15,7 @@ import {
 
 const SALT_ROUNDS = 12
 const PEPPER      = process.env.PEPPER_SECRET
-const DATASET_PATH =  './dataset_uk.csv'
+const DATASET_PATH = './dataset_uk.csv'
 
 const adapter = new PrismaMariaDb({
   host:                    'localhost',
@@ -31,6 +31,8 @@ const prisma = new PrismaClient({ adapter })
 
 // ─────────────────────────────────────────
 // ДАТАСЕТ
+// Кожен рядок CSV = окремий звіт (один параметр)
+// Поля: mimic_label, common_name, unofficial_name, category, fluid, value, valuenum, unit, flag
 // ─────────────────────────────────────────
 
 let datasetRecords = []
@@ -40,7 +42,7 @@ try {
   console.log(`📊 Dataset loaded: ${datasetRecords.length} records from ${DATASET_PATH}`)
 } catch (e) {
   console.warn(`⚠️  Dataset not found at ${DATASET_PATH}`)
-  console.warn('   PDF generation will be skipped. Set DATASET_PATH in .env')
+  console.warn('   PDF generation will be skipped.')
 }
 
 function pickDatasetRecord() {
@@ -140,24 +142,24 @@ const allergens = [
 ]
 
 const medications = [
-  { name: 'Амлодипін',    form: 'Таблетки',  active_substance: 'Амлодипіну безилат',    dosage_unit: 'мг'  },
-  { name: 'Метформін',    form: 'Таблетки',  active_substance: 'Метформіну гідрохлорид', dosage_unit: 'мг'  },
-  { name: 'Аторвастатин', form: 'Таблетки',  active_substance: 'Аторвастатин',           dosage_unit: 'мг'  },
-  { name: 'Омепразол',    form: 'Капсули',   active_substance: 'Омепразол',              dosage_unit: 'мг'  },
-  { name: 'Еналаприл',    form: 'Таблетки',  active_substance: 'Еналаприлу малеат',      dosage_unit: 'мг'  },
-  { name: 'Бісопролол',   form: 'Таблетки',  active_substance: 'Бісопрололу фумарат',    dosage_unit: 'мг'  },
-  { name: 'Сальбутамол',  form: 'Інгалятор', active_substance: 'Сальбутамол',            dosage_unit: 'мкг' },
-  { name: 'Левотироксин', form: 'Таблетки',  active_substance: 'Левотироксин натрій',    dosage_unit: 'мкг' },
-  { name: 'Діклофенак',   form: 'Таблетки',  active_substance: 'Діклофенак натрію',      dosage_unit: 'мг'  },
-  { name: 'Пантопразол',  form: 'Таблетки',  active_substance: 'Пантопразол',            dosage_unit: 'мг'  },
-  { name: 'Цефтріаксон',  form: 'Ін\'єкції', active_substance: 'Цефтріаксон',            dosage_unit: 'г'   },
-  { name: 'Ібупрофен',    form: 'Таблетки',  active_substance: 'Ібупрофен',              dosage_unit: 'мг'  },
+  { name: 'Амлодипін',    form: 'Таблетки',  active_substance: 'Амлодипіну безилат',     dosage_unit: 'мг'  },
+  { name: 'Метформін',    form: 'Таблетки',  active_substance: 'Метформіну гідрохлорид',  dosage_unit: 'мг'  },
+  { name: 'Аторвастатин', form: 'Таблетки',  active_substance: 'Аторвастатин',            dosage_unit: 'мг'  },
+  { name: 'Омепразол',    form: 'Капсули',   active_substance: 'Омепразол',               dosage_unit: 'мг'  },
+  { name: 'Еналаприл',    form: 'Таблетки',  active_substance: 'Еналаприлу малеат',       dosage_unit: 'мг'  },
+  { name: 'Бісопролол',   form: 'Таблетки',  active_substance: 'Бісопрололу фумарат',     dosage_unit: 'мг'  },
+  { name: 'Сальбутамол',  form: 'Інгалятор', active_substance: 'Сальбутамол',             dosage_unit: 'мкг' },
+  { name: 'Левотироксин', form: 'Таблетки',  active_substance: 'Левотироксин натрій',     dosage_unit: 'мкг' },
+  { name: 'Діклофенак',   form: 'Таблетки',  active_substance: 'Діклофенак натрію',       dosage_unit: 'мг'  },
+  { name: 'Пантопразол',  form: 'Таблетки',  active_substance: 'Пантопразол',             dosage_unit: 'мг'  },
+  { name: 'Цефтріаксон',  form: 'Ін\'єкції', active_substance: 'Цефтріаксон',             dosage_unit: 'г'   },
+  { name: 'Ібупрофен',    form: 'Таблетки',  active_substance: 'Ібупрофен',               dosage_unit: 'мг'  },
 ]
 
-const bloodGroups    = ['A', 'B', 'AB', 'O']
-const rhFactors      = ['POSITIVE', 'NEGATIVE']
+const bloodGroups     = ['A', 'B', 'AB', 'O']
+const rhFactors       = ['POSITIVE', 'NEGATIVE']
 const diseaseStatuses = ['ACTIVE', 'RECOVERED', 'CHRONIC']
-const severities     = ['MILD', 'MODERATE', 'SEVERE']
+const severities      = ['MILD', 'MODERATE', 'SEVERE']
 
 const complaintsPool = [
   'Скарги на головний біль, запаморочення, підвищений тиск',
@@ -376,7 +378,8 @@ async function seed() {
             parent_record_id:   prevRecordId,
             visit_date:         visitDate,
             type:               recordType,
-            status:             randomItem(['SIGNED', 'SIGNED', 'SIGNED', 'DRAFT']),
+            // Закриті кейси — тільки підписані записи
+            status: isClosed ? 'SIGNED' : randomItem(['SIGNED', 'SIGNED', 'SIGNED', 'DRAFT']),
             complaints:         randomItem(complaintsPool),
             history_of_illness: 'Хворіє протягом кількох років. Лікування проводилось амбулаторно.',
             history_of_life:    'Хронічні захворювання згідно медичної карти. Операцій не було.',
@@ -450,43 +453,47 @@ async function seed() {
 
         // ── Дослідження + PDF ──
         if (Math.random() < 0.6 && datasetRecords.length > 0) {
-          const datasetRec  = pickDatasetRecord()
-          const timestamp   = Date.now() + Math.floor(Math.random() * 10000)
-          const fileName    = `research_${medicalRecord.id}_${timestamp}.pdf`
+          const datasetRec   = pickDatasetRecord()
+          const timestamp    = Date.now() + Math.floor(Math.random() * 10000)
+          const fileName     = `research_${medicalRecord.id}_${timestamp}.pdf`
           const relativePath = path.join('uploads', 'research', fileName)
-          const isProcessed = Math.random() < 0.65
+          const isProcessed  = Math.random() < 0.65
 
           try {
             await generateResearchPdfFromDataset({
-              record:      datasetRec,
+              record:     datasetRec,
               patientName,
-              doctorName:  authorName,
-              date:        visitDate,
+              doctorName: authorName,
+              date:       visitDate,
               fileName,
-              outputDir:   UPLOADS_DIR,
+              outputDir:  UPLOADS_DIR,
             })
           } catch (err) {
             console.warn(`⚠️  PDF failed: ${fileName}: ${err.message}`)
           }
 
           if (isProcessed) {
-            const reportData = JSON.parse(datasetRec.report_data)
-            const research   = await prisma.research.create({
+            // results — текстовий рядок з ключовими даними дослідження
+            const resultsText = [
+              `Дослідження: ${datasetRec.unofficial_name}`,
+              `Стандартна назва: ${datasetRec.common_name}`,
+              `Результат: ${datasetRec.value} ${datasetRec.unit}`,
+              `Категорія: ${datasetRec.category}`,
+              `Біоматеріал: ${datasetRec.fluid}`,
+              datasetRec.flag ? `Позначка: ${datasetRec.flag}` : '',
+            ].filter(Boolean).join('\n')
+
+            const research = await prisma.research.create({
               data: {
                 medical_record_id: medicalRecord.id,
                 case_id:           patientCase.id,
                 doctor_id:         author.id,
-                research_type:     datasetRec.long_name,
+                research_type:     datasetRec.common_name,
                 status:            'PROCESSED',
                 extracted_text:    buildExtractedText(datasetRec, patientName, authorName, visitDate),
-                results:           JSON.stringify({
-                  loinc_num:     datasetRec.loinc_num,
-                  long_name:     datasetRec.long_name,
-                  raw_test_name: datasetRec.raw_test_name,
-                  parameters:    reportData.parameters,
-                }),
-                created_at:   visitDate,
-                processed_at: new Date(),
+                results:           resultsText,
+                created_at:        visitDate,
+                processed_at:      new Date(),
               }
             })
             totalResearches++
@@ -522,15 +529,15 @@ async function seed() {
       }
     }
 
-    // ── Inbox файли ──
+    // ── Inbox файли (PENDING, без прив'язки до запису) ──
     const numInboxFiles = randomInt(1, 3)
     for (let f = 0; f < numInboxFiles; f++) {
       if (datasetRecords.length === 0) break
 
-      const datasetRec  = pickDatasetRecord()
-      const inboxDate   = randomDate(new Date('2024-01-01'), new Date())
-      const timestamp   = Date.now() + Math.floor(Math.random() * 100000)
-      const fileName    = `inbox_${medicalRecord.id}_${timestamp}.pdf`
+      const datasetRec   = pickDatasetRecord()
+      const inboxDate    = randomDate(new Date('2024-01-01'), new Date())
+      const timestamp    = Date.now() + Math.floor(Math.random() * 100000)
+      const fileName     = `inbox_${medicalRecord.id}_${timestamp}.pdf`
       const relativePath = path.join('uploads', 'research', fileName)
       const authorDoctor = randomItem(assignedDoctors)
       const authorIdx    = createdDoctors.findIndex(d => d.id === authorDoctor.id)
@@ -538,12 +545,12 @@ async function seed() {
 
       try {
         await generateResearchPdfFromDataset({
-          record:      datasetRec,
+          record:     datasetRec,
           patientName,
-          doctorName:  authorName,
-          date:        inboxDate,
+          doctorName: authorName,
+          date:       inboxDate,
           fileName,
-          outputDir:   UPLOADS_DIR,
+          outputDir:  UPLOADS_DIR,
         })
       } catch (err) {
         console.warn(`⚠️  Inbox PDF failed: ${fileName}: ${err.message}`)
