@@ -1,6 +1,18 @@
-﻿using MedicalApp.Helpers;
-namespace MedicalApp.Services
+﻿namespace MedicalApp.Services
 {
+    public class AccountResponse
+    {
+        public int Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+    }
+
+    public class UpdateDoctorRequest
+    {
+        public string Specialization { get; set; } = string.Empty;
+    }
+
     public class DoctorResponse
     {
         public int Id { get; set; }
@@ -18,6 +30,7 @@ namespace MedicalApp.Services
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; } = string.Empty;
         public string? ContactInfo { get; set; }
+        public AccountResponse? Account { get; set; }
         public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
     }
 
@@ -28,5 +41,14 @@ namespace MedicalApp.Services
 
         public async Task<List<DoctorResponse>?> GetAllAsync() =>
             await GetAsync<List<DoctorResponse>>("doctors");
+
+        public async Task DeactivateAsync(int personId) =>
+            await PatchAsync($"accounts/person/{personId}/deactivate", new { });
+
+        public async Task ActivateAsync(int personId) =>
+            await PatchAsync($"accounts/person/{personId}/activate", new { });
+
+        public async Task UpdateAsync(int doctorId, UpdateDoctorRequest request) =>
+            await PatchAsync($"doctors/{doctorId}", request);
     }
 }

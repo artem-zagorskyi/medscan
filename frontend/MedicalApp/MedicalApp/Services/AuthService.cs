@@ -34,6 +34,11 @@ namespace MedicalApp.Services
             return await GetAsync<MeResponse>("auth/me");
         }
 
+        public async Task<RegisterResponse?> RegisterDoctorAsync(RegisterDoctorRequest request)
+        {
+            return await PostAsync<RegisterResponse>("auth/register", request);
+        }
+
         public void Logout() => TokenStorage.Clear();
 
         private async Task EnsureLoginAsync(HttpResponseMessage response)
@@ -68,5 +73,31 @@ namespace MedicalApp.Services
         public string Email { get; set; } = string.Empty;
         public string Rights { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+    }
+
+    public class RegisterDoctorRequest
+    {
+        public string LastName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string? MiddleName { get; set; }
+        public string BirthDate { get; set; } = string.Empty; // "yyyy-MM-dd"
+        public string Gender { get; set; } = string.Empty;
+        public string? ContactInfo { get; set; }
+        public string Role { get; set; } = "DOCTOR";
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Rights { get; set; } = "USER";
+        public string Specialization { get; set; } = string.Empty;
+    }
+
+    public class RegisterResponse
+    {
+        public string Token { get; set; } = string.Empty;
+        public int AccountId { get; set; }
+        public int PersonId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public int? DoctorId { get; set; }
     }
 }

@@ -1,28 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MedicalApp.ViewModels;
 
-namespace MedicalApp.Views
+namespace MedicalApp.Views;
+
+public partial class AdminDoctorsView : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminDoctorsView.xaml
-    /// </summary>
-    public partial class AdminDoctorsView : UserControl
+    private readonly AdminDoctorsViewModel _vm;
+
+    public AdminDoctorsView()
     {
-        public AdminDoctorsView()
+        InitializeComponent();
+        _vm = new AdminDoctorsViewModel();
+        DataContext = _vm;
+    }
+
+    private void AddDoctor_Click(object sender, RoutedEventArgs e)
+    {
+        var window = new NewDoctorWindow();
+        window.Owner = App.Current.MainWindow;
+        if (window.ShowDialog() == true)
+            _ = _vm.LoadAsync();
+    }
+
+    private void EditDoctor_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is DoctorDisplayModel doctor)
         {
-            InitializeComponent();
+            var window = new EditDoctorWindow(doctor);
+            window.Owner = App.Current.MainWindow;
+            if (window.ShowDialog() == true)
+                _ = _vm.LoadAsync();
         }
+    }
+
+    private async void ToggleActive_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is DoctorDisplayModel doctor)
+            await _vm.ToggleActiveAsync(doctor);
     }
 }
