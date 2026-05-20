@@ -35,7 +35,6 @@ public partial class MainWindow : Window
                         return;
                     }
 
-                    // Завантажуємо дані доктора по person_id
                     var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
                     if (doctor != null)
                     {
@@ -47,7 +46,6 @@ public partial class MainWindow : Window
                     }
                 }
             }
-
             ShowLogin();
         }
         catch
@@ -60,18 +58,32 @@ public partial class MainWindow : Window
     public void ShowLogin()
     {
         Topbar.Visibility = Visibility.Collapsed;
+        Sidebar.Visibility = Visibility.Collapsed;
+        SidebarColumn.Width = new GridLength(0);
         NavigateTo(new LoginView());
     }
 
     public void ShowApp(string name, string specialization, string rights)
     {
-        Topbar.Visibility = Visibility.Visible;
-        SetUser(name, specialization);
-
         if (rights == "ADMIN")
-            NavigateTo(new AdminHomeView());
+        {
+            // Для адміна — сайдбар, без топбара
+            Topbar.Visibility = Visibility.Collapsed;
+            Sidebar.Visibility = Visibility.Visible;
+            SidebarColumn.Width = new GridLength(260);
+            AdminName.Text = name;
+            NavigateTo(new AdminDoctorsView());
+            SetActiveNav(NavDoctors);
+        }
         else
+        {
+            // Для лікаря — топбар, без сайдбара
+            Topbar.Visibility = Visibility.Visible;
+            Sidebar.Visibility = Visibility.Collapsed;
+            SidebarColumn.Width = new GridLength(0);
+            SetUser(name, specialization);
             NavigateTo(new PatientListView());
+        }
     }
 
     public void NavigateTo(UserControl view)
@@ -87,20 +99,73 @@ public partial class MainWindow : Window
         DropdownSpecialization.Text = specialization;
     }
 
-    private void UserMenuButton_Click(object sender, RoutedEventArgs e)
+    // --- Навігація адміна ---
+    private void NavDoctors_Click(object sender, RoutedEventArgs e)
     {
-        UserMenuPopup.IsOpen = !UserMenuPopup.IsOpen;
+        NavigateTo(new AdminDoctorsView());
+        SetActiveNav(NavDoctors);
     }
+
+    private void NavPatients_Click(object sender, RoutedEventArgs e)
+    {
+        NavigateTo(new AdminPatientsView());
+        SetActiveNav(NavPatients);
+    }
+
+    private void NavUploads_Click(object sender, RoutedEventArgs e)
+    {
+        NavigateTo(new AdminUploadsView());
+        SetActiveNav(NavUploads);
+    }
+
+    private void SetActiveNav(Button active)
+    {
+        var navButtons = new[] { NavDoctors, NavPatients, NavUploads };
+        foreach (var btn in navButtons)
+        {
+            var isActive = btn == active;
+            btn.Background = isActive
+                ? System.Windows.Media.Brushes.Transparent
+                : System.Windows.Media.Brushes.Transparent;
+
+            // Обновляем цвет иконки и текста через дочерние элементы
+            UpdateNavButtonStyle(btn, isActive);
+        }
+    }
+
+    private void UpdateNavButtonStyle(Button btn, bool isActive)
+    {
+        if (btn.Content is not StackPanel sp) return;
+
+        foreach (var child in sp.Children)
+        {
+            if (child is Wpf.Ui.Controls.SymbolIcon icon)
+                icon.Foreground = new System.Windows.Media.SolidColorBrush(
+                    isActive ? System.Windows.Media.Colors.White
+                             : (System.Windows.Media.Color)System.Windows.Media.ColorConverter
+                                 .ConvertFromString("#B5D4F4"));
+
+            if (child is TextBlock tb)
+                tb.Foreground = new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Colors.White);
+        }
+
+        btn.Background = isActive
+            ? new System.Windows.Media.SolidColorBrush(
+                (System.Windows.Media.Color)System.Windows.Media.ColorConverter
+                    .ConvertFromString("#1A6FB8"))
+            : System.Windows.Media.Brushes.Transparent;
+    }
+
+    // --- Загальні ---
+    private void UserMenuButton_Click(object sender, RoutedEventArgs e)
+        => UserMenuPopup.IsOpen = !UserMenuPopup.IsOpen;
 
     private void Settings_Click(object sender, RoutedEventArgs e)
-    {
-        UserMenuPopup.IsOpen = false;
-    }
+        => UserMenuPopup.IsOpen = false;
 
     private void Help_Click(object sender, RoutedEventArgs e)
-    {
-        UserMenuPopup.IsOpen = false;
-    }
+        => UserMenuPopup.IsOpen = false;
 
     private void Logout_Click(object sender, RoutedEventArgs e)
     {
