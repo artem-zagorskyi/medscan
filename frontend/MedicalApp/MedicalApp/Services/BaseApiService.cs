@@ -15,7 +15,7 @@ namespace MedicalApp.Services
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri("http://localhost:3000/api/"),
-                Timeout = TimeSpan.FromSeconds(15)
+                Timeout = TimeSpan.FromMinutes(10)
             };
 
             _jsonOptions = new JsonSerializerOptions

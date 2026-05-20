@@ -170,23 +170,27 @@ public partial class RecordWindow : Window
         {
             Id = item.Id,
             ResearchType = item.ResearchType,
+            StatusDisplay = item.StatusDisplay,
             IsFromFile = true,
             FileId = item.Id,
             FilePath = item.FilePath,
             StatusColor = "#FAEEDA",
             StatusTextColor = "#854F0B",
             CreatedAt = DateTime.Today,
-            Status = "PENDING",
-            StatusDisplay = "Очікує обробки"
+            Status = "PENDING"
         };
 
         var window = new ProcessResearchWindow(
             research,
-            _vm.DoctorName,
+            "Пацієнт",  // або передай ім'я пацієнта
             new List<CaseDisplayModel>(),
-            0
+            _vm.MedicalRecordId
         );
         window.Owner = this;
-        window.ShowDialog();
+
+        if (window.ShowDialog() == true)
+        {
+            await _vm.ReloadResearchesAsync();
+        }
     }
 }

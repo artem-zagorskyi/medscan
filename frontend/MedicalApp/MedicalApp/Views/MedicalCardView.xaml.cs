@@ -61,10 +61,11 @@ public partial class MedicalCardView : UserControl
 
         var window = new RecordWindow(_vm.Patient, _vm.CurrentRecord, entry, caseModel, false);
         window.Owner = App.Current.MainWindow;
-        if (window.ShowDialog() == true) Reload();
+        window.ShowDialog();
+        Reload();
     }
 
-    private async void EditRecord_Click(object sender, RoutedEventArgs e)
+    private void EditRecord_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button btn || btn.Tag is not MedicalRecordEntryModel entry) return;
         var caseModel = _vm.CurrentCases.FirstOrDefault(c => c.Records.Any(r => r.Id == entry.Id));
@@ -72,7 +73,8 @@ public partial class MedicalCardView : UserControl
 
         var window = new RecordWindow(_vm.Patient, _vm.CurrentRecord, entry, caseModel, true);
         window.Owner = App.Current.MainWindow;
-        if (window.ShowDialog() == true) Reload();
+        window.ShowDialog();
+        Reload();
     }
 
     private void NewRecordButton_Click(object sender, RoutedEventArgs e)
@@ -81,8 +83,8 @@ public partial class MedicalCardView : UserControl
         {
             var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord, null);
             window.Owner = App.Current.MainWindow;
-            if (window.ShowDialog() == true)
-                Reload();
+            window.ShowDialog();
+            Reload();
         }
     }
 
@@ -149,8 +151,8 @@ public partial class MedicalCardView : UserControl
         {
             var window = new NewRecordWindow(_vm.Patient, _vm.CurrentRecord, caseModel);
             window.Owner = App.Current.MainWindow;
-            if (window.ShowDialog() == true)
-                Reload();
+            window.ShowDialog();
+            Reload();
         }
     }
 

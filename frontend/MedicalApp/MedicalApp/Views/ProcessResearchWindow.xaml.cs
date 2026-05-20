@@ -4,6 +4,8 @@ using MedicalApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace MedicalApp.Views
@@ -53,8 +55,7 @@ namespace MedicalApp.Views
                     </body></html>");
             }
 
-            if (_vm.FilePath != null)
-                await _vm.ClassifyAsync();
+            
         }
 
         private void PdfViewer_NavigationStarting(object sender,
@@ -76,6 +77,25 @@ namespace MedicalApp.Views
             {
                 DialogResult = true;
                 Close();
+            }
+        }
+
+        private void ClassifyButton_Click(object sender, RoutedEventArgs e)
+        {
+            _ = _vm.ClassifyAsync();
+        }
+        private void ToggleCandidates_Click2(object sender, RoutedEventArgs e)
+        {
+            _vm.IsCandidatesExpanded = !_vm.IsCandidatesExpanded;
+            
+        }
+
+        private void Candidate_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border border && border.DataContext is CandidateDisplayModel candidate)
+            {
+                _vm.SelectedCandidate = candidate;
+                
             }
         }
     }

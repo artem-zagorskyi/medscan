@@ -20,10 +20,12 @@ namespace MedicalApp.ViewModels
         private readonly RecordResearchService _recordResearchService = new();
         private readonly DoctorService _doctorService = new();
 
-        private readonly FullMedicalRecordResponse _record;
+        private FullMedicalRecordResponse _record;
 
         public Action? OnSaved { get; set; }
         public FullMedicalRecordResponse Record => _record;
+
+        private readonly MedicalRecordService _medicalRecordService = new();
 
         public void AddCase(CaseDisplayModel newCase)
         {
@@ -476,6 +478,15 @@ namespace MedicalApp.ViewModels
 
         public async Task ReloadResearchesAsync()
         {
+            // Перезавантажуємо дані з бекенду
+            var fresh = await _medicalRecordService.GetFullRecordAsync(_record.Id);
+            if (fresh != null)
+            {
+                // Оновлюємо колекції в _record
+                _record.Researches = fresh.Researches;
+                _record.ResearchFiles = fresh.ResearchFiles;
+                _record.Cases = fresh.Cases;
+            }
             await LoadCaseDataAsync();
         }
 
@@ -652,12 +663,13 @@ namespace MedicalApp.ViewModels
                 if (caseData != null)
                 {
                     var alreadyLinkedIds = caseData.Records
-                        .SelectMany(r => r.RecordResearches)
-                        .Where(rr => rr.Research != null)
-                        .Select(rr => rr.Research!.Id)
-                        .ToHashSet();
+        .SelectMany(r => r.RecordResearches)
+        .Where(rr => rr.Research != null)
+        .Select(rr => rr.Research!.Id)
+        .ToHashSet();
 
-                    var researchItems = caseData.Researches.Select(r => new ResearchSelectItem
+                    // 1. Дослідження прив'язані до цього кейсу
+                    var caseResearchItems = caseData.Researches.Select(r => new ResearchSelectItem
                     {
                         Id = r.Id,
                         ResearchType = r.ResearchType,
@@ -670,6 +682,22 @@ namespace MedicalApp.ViewModels
                         IsSelected = false
                     });
 
+                    // 2. Оброблені дослідження без кейсу (можна прив'язати)
+                    var caseResearchIds = caseData.Researches.Select(r => r.Id).ToHashSet();
+                    var unassignedResearchItems = _record.Researches
+                        .Where(r => r.CaseId == null && !caseResearchIds.Contains(r.Id))
+                        .Select(r => new ResearchSelectItem
+                        {
+                            Id = r.Id,
+                            ResearchType = r.ResearchType,
+                            StatusDisplay = r.StatusDisplay + " (без кейсу)",
+                            IsFromFile = false,
+                            FilePath = null,
+                            IsDisabled = false,
+                            IsSelected = false
+                        });
+
+                    // 3. Необроблені PDF-файли
                     var fileItems = _record.ResearchFiles
                         .Where(f => f.ResearchId == null)
                         .Select(f => new ResearchSelectItem
@@ -683,7 +711,7 @@ namespace MedicalApp.ViewModels
                             IsSelected = false
                         });
 
-                    _allCaseResearches = researchItems.Concat(fileItems).ToList();
+                    _allCaseResearches = caseResearchItems.Concat(unassignedResearchItems).Concat(fileItems).ToList();
                     ResearchTotalPages = Math.Max(1, (int)Math.Ceiling((double)_allCaseResearches.Count / _researchPageSize));
                     ResearchPage = 1;
                     UpdateResearchPage();

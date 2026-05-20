@@ -18,6 +18,14 @@
         public int? CaseId { get; set; }
         public string? Results { get; set; }
         public string Status { get; set; } = "PROCESSED";
+        public string? ExtractedText { get; set; }
+    }
+
+    public class UpdateResearchRequest
+    {
+        public string? Results { get; set; }
+        public string? ExtractedText { get; set; }
+        public string? Status { get; set; }
     }
 
     public class ResearchService : BaseApiService
@@ -29,6 +37,7 @@
                 research_type = request.ResearchType,
                 case_id = request.CaseId,
                 results = request.Results,
+                extracted_text = request.ExtractedText,
                 status = request.Status
             });
 
@@ -37,5 +46,14 @@
 
         public async Task UpdateStatusAsync(int id, string status) =>
             await PatchAsync($"researches/{id}/status", new { status });
+
+        public async Task UpdateAsync(int id, UpdateResearchRequest request) =>
+        await PatchAsync($"researches/{id}", new
+        {
+            results = request.Results,
+            extracted_text = request.ExtractedText
+        });
+
+        
     }
 }

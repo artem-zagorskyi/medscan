@@ -12,6 +12,7 @@ namespace MedicalApp.ViewModels
         private readonly int _medicalRecordId;
         private readonly ResearchService _researchService = new();
         private readonly ResearchFileService _researchFileService = new();
+        private readonly MlService _mlService = new();
 
         public ProcessResearchViewModel(ResearchDisplayModel file, string patientName,
             List<CaseDisplayModel> cases, int medicalRecordId)
@@ -35,10 +36,39 @@ namespace MedicalApp.ViewModels
             SelectedCase = CaseOptions.First();
         }
 
+       
+
         public string PatientName { get; }
         public string FileName { get; }
         public string? FilePath { get; }
         public string CreatedAtDisplay { get; }
+
+
+        private bool _isCandidatesExpanded;
+        public bool IsCandidatesExpanded
+        {
+            get => _isCandidatesExpanded;
+            set
+            {
+                SetProperty(ref _isCandidatesExpanded, value);
+                
+            }
+        }
+
+        private bool _hasClassified;
+        public bool HasClassified
+        {
+            get => _hasClassified;
+            set
+            {
+                SetProperty(ref _hasClassified, value);
+                OnPropertyChanged(nameof(ClassifyButtonText));
+            }
+        }
+
+        public string ClassifyButtonText => HasClassified ? "Класифікувати заново" : "Класифікувати";
+
+
 
         public ObservableCollection<CaseOptionModel> CaseOptions { get; }
 
@@ -49,11 +79,43 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _selectedCase, value);
         }
 
-        public string Confidence { get; set; } = string.Empty;
+        
 
-        public string ConfidenceDisplay => Confidence == "high" ? "Висока впевненість" : "Низька впевненість";
-        public string ConfidenceColor => Confidence == "high" ? "#EAF3DE" : "#FAEEDA";
-        public string ConfidenceTextColor => Confidence == "high" ? "#3B6D11" : "#854F0B";
+        private string _confidence = string.Empty;
+        public string Confidence
+        {
+            get => _confidence;
+            set
+            {
+                SetProperty(ref _confidence, value);
+                OnPropertyChanged(nameof(ConfidenceDisplay));
+                OnPropertyChanged(nameof(ConfidenceColor));
+                OnPropertyChanged(nameof(ConfidenceTextColor));
+            }
+        }
+
+        public string ConfidenceDisplay => Confidence switch
+        {
+            "high" => "Висока впевненість",
+            "medium" => "Середня впевненість",
+            _ => "Низька впевненість"
+        };
+
+        public string ConfidenceColor => Confidence switch
+        {
+            "high" => "#EAF3DE",
+            "medium" => "#FFF3CD",
+            _ => "#FAEEDA"
+        };
+
+        public string ConfidenceTextColor => Confidence switch
+        {
+            "high" => "#3B6D11",
+            "medium" => "#856404",
+            _ => "#854F0B"
+        };
+
+        
 
         private string? _selectedResearchType;
         public string? SelectedResearchType
@@ -66,12 +128,50 @@ namespace MedicalApp.ViewModels
             }
         }
 
+        
+
+        public ObservableCollection<CandidateDisplayModel> CandidateOptions { get; } = new();
+
+        private CandidateDisplayModel? _selectedCandidate;
+        public CandidateDisplayModel? SelectedCandidate
+        {
+            get => _selectedCandidate;
+            set
+            {
+                // Знімаємо виділення з попереднього
+                if (_selectedCandidate != null)
+                    _selectedCandidate.IsSelected = false;
+
+                SetProperty(ref _selectedCandidate, value);
+
+                if (value != null)
+                {
+                    value.IsSelected = true;
+                    SelectedResearchType = value.CommonName;
+                }
+            }
+        }
+
+
+        
+
+
+
         private string? _results;
         public string? Results
         {
             get => _results;
             set => SetProperty(ref _results, value);
         }
+
+        private string? _extractedText;
+        public string? ExtractedText
+        {
+            get => _extractedText;
+            set => SetProperty(ref _extractedText, value);
+        }
+
+        
 
         private string _errorMessage = string.Empty;
         public string ErrorMessage
@@ -86,36 +186,7 @@ namespace MedicalApp.ViewModels
 
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        public async Task<bool> SaveAsync()
-        {
-            try
-            {
-                ErrorMessage = string.Empty;
-
-                // 1. Створюємо Research
-                var research = await _researchService.CreateAsync(new CreateResearchRequest
-                {
-                    MedicalRecordId = _medicalRecordId,
-                    ResearchType = SelectedResearchType!,
-                    CaseId = SelectedCase?.Id,
-                    Results = Results,
-                    Status = "PROCESSED"
-                });
-
-                // 2. Прив'язуємо файл до Research
-                await _researchFileService.ClassifyAsync(_file.FileId!.Value, research.Id);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-                return false;
-            }
-        }
-
-
-        private readonly MlService _mlService = new();
+        
 
         private bool _isClassifying;
         public bool IsClassifying
@@ -135,7 +206,6 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _classificationStatus, value);
         }
 
-        // Оновити CanSave щоб блокував під час класифікації
         public bool CanSave => !string.IsNullOrEmpty(SelectedResearchType) && !IsClassifying;
 
         public async Task ClassifyAsync()
@@ -150,18 +220,36 @@ namespace MedicalApp.ViewModels
 
                 var result = await _mlService.ClassifyAsync(_file.FileId.Value);
 
+              
+
                 if (result != null)
                 {
-                    SelectedResearchType = result.ResearchType;
-                    Results = result.ExtractedText?.Length > 500
-                        ? result.ExtractedText[..500]
-                        : result.ExtractedText;
-                    ClassificationStatus = $"Визначено: {result.ResearchType}";
+                    // Заповнюємо кандидатів
+                    CandidateOptions.Clear();
+                    foreach (var c in result.Candidates)
+                    {
+                        CandidateOptions.Add(new CandidateDisplayModel
+                        {
+                            CommonName = c.CommonName,
+                            Score = c.Score,
+                            DisplayName = $"{c.CommonName} ({c.Score:P0})"
+                        });
+                    }
 
-                    Confidence = result.Confidence ?? "low";
-                    OnPropertyChanged(nameof(ConfidenceDisplay));
-                    OnPropertyChanged(nameof(ConfidenceColor));
-                    OnPropertyChanged(nameof(ConfidenceTextColor));
+                    IsCandidatesExpanded = true;
+                    
+
+                    // Обираємо першого кандидата (найкращий результат)
+                    SelectedCandidate = CandidateOptions.FirstOrDefault();
+
+                    // Результати та текст
+                    Results = result.Results;
+                    ExtractedText = result.ExtractedText;
+
+                    // Confidence
+                    Confidence = result.Confidence;
+
+                    ClassificationStatus = $"Визначено: {result.ClassifiedName}";
                 }
                 else
                 {
@@ -176,13 +264,66 @@ namespace MedicalApp.ViewModels
             finally
             {
                 IsClassifying = false;
+                HasClassified = true;
+            }
+        }
+
+
+
+        public async Task<bool> SaveAsync()
+        {
+            try
+            {
+                ErrorMessage = string.Empty;
+
+                // 1. Створюємо Research
+                var research = await _researchService.CreateAsync(new CreateResearchRequest
+                {
+                    MedicalRecordId = _medicalRecordId,
+                    ResearchType = SelectedResearchType!,
+                    CaseId = SelectedCase?.Id
+                });
+
+                // 2. Оновлюємо результати та статус
+                await _researchService.UpdateAsync(research.Id, new UpdateResearchRequest
+                {
+                    Results = Results,
+                    ExtractedText = ExtractedText,
+                    Status = "PROCESSED"
+                });
+
+                // 3. Прив'язуємо файл до Research
+                await _researchFileService.ClassifyAsync(_file.FileId!.Value, research.Id);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return false;
             }
         }
     }
+
+    
 
     public class CaseOptionModel
     {
         public int? Id { get; set; }
         public string DisplayName { get; set; } = string.Empty;
+    }
+
+    public class CandidateDisplayModel : ObservableObject
+    {
+        public string CommonName { get; set; } = string.Empty;
+        public double Score { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
     }
 }

@@ -21,9 +21,13 @@ namespace MedicalApp.ViewModels
 
         private RecordResponse? _fullRecord;
         private readonly int _recordId;
-        private readonly FullMedicalRecordResponse _medicalRecord;
+        private FullMedicalRecordResponse _medicalRecord;
+
+        public int MedicalRecordId => _medicalRecord.Id;
 
         public Action? OnSaved { get; set; }
+
+        private readonly MedicalRecordService _medicalRecordService = new();
 
         public RecordViewModel(MedicalRecordEntryModel entry, CaseDisplayModel caseModel,
             FullMedicalRecordResponse medicalRecord, bool startInEditMode = false)
@@ -443,6 +447,79 @@ namespace MedicalApp.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        public async Task ReloadResearchesAsync()
+        {
+            var fresh = await _medicalRecordService.GetFullRecordAsync(_medicalRecord.Id);
+            if (fresh != null)
+            {
+                _medicalRecord.Researches = fresh.Researches;
+                _medicalRecord.ResearchFiles = fresh.ResearchFiles;
+                _medicalRecord.Cases = fresh.Cases;
+            }
+            await ReloadResearchListAsync();
+        }
+
+        private async Task ReloadResearchListAsync()
+        {
+            var caseData = _medicalRecord.Cases.FirstOrDefault(c => c.Id == _fullRecord?.CaseId);
+            if (caseData == null) return;
+
+            var alreadyLinkedIds = caseData.Records
+                .Where(r => r.Id != _recordId)
+                .SelectMany(r => r.RecordResearches)
+                .Where(rr => rr.Research != null)
+                .Select(rr => rr.Research!.Id)
+                .ToHashSet();
+
+            // 1. Дослідження кейсу
+            var researchItems = caseData.Researches.Select(r => new ResearchSelectItem
+            {
+                Id = r.Id,
+                ResearchType = r.ResearchType,
+                StatusDisplay = alreadyLinkedIds.Contains(r.Id)
+                    ? "Вже прив'язано до іншого запису"
+                    : r.StatusDisplay,
+                IsFromFile = false,
+                FilePath = null,
+                IsDisabled = alreadyLinkedIds.Contains(r.Id),
+                IsSelected = _fullRecord?.RecordResearches.Any(rr => rr.Research?.Id == r.Id) ?? false
+            });
+
+            // 2. Оброблені без кейсу
+            var caseResearchIds = caseData.Researches.Select(r => r.Id).ToHashSet();
+            var unassignedItems = _medicalRecord.Researches
+                .Where(r => r.CaseId == null && !caseResearchIds.Contains(r.Id))
+                .Select(r => new ResearchSelectItem
+                {
+                    Id = r.Id,
+                    ResearchType = r.ResearchType,
+                    StatusDisplay = r.StatusDisplay + " (без кейсу)",
+                    IsFromFile = false,
+                    FilePath = null,
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+
+            // 3. Необроблені PDF
+            var fileItems = _medicalRecord.ResearchFiles
+                .Where(f => f.ResearchId == null)
+                .Select(f => new ResearchSelectItem
+                {
+                    Id = f.Id,
+                    ResearchType = $"PDF: {System.IO.Path.GetFileName(f.FilePath)}",
+                    StatusDisplay = "Очікує обробки",
+                    IsFromFile = true,
+                    FilePath = f.FilePath,
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+
+            _allCaseResearches = researchItems.Concat(unassignedItems).Concat(fileItems).ToList();
+            ResearchTotalPages = Math.Max(1, (int)Math.Ceiling((double)_allCaseResearches.Count / _researchPageSize));
+            ResearchPage = 1;
+            UpdateResearchPage();
         }
 
         // --- Команди ---
