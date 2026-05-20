@@ -390,5 +390,6 @@ public partial class MedicalCardView : UserControl
 
         var vm = (MedicalCardViewModel)DataContext;
         await vm.ReopenCaseAsync(caseModel);
+        await vm.ReloadAsync();
     }
 }

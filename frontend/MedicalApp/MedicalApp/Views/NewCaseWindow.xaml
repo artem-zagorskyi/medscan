@@ -70,11 +70,17 @@
 
                     <!-- Дата відкриття -->
                     <TextBlock Text="Дата відкриття"
-                       FontSize="12" FontWeight="Medium"
-                       Foreground="#5F5E5A" Margin="0,0,0,6"/>
-                    <DatePicker SelectedDate="{Binding OpeningDate}"
-                        FontSize="13"
-                        BorderBrush="#E0DEDB"/>
+                            FontSize="12" FontWeight="Medium"
+                            Foreground="#5F5E5A" Margin="0,0,0,6"/>
+                    <Border BorderBrush="#E0DEDB" BorderThickness="1"
+                         CornerRadius="6" Background="#F9F9F7" Padding="12,8">
+                        <StackPanel Orientation="Horizontal">
+                            
+                            <TextBlock Text="{Binding OpeningDateDisplay}"
+                   FontSize="13" Foreground="#5F5E5A"
+                   VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Border>
         </StackPanel>

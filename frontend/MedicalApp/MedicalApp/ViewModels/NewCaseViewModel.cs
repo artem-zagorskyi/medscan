@@ -61,6 +61,8 @@ namespace MedicalApp.ViewModels
             set => SetProperty(ref _isSaving, value);
         }
 
+        public string OpeningDateDisplay => OpeningDate.ToString("dd MMMM yyyy");
+
         [RelayCommand]
         private async Task SaveAsync()
         {

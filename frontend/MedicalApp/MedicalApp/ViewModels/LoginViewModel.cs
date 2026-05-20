@@ -94,6 +94,10 @@ public partial class LoginViewModel : ObservableObject
         {
             ErrorMessage = "Невідома помилка. Спробуйте пізніше.";
         }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     partial void OnErrorMessageChanged(string value)
