@@ -1,331 +1,160 @@
 import fs from 'fs/promises'
+import { existsSync } from 'node:fs'
 import path from 'path'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs'
+import Database from 'better-sqlite3'
 import { AppError } from '../errors/AppError.js'
 
+
+// ─── Конфігурація ───────────────────────────────────────────────
+
 const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434'
-const MODEL = process.env.OLLAMA_MODEL || 'gemma3:4b'
+const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || 'nomic-embed-text'
+const SLM_MODEL = process.env.OLLAMA_MODEL || 'gemma3:4b'
+const INDEX_DB_PATH = process.env.INDEX_DB_PATH || path.resolve('data/embeddings.db')
+const OLLAMA_TIMEOUT_MS = parseInt(process.env.OLLAMA_TIMEOUT_MS || '60000', 10)
 
-//llamaindex
-//langchain
+// ─── Векторний індекс ─────────────────
 
+let indexCache = null
 
-const RESEARCH_GROUPS = {
-  'Загальний аналіз крові (ЗАК)': [
-    'Середня концентрація гемоглобіну в еритроциті (MCHC)',
-    'Середній об\'єм еритроцита (MCV)',
-    'Середній вміст гемоглобіну в еритроциті (MCH)',
-    'Еритроцити (підрахунок автоматичний)',
-    'Гемоглобін у крові',
-    'Показник анізоцитозу еритроцитів (RDW)',
-    'Тромбоцити (підрахунок автоматичний)',
-    'Лейкоцити (підрахунок автоматичний)',
-    'Середній об\'єм тромбоцита (MPV)',
-    'Гематокрит (автоматичний підрахунок)',
-    'Нейтрофіли абсолютна кількість',
-    'Базофіли абсолютна кількість',
-    'Моноцити абсолютна кількість',
-    'Лімфоцити абсолютна кількість',
-    'Еозинофіли абсолютна кількість',
-    'Нейтрофіли відносна кількість',
-    'Моноцити відносна кількість',
-    'Лімфоцити відносна кількість',
-    'Еозинофіли відносна кількість',
-    'Базофіли відносна кількість',
-    'Незрілі гранулоцити абсолютна кількість',
-    'Незрілі гранулоцити відносна кількість',
-    'Ядровмісні еритроцити абсолютна кількість',
-    'Ядровмісні еритроцити відносна кількість',
-    'Диференційний підрахунок клітин крові',
-    'Загальний аналіз крові (CBC) з диференціалом',
-    'Загальний аналіз крові (CBC) автоматичний',
-    'ШОЕ за методом Вестергрена',
-    'Морфологія еритроцитів',
-    'Поліхромазія (мікроскопія)',
-    'Анізоцитоз (мікроскопія)',
-    'Метамієлоцити відносна кількість',
-    'Мієлоцити відносна кількість',
-    'Паличкоядерні нейтрофіли відносна кількість',
-    'Сегментоядерні нейтрофіли відносна кількість',
-    'Лейкоцити скориговані на ядровмісні еритроцити',
-    'Гемоглобін A1c/загальний гемоглобін у крові',
-    'Гемоглобін A1c абсолютна кількість',
-    'Фібриноген у плазмі (коагулограма)',
-  ],
+function loadIndex() {
+  if (indexCache) return indexCache
 
-  'Біохімічний аналіз крові': [
-    'Креатинін у сироватці або плазмі',
-    'Натрій у сироватці або плазмі',
-    'Калій у сироватці або плазмі',
-    'Хлорид у сироватці або плазмі',
-    'Сечовина у сироватці або плазмі',
-    'Білірубін загальний у сироватці або плазмі',
-    'Білірубін прямий у сироватці або плазмі',
-    'Білірубін непрямий у сироватці або плазмі',
-    'Білірубін кон\'югований у сироватці або плазмі',
-    'Білок загальний у сироватці або плазмі',
-    'Альбумін у сироватці або плазмі',
-    'Глобулін у сироватці або плазмі',
-    'Аланінамінотрансфераза (АЛТ) у сироватці або плазмі',
-    'Аспартатамінотрансфераза (АСТ) у сироватці або плазмі',
-    'Лужна фосфатаза у сироватці або плазмі',
-    'Гамма-глутамілтрансфераза (ГГТ) у сироватці або плазмі',
-    'Ліпаза у сироватці або плазмі',
-    'Амілаза у сироватці або плазмі',
-    'Креатинкіназа у сироватці або плазмі',
-    'С-реактивний білок (СРБ) у сироватці або плазмі',
-    'Сечова кислота у сироватці або плазмі',
-    'Аніонний розрив у сироватці або плазмі',
-    'Швидкість клубочкової фільтрації (ШКФ) за MDRD',
-    'Швидкість клубочкової фільтрації (ШКФ) за CKD-EPI',
-    'Кліренс креатиніну за формулою Кокрофта-Голта',
-    'Співвідношення альбумін/глобулін у сироватці або плазмі',
-    'Співвідношення сечовина/креатинін у сироватці або плазмі',
-    'Базова метаболічна панель',
-    'Комплексна метаболічна панель',
-    'Нефрологія (комплексна панель)',
-    'Натрій у крові',
-    'Калій у крові',
-    'Хлорид у крові',
-    'Креатинін у крові',
-    'Сечовина у крові',
-  ],
+  if (!existsSync(INDEX_DB_PATH)) {
+    throw new AppError(`Index database not found: ${INDEX_DB_PATH}`, 500)
+  }
 
-  'Ліпідний профіль': [
-    'Холестерин загальний у сироватці або плазмі',
-    'Холестерин ЛПВЩ у сироватці або плазмі',
-    'Холестерин ЛПНЩ у сироватці або плазмі',
-    'Холестерин ЛПДНЩ у сироватці або плазмі',
-    'Холестерин не-ЛПВЩ у сироватці або плазмі',
-    'Тригліцериди у сироватці або плазмі',
-    'Співвідношення загальний холестерин/ЛПВЩ',
-    'Ліпідна панель',
-  ],
+  const db = new Database(INDEX_DB_PATH, { readonly: true })
+  const rows = db.prepare(`
+    SELECT id, unofficial_name, common_name, category, fluid, unit, source_count, embedding
+    FROM embeddings
+  `).all()
+  db.close()
 
-  'Коагулограма та гемостаз': [
-    'Протромбіновий час (ПЧ)',
-    'МНВ (міжнародне нормалізоване відношення)',
-    'АЧТЧ (активований частковий тромбопластиновий час)',
-    'Фібриноген у плазмі',
-    'D-димер у плазмі',
-    'Нефракціонований гепарин у плазмі',
-  ],
+  if (rows.length === 0) throw new AppError('Embedding index is empty', 500)
 
-  'Загальний аналіз сечі (ЗАС)': [
-    'Колір сечі',
-    'Зовнішній вигляд сечі',
-    'pH сечі',
-    'Питома вага сечі',
-    'Білок у сечі',
-    'Глюкоза у сечі',
-    'Кетони у сечі',
-    'Нітрити у сечі',
-    'Білірубін у сечі',
-    'Уробіліноген у сечі',
-    'Гемоглобін у сечі',
-    'Лейкоцитарна естераза у сечі',
-    'Еритроцити у осаді сечі',
-    'Лейкоцити у осаді сечі',
-    'Бактерії у осаді сечі',
-    'Епітеліальні клітини у осаді сечі',
-    'Гіалінові циліндри у осаді сечі',
-    'Слиз у осаді сечі',
-    'Мікроальбумін у сечі',
-    'Альбумін у сечі',
-    'Співвідношення альбумін/креатинін у сечі',
-    'Співвідношення білок/креатинін у сечі',
-    'Осмолярність сечі',
-    'Загальний аналіз сечі (макроскопічна панель)',
-  ],
+  const vectorDim = rows[0].embedding.length / 4 // float32
+  const n = rows.length
+  const vectors = new Float32Array(n * vectorDim)
+  const meta = new Array(n)
 
-  'Глюкоза та діабет': [
-    'Глюкоза у сироватці або плазмі',
-    'Глюкоза у крові',
-    'Глюкоза у капілярній крові (глюкометр)',
-    'Глікований гемоглобін (HbA1c)',
-    'Середній рівень глюкози розрахований з HbA1c',
-    'Статус натщесерця',
-  ],
+  for (let i = 0; i < n; i++) {
+    const row = rows[i]
+    // Копіюємо BLOB в окремий ArrayBuffer
+    const ab = new ArrayBuffer(row.embedding.byteLength)
+    const view = new Uint8Array(ab)
+    for (let j = 0; j < row.embedding.byteLength; j++) {
+      view[j] = row.embedding[j]
+    }
+    const vec = new Float32Array(ab)
+    vectors.set(vec, i * vectorDim)
+    meta[i] = {
+      id: row.id,
+      unofficial_name: row.unofficial_name,
+      common_name: row.common_name,
+      category: row.category,
+      fluid: row.fluid,
+      unit: row.unit,
+      source_count: row.source_count,
+    }
+  }
 
-  'Гормони щитоподібної залози': [
-    'Тиреотропний гормон (ТТГ) у сироватці або плазмі',
-    'Тироксин вільний (Т4 вільний) у сироватці або плазмі',
-    'Трийодтиронін вільний (Т3 вільний) у сироватці або плазмі',
-  ],
-
-  'Гормони та онкомаркери': [
-    'Тропонін I серцевий у сироватці або плазмі',
-    'Простатоспецифічний антиген (ПСА)',
-    'Натрійуретичний пептид B (BNP)',
-    'Хоріонічний гонадотропін (ХГЛ)',
-    'Паратгормон інтактний у сироватці або плазмі',
-    'Рецептор епідермального фактора росту (EGFR)',
-    'Тестостерон у сироватці або плазмі',
-    'Прокальцитонін у сироватці або плазмі',
-  ],
-
-  'Мікробіологічний посів': [
-    'Бактерії виявлені у крові (посів)',
-    'Бактерії виявлені у сечі (посів)',
-    'Бактерії виявлені у мокротинні (посів)',
-    'Бактерії виявлені у зразку (аеробно-анаеробний посів)',
-    'Мікроорганізм виявлений у зразку (посів)',
-    'Мікробіологічне дослідження (фарбування за Грамом)',
-    'Мікобактерії виявлені у зразку (специфічний посів)',
-    'ДНК Neisseria gonorrhoeae у зразку (ПЛР)',
-    'Гриби виявлені у зразку (посів)',
-    'РНК Chlamydia trachomatis у зразку (ПЛР)',
-    'Реагін (РПР) у сироватці',
-  ],
-
-  'Газовий склад крові': [
-    'Парціальний тиск кисню (pO2) в артеріальній крові',
-    'Парціальний тиск CO2 (pCO2) в артеріальній крові',
-    'pH артеріальної крові',
-    'Бікарбонат в артеріальній крові',
-    'Насичення киснем (сатурація) артеріальної крові',
-    'Надлишок основ у крові',
-    'Парціальний тиск кисню (pO2) у венозній крові',
-    'Парціальний тиск CO2 (pCO2) у венозній крові',
-    'pH венозної крові',
-    'Бікарбонат у венозній крові',
-    'Лактат у крові',
-    'Лактат у венозній крові',
-    'Газовий склад артеріальної крові',
-  ],
-
-  'Аналіз на інфекції': [
-    'РНК SARS-CoV-2 (COVID-19) у зразку дихальних шляхів (ПЛР)',
-    'Антитіла до ВІЛ-1+2 та антиген p24 у сироватці або плазмі',
-    'Антитіла до вірусу гепатиту C у сироватці',
-    'Поверхневий антиген вірусу гепатиту B у сироватці',
-    'Антинейтрофільні цитоплазматичні антитіла (ANCA)',
-  ],
-
-  'Вітаміни та мікроелементи': [
-    'Кальцій у сироватці або плазмі',
-    'Іонізований кальцій у крові',
-    'Магній у сироватці або плазмі',
-    'Фосфат у сироватці або плазмі',
-    'Феритин у сироватці або плазмі',
-    '25-гідроксивітамін D3 у сироватці або плазмі',
-    '25-гідроксивітамін D3+D2 у сироватці або плазмі',
-    'Вітамін B12 (кобаламін) у сироватці або плазмі',
-    'Залізо у сироватці або плазмі',
-    'Насичення трансферину залізом',
-    'Залізозв\'язуюча здатність сироватки',
-    'Фолат у сироватці або плазмі',
-  ],
-
-  'Токсикологічний аналіз': [
-    'Такролімус у крові',
-    'Етанол у сироватці або плазмі',
-    'Опіати у сечі',
-    'Барбітурати у сечі',
-    'Канабіноїди у сечі (скринінг)',
-    'Бензодіазепіни у сечі',
-  ],
-
-  'Група крові та препарати крові': [
-    'Група крові ABO та резус-фактор (Rh)',
-    'Скринінг антитіл до еритроцитів',
-    'Ідентифікатор одиниці препарату крові',
-    'Тип препарату крові',
-    'Стан утилізації препарату крові',
-  ],
+  indexCache = { vectors, meta, n, vectorDim }
+  console.log(`[ML] Index loaded: ${n} vectors, dim=${vectorDim}`)
+  return indexCache
 }
 
-const GROUP_NAMES = Object.keys(RESEARCH_GROUPS)
+// ─── Векторні операції ──────────────────────────────────────────
 
+function normalize(vector) {
+  let sumSq = 0
+  for (let i = 0; i < vector.length; i++) sumSq += vector[i] * vector[i]
+  const norm = Math.sqrt(sumSq)
+  if (norm === 0) return vector.slice()
+  const result = new Float32Array(vector.length)
+  for (let i = 0; i < vector.length; i++) result[i] = vector[i] / norm
+  return result
+}
 
-const KEYWORD_MAP = [
-  {
-    group: 'Загальний аналіз крові (ЗАК)',
-    keywords: ['еритроцит', 'лейкоцит', 'гемоглобін', 'тромбоцит', 'гематокрит',
-      'нейтрофіл', 'лімфоцит', 'моноцит', 'еозинофіл', 'базофіл',
-      'mchc', 'mcv', 'mch', 'cbc', 'rbc', 'wbc', 'hgb', 'hct', 'plt',
-      'rdw', 'mpv', 'шое', 'диференційний підрахунок']
-  },
-  {
-    group: 'Ліпідний профіль',
-    keywords: ['холестерин', 'cholesterol', 'тригліцерид', 'triglyceride',
-      'лпвщ', 'hdl', 'лпнщ', 'ldl', 'лпднщ', 'vldl', 'ліпід', 'lipid']
-  },
-  {
-    group: 'Коагулограма та гемостаз',
-    keywords: ['протромбін', 'мнв', 'inr', 'ачтч', 'aptt',
-      'фібриноген', 'fibrinogen', 'd-димер', 'd-dimer', 'гепарин']
-  },
-  {
-    group: 'Глюкоза та діабет',
-    keywords: ['hba1c', 'глікован', 'glycated', 'кетон', 'ketone', 'натщесерц',
-      'глюкоз', 'glucose']
-  },
-  {
-    group: 'Гормони щитоподібної залози',
-    keywords: ['ттг', 'tsh', 'тиреотропін', 'thyrotropin',
-      'тироксин', 'thyroxine', 'трийодтиронін', 'triiodothyronine']
-  },
-  {
-    group: 'Гормони та онкомаркери',
-    keywords: ['тропонін', 'troponin', 'пса', 'psa', 'простатоспецифічн',
-      'хгл', 'hcg', 'прокальцитонін', 'procalcitonin', 'bnp',
-      'натрійуретичний', 'паратгормон', 'тестостерон']
-  },
-  {
-    group: 'Мікробіологічний посів',
-    keywords: ['посів', 'culture', 'антибіотикограм',
-      'фарбування за грамом', 'gram stain', 'мікобактер', 'mycobacterium',
-      'гриб', 'fungus', 'гонорея', 'хламідія', 'рпр', 'rpr']
-  },
-  {
-    group: 'Газовий склад крові',
-    keywords: ['газовий склад', 'pco2', 'po2', 'ph крові', 'ph артеріальн',
-      'бікарбонат', 'bicarbonate', 'надлишок основ', 'base excess',
-      'сатурація кисню', 'oxygen saturation', 'артеріальна кров']
-  },
-  {
-    group: 'Аналіз на інфекції',
-    keywords: ['віл', 'hiv', 'гепатит', 'hepatitis', 'covid', 'sars-cov', 'anca']
-  },
-  {
-    group: 'Вітаміни та мікроелементи',
-    keywords: ['вітамін d', 'vitamin d', '25-гідрокси', '25-hydroxy',
-      'кобаламін', 'cobalamin', 'фолат', 'folate', 'феритин', 'ferritin',
-      'залізозв', 'трансферин', 'transferrin', 'вітамін b12']
-  },
-  {
-    group: 'Токсикологічний аналіз',
-    keywords: ['алкоголь', 'ethanol', 'опіат', 'opiate', 'канабіноїд', 'cannabinoid',
-      'барбітурат', 'barbiturate', 'бензодіазепін', 'benzodiazepine',
-      'такролімус', 'tacrolimus']
-  },
-  {
-    group: 'Група крові та препарати крові',
-    keywords: ['група крові', 'blood group', 'резус-фактор', 'rh factor',
-      'аво', 'abo', 'антитіла до еритроцит', 'blood product', 'переливання']
-  },
-  {
-    group: 'Загальний аналіз сечі (ЗАС)',
-    keywords: ['загальний аналіз сечі', 'нітрит сечі', 'питома вага сечі',
-      'лейкоцитарна естераза', 'осмолярність сечі', 'мікроальбумін',
-      'осад сечі', 'колір сечі', 'зовнішній вигляд сечі']
-  },
-  {
-    group: 'Біохімічний аналіз крові',
-    keywords: ['креатинін', 'creatinine', 'creat', 'серпл', 'сечовина', 'urea',
-      'білірубін', 'bilirubin', 'алт', 'alt', 'аст', 'ast',
-      'лужна фосфатаза', 'alp', 'альбумін', 'albumin', 'глобулін',
-      'аніонний розрив', 'шкф', 'ліпаза', 'амілаза', 'срб', 'crp',
-      'нефрологія', 'метаболічна панель',
-      'натрій', 'sodium', 'калій', 'potassium', 'хлорид', 'chloride',
-      'кальцій', 'calcium', 'магній', 'magnesium', 'фосфат', 'phosphate']
-    
-  },
-]
+function searchTopK(index, queryVector, k = 10) {
+  const { vectors, meta, n, vectorDim } = index
+  const scores = new Float32Array(n)
 
+  for (let i = 0; i < n; i++) {
+    let sum = 0
+    const offset = i * vectorDim
+    for (let j = 0; j < vectorDim; j++) {
+      sum += vectors[offset + j] * queryVector[j]
+    }
+    scores[i] = sum
+  }
+
+  const indices = Array.from({ length: n }, (_, i) => i)
+  indices.sort((a, b) => scores[b] - scores[a])
+
+  const topK = []
+  for (let i = 0; i < Math.min(k, n); i++) {
+    const idx = indices[i]
+    topK.push({ score: scores[idx], meta: meta[idx] })
+  }
+  return topK
+}
+
+// ─── Ollama API ─────────────────────────────────────────────────
+
+async function fetchWithTimeout(url, options) {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), OLLAMA_TIMEOUT_MS)
+  try {
+    return await fetch(url, { ...options, signal: controller.signal })
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
+async function getEmbedding(text) {
+  const response = await fetchWithTimeout(`${OLLAMA_HOST}/api/embeddings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: EMBEDDING_MODEL, prompt: text }),
+  })
+  if (!response.ok) throw new AppError(`Ollama embedding error: ${response.statusText}`, 500)
+  const data = await response.json()
+  if (!data.embedding || !Array.isArray(data.embedding)) {
+    throw new AppError('Invalid embedding response from Ollama', 500)
+  }
+  return data.embedding
+}
+
+async function callOllamaGenerate(prompt, maxTokens = 200) {
+  const response = await fetchWithTimeout(`${OLLAMA_HOST}/api/generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: SLM_MODEL,
+      prompt,
+      stream: false,
+      options: { temperature: 0, num_predict: maxTokens },
+    }),
+  })
+  if (!response.ok) throw new AppError(`Ollama generate error: ${response.statusText}`, 500)
+  const data = await response.json()
+  return (data.response || '').trim()
+}
+
+function cleanMarkdown(text) {
+  return text
+    .replace(/\*\*/g, '')
+    .replace(/\*/g, '')
+    .replace(/^#+\s*/gm, '')
+    .replace(/^[-•]\s*/gm, '')
+    .replace(/\n+/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
+// ─── Крок 1: Витягнути текст з PDF ─────────────────────────────
 
 export const extractTextFromPdf = async (filePath) => {
   try {
@@ -345,169 +174,168 @@ export const extractTextFromPdf = async (filePath) => {
   }
 }
 
+// ─── Крок 2: SLM витягує структуровані поля з тексту ────────────
 
-const callOllama = async (prompt) => {
-  console.log('Calling Ollama at:', OLLAMA_HOST, 'Model:', MODEL)
-  const response = await fetch(`${OLLAMA_HOST}/api/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: MODEL,
-      prompt,
-      stream: false,
-      options: { temperature: 0.1, top_p: 0.9, stop: ['<end_of_turn>', '<start_of_turn>'] }
-    }),
-    signal: AbortSignal.timeout(120000)
-  })
-  if (!response.ok) throw new AppError(`Ollama error: ${response.statusText}`, 500)
-  return response.json()
-}
+async function extractFieldsFromText(text) {
+  const truncated = text.slice(0, 2000)
 
+  const prompt = `Проаналізуй текст лабораторного звіту та витягни інформацію.
 
-const classifyGroup = async (text) => {
-  const orderedMatch = text.match(/Замовлене дослідження:\s*(\S[^\n\r]{0,50})/i)
-  const orderedTest = orderedMatch ? orderedMatch[1].trim() : ''
-
-  
-  let hint = ''
-  if (orderedTest) {
-    const lower = orderedTest.toLowerCase()
-    for (const { group, keywords } of KEYWORD_MAP) {
-      if (keywords.some(kw => lower.includes(kw.toLowerCase()))) {
-        hint = `\nПідказка: схоже що замовлене дослідження "${orderedTest}" може відноситись до групи "${group}", але перевір самостійно.`
-        break
-      }
-    }
-  }
-
-  const truncated = text.slice(0, 1500)
-  const groupList = GROUP_NAMES.map((g, i) => `${i + 1}. ${g}`).join('\n')
-
-  const prompt = `<start_of_turn>user
-Ти медичний асистент. Визнач групу медичного дослідження.
-
-Групи досліджень:
-${groupList}
-${hint}
-
-Текст дослідження:
+Текст звіту:
 ${truncated}
 
-Поверни ТІЛЬКИ валідний JSON без пояснень:
-{"group":"<назва групи з списку>","confidence":"<high або low>"}
-<end_of_turn>
-<start_of_turn>model
-`
-
-  const data = await callOllama(prompt)
-  const raw = data.response?.trim() || ''
-  const cleaned = raw.replace(/```json|```/g, '').trim()
-  console.log('Group raw:', cleaned)
-
-  try {
-    const json = JSON.parse(cleaned.match(/\{[\s\S]*\}/)?.[0] || '{}')
-    const matched = GROUP_NAMES.find(g =>
-      g.toLowerCase() === json.group?.toLowerCase() ||
-      json.group?.toLowerCase().includes(g.toLowerCase())
-    )
-    return { group: matched || 'Інше', confidence: json.confidence === 'high' ? 'high' : 'low' }
-  } catch {
-    const matched = GROUP_NAMES.find(g => cleaned.toLowerCase().includes(g.toLowerCase()))
-    return { group: matched || 'Інше', confidence: 'low' }
-  }
-}
-
-
-const classifySpecific = async (text, group) => {
-  const truncated = text.slice(0, 1500)
-  const specificTests = RESEARCH_GROUPS[group] || []
-
-  if (specificTests.length === 0) {
-    return { specificType: group, summary: '', parameters: '', confidence: 'low' }
-  }
-
-  const testsList = specificTests.map((t, i) => `${i + 1}. ${t}`).join('\n')
-
-  const prompt = `<start_of_turn>user
-Ти медичний асистент. Проаналізуй текст медичного дослідження типу "${group}".
-
-Вибери ОДИН найбільш відповідний тест з цього списку (ТІЛЬКИ з цього списку, слово в слово):
-${testsList}
-
-Текст дослідження:
-${truncated}
+Поверни ТІЛЬКИ валідний JSON без пояснень та без markdown:
+{"unofficial_name":"<назва дослідження з документу>","category":"<категорія: Хімія, Гематологія, тощо>","fluid":"<тип зразка: Кров, Сеча, тощо>","unit":"<одиниці виміру результату>"}
 
 Правила:
-- specificType — ТІЛЬКИ ТОЧНА назва з наведеного списку, слово в слово
-- summary — короткий опис результатів українською, 2-3 речення
-- parameters — лише ті показники що реально є в тексті через кому
-- confidence — high якщо впевнений, low якщо ні
+- unofficial_name — назва дослідження як написано в документі (поле "Замовлене дослідження" або назва показника)
+- category — категорія або відділ лабораторії
+- fluid — тип біоматеріалу
+- unit — одиниці виміру з таблиці результатів
+- Якщо поле відсутнє в тексті, пиши ""
 
-Поверни ТІЛЬКИ валідний JSON без markdown:
-{"specificType":"<точна назва з списку>","summary":"<опис>","parameters":"<показники>","confidence":"<high або low>"}
-<end_of_turn>
-<start_of_turn>model
-`
+JSON:`
 
-  const data = await callOllama(prompt)
-  const raw = data.response?.trim() || ''
+  const raw = await callOllamaGenerate(prompt, 150)
   const cleaned = raw.replace(/```json|```/g, '').trim()
-  console.log('Specific raw:', cleaned)
 
   try {
-    const json = JSON.parse(cleaned.match(/\{[\s\S]*\}/)?.[0] || '{}')
-
-    const matched = specificTests.find(t =>
-      t.toLowerCase() === json.specificType?.toLowerCase() ||
-      json.specificType?.toLowerCase().includes(t.toLowerCase()) ||
-      t.toLowerCase().includes(json.specificType?.toLowerCase())
-    )
-
+    const match = cleaned.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('No JSON found')
+    const json = JSON.parse(match[0])
     return {
-      specificType: matched || specificTests[0],
-      summary: json.summary || '',
-      parameters: json.parameters || '',
-      confidence: json.confidence === 'high' ? 'high' : 'low'
+      unofficial_name: (json.unofficial_name || '').trim(),
+      category: (json.category || '').trim(),
+      fluid: (json.fluid || '').trim(),
+      unit: (json.unit || '').trim(),
     }
   } catch {
-    return { specificType: specificTests[0], summary: '', parameters: '', confidence: 'low' }
+    console.warn('[ML] Failed to parse fields JSON:', cleaned)
+    return { unofficial_name: '', category: '', fluid: '', unit: '' }
   }
 }
 
+// ─── Крок 3: Генерація ключових слів через SLM ─────────────────
+
+async function generateKeywords(unofficialName, category, fluid, unit) {
+  const prompt = `Лабораторний тест "${unofficialName}" (${category || '?'}, ${fluid || '?'}, ${unit || '?'}).
+Напиши ТІЛЬКИ список ключових слів через кому: повна назва українською, назва англійською, абревіатури, хімічна формула, група аналізів, що вимірює. Без пояснень, без речень.
+
+Ключові слова:`
+
+  const raw = await callOllamaGenerate(prompt, 100)
+  return cleanMarkdown(raw)
+}
+
+// ─── Крок 4: RAG класифікація ───────────────────────────────────
+
+function classifyByTopK(topK) {
+  // Top-1 стратегія — беремо common_name найближчого сусіда
+  const seen = new Set()
+  const ranking = []
+
+  for (const item of topK) {
+    const cn = item.meta.common_name
+    if (seen.has(cn)) continue
+    seen.add(cn)
+    ranking.push({
+      common_name: cn,
+      score: item.score,
+    })
+  }
+
+  return ranking
+}
+
+// ─── Крок 5: SLM генерує короткий опис результатів ──────────────
+
+async function generateResultsSummary(extractedText, classifiedName) {
+  const truncated = extractedText.slice(0, 2000)
+
+  const prompt = `Проаналізуй результати лабораторного дослідження "${classifiedName}".
+
+Текст звіту:
+${truncated}
+
+Напиши короткий висновок українською (2-3 речення): які показники виміряно, їх значення, чи є відхилення від норми. Без заголовків, без списків, без markdown.
+
+Висновок:`
+
+  const raw = await callOllamaGenerate(prompt, 200)
+  return cleanMarkdown(raw)
+}
+
+// ─── Головна функція: аналіз файлу ─────────────────────────────
+
 export const analyzeFile = async (filePath) => {
-  console.log('Analyzing:', filePath)
+  console.log('[ML] Analyzing:', filePath)
+
+  // Крок 1: Витягуємо текст
   const extractedText = await extractTextFromPdf(filePath)
-  console.log('Text length:', extractedText.length)
-  console.log('Preview:', extractedText)
+  console.log('[ML] Text length:', extractedText.length)
 
   if (!extractedText || extractedText.length < 10) {
     throw new AppError('Could not extract meaningful text from PDF', 422)
   }
 
-  console.log('Step 1: classifying group...')
-  const groupResult = await classifyGroup(extractedText)
-  console.log('Group result:', groupResult)
+  // Крок 2: SLM витягує поля
+  console.log('[ML] Step 1: extracting fields with SLM...')
+  const fields = await extractFieldsFromText(extractedText)
+  console.log('[ML] Fields:', fields)
 
-  console.log('Step 2: classifying specific test...')
-  const specificResult = await classifySpecific(extractedText, groupResult.group)
-  console.log('Specific result:', specificResult)
+  if (!fields.unofficial_name) {
+    throw new AppError('Could not extract research name from PDF', 422)
+  }
 
-  const finalConfidence = (groupResult.confidence === 'high' && specificResult.confidence === 'high')
-    ? 'high' : 'low'
+  // Крок 3: Генеруємо ключові слова
+  console.log('[ML] Step 2: generating keywords...')
+  const keywords = await generateKeywords(
+    fields.unofficial_name,
+    fields.category,
+    fields.fluid,
+    fields.unit
+  )
+  console.log('[ML] Keywords:', keywords)
 
-  const results = specificResult.summary
-    ? `${specificResult.summary}${specificResult.parameters ? '\n\nОсновні показники: ' + specificResult.parameters : ''}`
-    : extractedText.slice(0, 500)
+  // Крок 4: Embedding
+  console.log('[ML] Step 3: computing embedding...')
+  const rawEmbedding = await getEmbedding(keywords)
+  const queryVector = normalize(rawEmbedding)
+
+  // Крок 5: Cosine search
+  console.log('[ML] Step 4: searching index...')
+  const index = loadIndex()
+  const topK = searchTopK(index, queryVector, 10)
+  const ranking = classifyByTopK(topK)
+
+  // Визначаємо confidence
+  const topScore = ranking[0]?.score || 0
+  const secondScore = ranking[1]?.score || 0
+  let confidence = 'low'
+  if (topScore > 0.95) confidence = 'high'
+  else if (topScore > 0.85 && (topScore - secondScore) > 0.03) confidence = 'medium'
+
+  const classifiedName = ranking[0]?.common_name || 'Невідомо'
+  console.log('[ML] Result:', classifiedName, `(score: ${topScore.toFixed(4)}, confidence: ${confidence})`)
+
+  // Крок 6: SLM генерує короткий опис результатів
+  console.log('[ML] Step 5: generating results summary...')
+  const results = await generateResultsSummary(extractedText, classifiedName)
+  console.log('[ML] Results:', results)
 
   return {
-    researchType: groupResult.group,
-    specificType: specificResult.specificType,
+    classifiedName,
+    confidence,
     results,
-    extractedText: extractedText.slice(0, 1000),
-    confidence: finalConfidence
+    extractedText: extractedText.slice(0, 5000),
+    candidates: ranking.slice(0, 5).map(r => ({
+      commonName: r.common_name,
+      score: Math.round(r.score * 1000) / 1000,
+    })),
   }
 }
 
+// ─── Перевірка статусу Ollama ───────────────────────────────────
 
 export const checkOllamaStatus = async () => {
   try {
@@ -517,8 +345,15 @@ export const checkOllamaStatus = async () => {
     if (!response.ok) return { online: false, models: [] }
     const data = await response.json()
     const models = data.models?.map(m => m.name) || []
-    return { online: true, models, hasModel: models.some(m => m.startsWith('gemma3')) }
+    return {
+      online: true,
+      models,
+      hasSlmModel: models.some(m => m.includes(SLM_MODEL.split(':')[0])),
+      hasEmbeddingModel: models.some(m => m.includes(EMBEDDING_MODEL.split(':')[0])),
+      indexLoaded: indexCache !== null,
+      indexSize: indexCache?.n || 0,
+    }
   } catch {
-    return { online: false, models: [], hasModel: false }
+    return { online: false, models: [], hasSlmModel: false, hasEmbeddingModel: false }
   }
 }

@@ -24,7 +24,7 @@ services:
     environment:
       - OLLAMA_KEEP_ALIVE=24h
     entrypoint: >
-      sh -c "ollama serve & sleep 10 && ollama pull gemma3:1b && wait"
+      sh -c "ollama serve & sleep 10 && ollama pull gemma3:4b && wait"
 
 volumes:
   mysql_data:
