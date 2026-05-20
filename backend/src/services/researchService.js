@@ -64,7 +64,7 @@ export const getUnclassified = async () => {
 }
 
 export const create = async (data) => {
-  const { medical_record_id, case_id, doctor_id, research_type } = data
+  const { medical_record_id, case_id, doctor_id, research_type, results, extracted_text, status } = data
 
   if (case_id) {
     const caseFound = await prisma.case.findUnique({ where: { id: case_id } })
@@ -78,7 +78,10 @@ export const create = async (data) => {
       case_id: case_id ?? null,
       doctor_id: doctor_id ?? null,
       research_type,
-      status: 'PENDING',
+      status: status ?? 'PENDING',
+      results: results ?? null,
+      extracted_text: extracted_text ?? null,
+      ...(status === 'PROCESSED' && { processed_at: new Date() }),
     },
     include: researchInclude
   })

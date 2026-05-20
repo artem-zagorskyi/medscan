@@ -23,4 +23,10 @@ router.patch('/person/:personId/rights', authenticate, requireAdmin, accountCont
 // DELETE /api/accounts/person/:personId — admin only
 router.delete('/person/:personId', authenticate, requireAdmin, accountController.remove)
 
+// PATCH /api/accounts/person/:personId/deactivate — admin only
+router.patch('/person/:personId/deactivate', authenticate, requireAdmin, accountController.deactivate)
+
+// PATCH /api/accounts/person/:personId/activate — admin only
+router.patch('/person/:personId/activate', authenticate, requireAdmin, accountController.activate)
+
 export default router

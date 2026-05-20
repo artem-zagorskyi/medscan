@@ -24,7 +24,9 @@ export const register = async (data) => {
       // Account fields
       email,
       password,
-      rights
+      rights,
+      // Doctor fields
+      specialization
     } = data
 
     // Check if account with this email already exists
@@ -36,11 +38,15 @@ export const register = async (data) => {
       throw new AppError(`Account with email ${email} already exists`, 400)
     }
 
+    if (role === 'DOCTOR' && !specialization) {
+      throw new AppError('Specialization is required for DOCTOR role', 400)
+    }
+
     // Hash password with pepper before saving
     const hashedPassword = await bcrypt.hash(password + PEPPER, SALT_ROUNDS)
 
-    // Create Person and Account in a single transaction
-    // If one fails — both are rolled back
+    // Create Person, Account (and Doctor if needed) in a single transaction
+    // If one fails — all are rolled back
     const result = await prisma.$transaction(async (tx) => {
       const person = await tx.person.create({
         data: {
@@ -63,7 +69,18 @@ export const register = async (data) => {
         }
       })
 
-      return { person, account }
+      // Якщо роль DOCTOR — створюємо запис лікаря
+      let doctor = null
+      if (role === 'DOCTOR') {
+        doctor = await tx.doctor.create({
+          data: {
+            person_id: person.id,
+            specialization
+          }
+        })
+      }
+
+      return { person, account, doctor }
     })
 
     // Build JWT payload
@@ -83,7 +100,8 @@ export const register = async (data) => {
       person_id: result.person.id,
       email: result.account.email,
       rights: result.account.rights,
-      role: result.person.role
+      role: result.person.role,
+      doctor_id: result.doctor?.id ?? null
     }
   } catch (error) {
     throw error instanceof AppError ? error : new AppError(`Registration failed: ${error.message}`, 500)
@@ -106,6 +124,10 @@ export const login = async (email, password) => {
 
     if (!isMatch) {
       throw new AppError('Invalid email or password', 401)
+    }
+
+    if (!account.is_active) {
+      throw new AppError('Обліковий запис деактивовано. Зверніться до адміністратора.', 403)
     }
 
     const payload = {

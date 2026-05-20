@@ -124,6 +124,7 @@ model Account {
   person_id  Int      @unique
   email      String   @unique @db.VarChar(255)
   password   String   @db.VarChar(255)
+  is_active  Boolean  @default(true)
   rights     Rights   @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

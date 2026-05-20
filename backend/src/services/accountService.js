@@ -120,3 +120,31 @@ export const remove = async (personId) => {
     throw error instanceof AppError ? error : new AppError(`Failed to delete account: ${error.message}`, 500)
   }
 }
+
+// Deactivate account (block login)
+export const deactivate = async (personId) => {
+  try {
+    await getByPersonId(personId)
+
+    return await prisma.account.update({
+      where: { person_id: personId },
+      data: { is_active: false }
+    })
+  } catch (error) {
+    throw error instanceof AppError ? error : new AppError(`Failed to deactivate account: ${error.message}`, 500)
+  }
+}
+
+// Activate account (restore login)
+export const activate = async (personId) => {
+  try {
+    await getByPersonId(personId)
+
+    return await prisma.account.update({
+      where: { person_id: personId },
+      data: { is_active: true }
+    })
+  } catch (error) {
+    throw error instanceof AppError ? error : new AppError(`Failed to activate account: ${error.message}`, 500)
+  }
+}

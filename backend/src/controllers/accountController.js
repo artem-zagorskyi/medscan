@@ -59,3 +59,23 @@ export const remove = async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message })
   }
 }
+
+// PATCH /api/accounts/person/:personId/deactivate
+export const deactivate = async (req, res) => {
+  try {
+    await accountService.deactivate(Number(req.params.personId))
+    res.status(200).json({ message: 'Account deactivated successfully' })
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message })
+  }
+}
+
+// PATCH /api/accounts/person/:personId/activate
+export const activate = async (req, res) => {
+  try {
+    await accountService.activate(Number(req.params.personId))
+    res.status(200).json({ message: 'Account activated successfully' })
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message })
+  }
+}
