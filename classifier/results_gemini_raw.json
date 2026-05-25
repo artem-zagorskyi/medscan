@@ -1,0 +1,775 @@
+{
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "timestamp": "2026-05-24T11:47:04.760Z",
+  "results": [
+    {
+      "key": "Еритроцити||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "Еритроцити",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.",
+      "predicted": "Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.\"\n}",
+      "error": null,
+      "latency_ms": 10426,
+      "indices_count": 4466,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 32,
+        "totalTokenCount": 12089,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 1117,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Дискоцит||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "Дискоцит",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Пойкілоцитоз [Наявність] у крові за допомогою світлової мікроскопії.",
+      "predicted": "Пойкілоцитоз [Наявність] у крові за допомогою світлової мікроскопії.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Пойкілоцитоз [Наявність] у крові за допомогою світлової мікроскопії.\"\n}",
+      "error": null,
+      "latency_ms": 17077,
+      "indices_count": 1260,
+      "usage": {
+        "promptTokenCount": 10939,
+        "candidatesTokenCount": 37,
+        "totalTokenCount": 13493,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10939
+          }
+        ],
+        "thoughtsTokenCount": 2517,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Еритроцит||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "Еритроцит",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.",
+      "predicted": "Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Еритроцити [DistWidth] у крові за допомогою автоматизованого підрахунку.\"\n}",
+      "error": null,
+      "latency_ms": 6627,
+      "indices_count": 3993,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 32,
+        "totalTokenCount": 11872,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 900,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "RBC||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "RBC",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.\"\n}",
+      "error": null,
+      "latency_ms": 7677,
+      "indices_count": 1348,
+      "usage": {
+        "promptTokenCount": 10936,
+        "candidatesTokenCount": 34,
+        "totalTokenCount": 12209,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10936
+          }
+        ],
+        "thoughtsTokenCount": 1239,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Гематокрит Авто (Кров) [Об’ємна частка]||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "Гематокрит Авто (Кров) [Об’ємна частка]",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.\"\n}",
+      "error": null,
+      "latency_ms": 2626,
+      "indices_count": 713,
+      "usage": {
+        "promptTokenCount": 10952,
+        "candidatesTokenCount": 34,
+        "totalTokenCount": 11262,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10952
+          }
+        ],
+        "thoughtsTokenCount": 276,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Hct VFr Кров Авто||Гематологія||Кров||%",
+      "item": {
+        "unofficial_name": "Hct VFr Кров Авто",
+        "category": "Гематологія",
+        "fluid": "Кров",
+        "unit": "%"
+      },
+      "truth": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "raw_predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "predicted": "Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Гематокрит [Об’ємна частка] крові за допомогою автоматизованого підрахунку.\"\n}",
+      "error": null,
+      "latency_ms": 5533,
+      "indices_count": 700,
+      "usage": {
+        "promptTokenCount": 10942,
+        "candidatesTokenCount": 34,
+        "totalTokenCount": 11288,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10942
+          }
+        ],
+        "thoughtsTokenCount": 312,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Тріщина||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Тріщина",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Кокаїн [Виявлено] в сечі.",
+      "predicted": "Кокаїн [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Кокаїн [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 6919,
+      "indices_count": 9,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 23,
+        "totalTokenCount": 12004,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 1041,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Кокаїн, сеча, кількісний.||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Кокаїн, сеча, кількісний.",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Кокаїн [Виявлено] в сечі.",
+      "predicted": "Кокаїн [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Кокаїн [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 8398,
+      "indices_count": 7,
+      "usage": {
+        "promptTokenCount": 10948,
+        "candidatesTokenCount": 23,
+        "totalTokenCount": 11509,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10948
+          }
+        ],
+        "thoughtsTokenCount": 538,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Незаконний||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Незаконний",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Опіати [Виявлено] в сечі.",
+      "predicted": "Опіати [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Опіати [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 10285,
+      "indices_count": 26,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 24,
+        "totalTokenCount": 12449,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 1485,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Кокаїн||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Кокаїн",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Кокаїн [Виявлено] в сечі.",
+      "predicted": "Кокаїн [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Кокаїн [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 3087,
+      "indices_count": 4,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 23,
+        "totalTokenCount": 11207,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 244,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Сніг||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Сніг",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Кокаїн [Виявлено] в сечі.",
+      "predicted": "Кокаїн [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Кокаїн [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 2103,
+      "indices_count": 7,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 23,
+        "totalTokenCount": 11177,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 214,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Кокаїн Ql (С)||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Кокаїн Ql (С)",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Кокаїн [Виявлено] в сечі.",
+      "predicted": "Кокаїн [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Кокаїн [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 2790,
+      "indices_count": 5,
+      "usage": {
+        "promptTokenCount": 10945,
+        "candidatesTokenCount": 23,
+        "totalTokenCount": 11148,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10945
+          }
+        ],
+        "thoughtsTokenCount": 180,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Наркотичні речовини та препарати||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Наркотичні речовини та препарати",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Опіати [Виявлено] в сечі.",
+      "predicted": "Опіати [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Опіати [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 6269,
+      "indices_count": 36,
+      "usage": {
+        "promptTokenCount": 10946,
+        "candidatesTokenCount": 24,
+        "totalTokenCount": 11917,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10946
+          }
+        ],
+        "thoughtsTokenCount": 947,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Потенціал для зловживання||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Потенціал для зловживання",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Опіати [Виявлено] в сечі.",
+      "predicted": "Опіати [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Опіати [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 108857,
+      "indices_count": 26,
+      "usage": {
+        "promptTokenCount": 10945,
+        "candidatesTokenCount": 24,
+        "totalTokenCount": 13038,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10945
+          }
+        ],
+        "thoughtsTokenCount": 2069,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Залежність||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Залежність",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": "Опіати [Виявлено] в сечі.",
+      "predicted": "Опіати [Виявлено] в сечі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Опіати [Виявлено] в сечі.\"\n}",
+      "error": null,
+      "latency_ms": 8852,
+      "indices_count": 28,
+      "usage": {
+        "promptTokenCount": 10941,
+        "candidatesTokenCount": 24,
+        "totalTokenCount": 12288,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10941
+          }
+        ],
+        "thoughtsTokenCount": 1323,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Бензоїлметилекокаїн||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Бензоїлметилекокаїн",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 529,
+      "indices_count": 3,
+      "usage": null
+    },
+    {
+      "key": "Екгоніну метиловий естер бензоат||Хімія||Сеча||",
+      "item": {
+        "unofficial_name": "Екгоніну метиловий естер бензоат",
+        "category": "Хімія",
+        "fluid": "Сеча",
+        "unit": ""
+      },
+      "truth": "Кокаїн [Виявлено] в сечі.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 487,
+      "indices_count": 6,
+      "usage": null
+    },
+    {
+      "key": "Геп||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Геп",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 470,
+      "indices_count": 15,
+      "usage": null
+    },
+    {
+      "key": "Імуноферментний аналіз||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Імуноферментний аналіз",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": "Імунофіксація сироватки або плазми – опис результатів.",
+      "predicted": "Імунофіксація сироватки або плазми – опис результатів.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Імунофіксація сироватки або плазми – опис результатів.\"\n}",
+      "error": null,
+      "latency_ms": 14269,
+      "indices_count": 21,
+      "usage": {
+        "promptTokenCount": 10945,
+        "candidatesTokenCount": 30,
+        "totalTokenCount": 13437,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10945
+          }
+        ],
+        "thoughtsTokenCount": 2462,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "HBsAg||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "HBsAg",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "predicted": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.\"\n}",
+      "error": null,
+      "latency_ms": 4009,
+      "indices_count": 15,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 45,
+        "totalTokenCount": 11421,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 436,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "ELISA||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "ELISA",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 528,
+      "indices_count": 14,
+      "usage": null
+    },
+    {
+      "key": "Печінка||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Печінка",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": "Аланінамінотрансфераза [Ензиматична активність/об’єм] у сироватці або плазмі.",
+      "predicted": "Аланінамінотрансфераза [Ензиматична активність/об’єм] у сироватці або плазмі.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Аланінамінотрансфераза [Ензиматична активність/об’єм] у сироватці або плазмі.\"\n}",
+      "error": null,
+      "latency_ms": 7043,
+      "indices_count": 16,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 44,
+        "totalTokenCount": 12149,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 1165,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "HBV поверхневий Ag СерПл Кл ІА||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "HBV поверхневий Ag СерПл Кл ІА",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 538,
+      "indices_count": 5,
+      "usage": null
+    },
+    {
+      "key": "MEIA||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "MEIA",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 554,
+      "indices_count": 13,
+      "usage": null
+    },
+    {
+      "key": "Гепатит||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Гепатит",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 443,
+      "indices_count": 39,
+      "usage": null
+    },
+    {
+      "key": "HBs||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "HBs",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 458,
+      "indices_count": 12,
+      "usage": null
+    },
+    {
+      "key": "ГепB||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "ГепB",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "predicted": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "match_type": "exact",
+      "raw": "{\n  \"predicted_class\": \"Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.\"\n}",
+      "error": null,
+      "latency_ms": 5186,
+      "indices_count": 18,
+      "usage": {
+        "promptTokenCount": 10940,
+        "candidatesTokenCount": 45,
+        "totalTokenCount": 11552,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10940
+          }
+        ],
+        "thoughtsTokenCount": 567,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "key": "Австралійський антиген||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Австралійський антиген",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 418,
+      "indices_count": 7,
+      "usage": null
+    },
+    {
+      "key": "Геп Bс||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Геп Bс",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 545,
+      "indices_count": 17,
+      "usage": null
+    },
+    {
+      "key": "Поверхневий антиген вірусу гепатиту B (HBsAg)||Хімія||Кров||",
+      "item": {
+        "unofficial_name": "Поверхневий антиген вірусу гепатиту B (HBsAg)",
+        "category": "Хімія",
+        "fluid": "Кров",
+        "unit": ""
+      },
+      "truth": "Антиген поверхні вірусу гепатиту B [Виявлено] в сироватці або плазмі за допомогою імуноаналізу.",
+      "raw_predicted": null,
+      "predicted": null,
+      "match_type": "parse_fail",
+      "raw": "",
+      "error": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a",
+      "latency_ms": 475,
+      "indices_count": 19,
+      "usage": null
+    }
+  ]
+}
