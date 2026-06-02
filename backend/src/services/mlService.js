@@ -8,11 +8,20 @@ import { AppError } from '../errors/AppError.js'
 
 // ─── Конфігурація ───────────────────────────────────────────────
 
-const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434'
+let OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://127.0.0.1:11434'
 const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || 'nomic-embed-text'
 const SLM_MODEL = process.env.OLLAMA_MODEL || 'gemma3:4b'
 const INDEX_DB_PATH = process.env.INDEX_DB_PATH || path.resolve('data/embeddings.db')
 const OLLAMA_TIMEOUT_MS = parseInt(process.env.OLLAMA_TIMEOUT_MS || '60000', 10)
+
+
+export function getOllamaHost() {
+  return OLLAMA_HOST
+}
+
+export function setOllamaHost(url) {
+  OLLAMA_HOST = url
+}
 
 // ─── Векторний індекс ─────────────────
 

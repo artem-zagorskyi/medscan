@@ -25,6 +25,7 @@ import recordResearchRoutes from './routes/recordResearchRoutes.js'
 import recordAllergyRoutes from './routes/recordAllergyRoutes.js'
 import medicationRoutes from './routes/medicationRoutes.js'
 import mlRoutes from './routes/mlRoutes.js'
+import settingsRoutes from './routes/settingsRoutes.js'
 
 const app = express()
 
@@ -69,6 +70,7 @@ app.use('/api/record-researches', recordResearchRoutes)
 app.use('/api/record-allergies', recordAllergyRoutes)
 app.use('/api/medications', medicationRoutes)
 app.use('/api/ml', mlRoutes)
+app.use('/api/settings', settingsRoutes)
 
 // ─────────────────────────────────────────
 // HEALTH CHECK
