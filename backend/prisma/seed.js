@@ -456,7 +456,7 @@ async function seed() {
           const datasetRec   = pickDatasetRecord()
           const timestamp    = Date.now() + Math.floor(Math.random() * 10000)
           const fileName     = `research_${medicalRecord.id}_${timestamp}.pdf`
-          const relativePath = path.join('uploads', 'research', fileName)
+          const relativePath = path.posix.join('uploads', 'research', fileName)
           const isProcessed  = Math.random() < 0.65
 
           try {
@@ -538,7 +538,7 @@ async function seed() {
       const inboxDate    = randomDate(new Date('2024-01-01'), new Date())
       const timestamp    = Date.now() + Math.floor(Math.random() * 100000)
       const fileName     = `inbox_${medicalRecord.id}_${timestamp}.pdf`
-      const relativePath = path.join('uploads', 'research', fileName)
+      const relativePath = path.posix.join('uploads', 'research', fileName)
       const authorDoctor = randomItem(assignedDoctors)
       const authorIdx    = createdDoctors.findIndex(d => d.id === authorDoctor.id)
       const authorName   = doctorNames[authorIdx] ?? 'Лікар'
