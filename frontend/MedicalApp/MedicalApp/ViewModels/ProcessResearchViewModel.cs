@@ -2,6 +2,7 @@
 using MedicalApp.Services;
 using System.Collections.ObjectModel;
 using System.IO;
+using static System.Net.WebRequestMethods;
 
 
 namespace MedicalApp.ViewModels
@@ -22,6 +23,7 @@ namespace MedicalApp.ViewModels
             PatientName = patientName;
             FileName = Path.GetFileName(file.FilePath ?? "—");
             FilePath = file.FilePath;
+            FileId = file.FileId;
             CreatedAtDisplay = file.CreatedAtDisplay;
 
             // Кейси для ComboBox
@@ -41,6 +43,7 @@ namespace MedicalApp.ViewModels
         public string PatientName { get; }
         public string FileName { get; }
         public string? FilePath { get; }
+        public int? FileId { get; }
         public string CreatedAtDisplay { get; }
 
 

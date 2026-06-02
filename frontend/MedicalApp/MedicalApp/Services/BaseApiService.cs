@@ -91,7 +91,7 @@ namespace MedicalApp.Services
                 System.Text.Encoding.UTF8,
                 "application/json");
 
-        private async Task EnsureSuccessAsync(HttpResponseMessage response)
+        protected async Task EnsureSuccessAsync(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode) return;
 

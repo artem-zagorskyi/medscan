@@ -11,6 +11,7 @@ namespace MedicalApp.Views
         private readonly ViewResearchViewModel _vm;
         private readonly List<CaseDisplayModel> _cases;
         private readonly int _medicalRecordId;
+        private readonly ResearchFileService _researchFileService = new();
 
         public bool ShouldProcess { get; private set; } = false;
 
@@ -31,29 +32,39 @@ namespace MedicalApp.Views
         {
             await PdfViewer.EnsureCoreWebView2Async();
 
-            var relativePath = _vm.FilePath?.Replace('/', '\\') ?? string.Empty;
-            var basePath = AppDomain.CurrentDomain.BaseDirectory;
-            var solutionRoot = Path.GetFullPath(Path.Combine(basePath, @"..\..\..\..\.."));
-            var backendRoot = Path.GetFullPath(Path.Combine(solutionRoot, "..", "backend"));
-            var fullPath = Path.GetFullPath(Path.Combine(backendRoot, relativePath));
+            var fileId = _vm.Research.FileId;
+            if (fileId is null)
+            {
+                ShowNotFound();
+                return;
+            }
 
-            if (File.Exists(fullPath))
+            try
             {
-                PdfViewer.Source = new Uri(fullPath);
+                var bytes = await _researchFileService.DownloadFileAsync(fileId.Value);
+
+                var tempPath = Path.Combine(Path.GetTempPath(), $"medscan_{fileId.Value}.pdf");
+                await File.WriteAllBytesAsync(tempPath, bytes);
+
+                PdfViewer.Source = new Uri(tempPath);
             }
-            else
+            catch
             {
-                PdfViewer.NavigateToString($@"
-                    <html><body style='font-family:sans-serif;display:flex;
-                        align-items:center;justify-content:center;height:100vh;margin:0;
-                        background:#525659;'>
-                        <div style='text-align:center'>
-                            <div style='font-size:48px'>📄</div>
-                            <div style='color:#ccc;margin-top:12px;font-size:14px'>Файл не знайдено</div>
-                            <div style='color:#999;font-size:11px;margin-top:6px'>{fullPath}</div>
-                        </div>
-                    </body></html>");
+                ShowNotFound();
             }
+        }
+
+        private void ShowNotFound()
+        {
+            PdfViewer.NavigateToString(@"
+        <html><body style='font-family:sans-serif;display:flex;
+            align-items:center;justify-content:center;height:100vh;margin:0;
+            background:#525659;'>
+            <div style='text-align:center'>
+                <div style='font-size:48px'>📄</div>
+                <div style='color:#ccc;margin-top:12px;font-size:14px'>Файл не знайдено</div>
+            </div>
+        </body></html>");
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
