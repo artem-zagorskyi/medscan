@@ -1,7 +1,7 @@
 import * as researchFileService from '../services/researchFileService.js'
 import path from 'path'
 import fs from 'fs'
-import prisma from '../lib/prisma.js'
+import prisma from '../config/prisma.js'
 
 // GET /api/research-files
 export const getAll = async (req, res) => {
