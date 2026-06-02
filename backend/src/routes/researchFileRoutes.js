@@ -64,6 +64,6 @@ router.patch('/:id/status', authenticate, requireRole('DOCTOR', 'ADMIN'), resear
 // DELETE /api/research-files/:id — doctors and admins
 router.delete('/:id', authenticate, requireRole('DOCTOR', 'ADMIN'), researchFileController.remove)
 
-router.get('/research-files/:id/download', authenticate, requireRole('DOCTOR', 'ADMIN'), researchFileController.downloadResearchFile)
+router.get('/:id/download', authenticate, requireRole('DOCTOR', 'ADMIN'), researchFileController.downloadResearchFile)
 
 export default router
