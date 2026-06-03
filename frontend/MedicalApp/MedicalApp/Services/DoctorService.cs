@@ -1,10 +1,18 @@
-﻿using MedicalApp.Helpers;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-
-namespace MedicalApp.Services
+﻿namespace MedicalApp.Services
 {
+    public class AccountResponse
+    {
+        public int Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+    }
+
+    public class UpdateDoctorRequest
+    {
+        public string Specialization { get; set; } = string.Empty;
+    }
+
     public class DoctorResponse
     {
         public int Id { get; set; }
@@ -21,43 +29,26 @@ namespace MedicalApp.Services
         public string? MiddleName { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; } = string.Empty;
+        public string? ContactInfo { get; set; }
+        public AccountResponse? Account { get; set; }
         public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
     }
 
-    public class DoctorService
+    public class DoctorService : BaseApiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
+        public async Task<DoctorResponse?> GetByPersonIdAsync(int personId) =>
+            await GetAsync<DoctorResponse>($"doctors/person/{personId}");
 
-        public DoctorService()
-        {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:3000/api/")
-            };
+        public async Task<List<DoctorResponse>?> GetAllAsync() =>
+            await GetAsync<List<DoctorResponse>>("doctors");
 
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
-        }
+        public async Task DeactivateAsync(int personId) =>
+            await PatchAsync($"accounts/person/{personId}/deactivate", new { });
 
-        private void ApplyAuth()
-        {
-            var token = TokenStorage.Load();
-            if (token != null)
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
-        }
+        public async Task ActivateAsync(int personId) =>
+            await PatchAsync($"accounts/person/{personId}/activate", new { });
 
-        public async Task<DoctorResponse?> GetByPersonIdAsync(int personId)
-        {
-            ApplyAuth();
-            var response = await _httpClient.GetAsync($"doctors/person/{personId}");
-            response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<DoctorResponse>(json, _jsonOptions);
-        }
+        public async Task UpdateAsync(int doctorId, UpdateDoctorRequest request) =>
+            await PatchAsync($"doctors/{doctorId}", request);
     }
 }

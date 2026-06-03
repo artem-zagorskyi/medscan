@@ -1,5 +1,4 @@
 ﻿using MedicalApp.Helpers;
-using MedicalApp.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -7,26 +6,8 @@ using System.Text.Json;
 
 namespace MedicalApp.Services
 {
-
-    public class AuthService
+    public class AuthService : BaseApiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
-
-        public AuthService()
-        {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:3000/api/")
-            };
-
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
-        }
-
         public async Task<LoginResponse?> LoginAsync(string email, string password)
         {
             var body = new { email, password };
@@ -37,7 +18,7 @@ namespace MedicalApp.Services
             );
 
             var response = await _httpClient.PostAsync("auth/login", content);
-            response.EnsureSuccessStatusCode();
+            await EnsureLoginAsync(response);
 
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResponse>(json, _jsonOptions);
@@ -50,20 +31,29 @@ namespace MedicalApp.Services
 
         public async Task<MeResponse?> GetMeAsync()
         {
-            var token = TokenStorage.Load();
-            if (token == null) return null;
+            return await GetAsync<MeResponse>("auth/me");
+        }
 
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
-
-            var response = await _httpClient.GetAsync("auth/me");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<MeResponse>(json, _jsonOptions);
+        public async Task<RegisterResponse?> RegisterDoctorAsync(RegisterDoctorRequest request)
+        {
+            return await PostAsync<RegisterResponse>("auth/register", request);
         }
 
         public void Logout() => TokenStorage.Clear();
+
+        private async Task EnsureLoginAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode) return;
+
+            throw response.StatusCode switch
+            {
+                System.Net.HttpStatusCode.Unauthorized =>
+                    new ApiException("Невірний email або пароль", 401),
+                System.Net.HttpStatusCode.InternalServerError =>
+                    new ApiException("Помилка сервера. Перевірте підключення.", 500),
+                _ => new ApiException("Помилка авторизації", (int)response.StatusCode)
+            };
+        }
     }
 
     public class LoginResponse
@@ -83,5 +73,31 @@ namespace MedicalApp.Services
         public string Email { get; set; } = string.Empty;
         public string Rights { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+    }
+
+    public class RegisterDoctorRequest
+    {
+        public string LastName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string? MiddleName { get; set; }
+        public string BirthDate { get; set; } = string.Empty; // "yyyy-MM-dd"
+        public string Gender { get; set; } = string.Empty;
+        public string? ContactInfo { get; set; }
+        public string Role { get; set; } = "DOCTOR";
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Rights { get; set; } = "USER";
+        public string Specialization { get; set; } = string.Empty;
+    }
+
+    public class RegisterResponse
+    {
+        public string Token { get; set; } = string.Empty;
+        public int AccountId { get; set; }
+        public int PersonId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Rights { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+        public int? DoctorId { get; set; }
     }
 }

@@ -1,30 +1,79 @@
-﻿using MedicalApp.Helpers;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-
-namespace MedicalApp.Services
+﻿namespace MedicalApp.Services
 {
+    // --- Full Medical Record ---
     public class FullMedicalRecordResponse
     {
         public int Id { get; set; }
         public string? BloodGroup { get; set; }
         public string? RhFactor { get; set; }
-        public List<RecordResponse> Records { get; set; } = new();
+        public string? Height { get; set; }
+        public string? Weight { get; set; }
+        public List<CaseResponse> Cases { get; set; } = new();
         public List<PatientDiseaseResponse> PatientDiseases { get; set; } = new();
         public List<PatientAllergyResponse> PatientAllergies { get; set; } = new();
+        public List<ResearchResponse> Researches { get; set; } = new();
+        public List<ResearchFileResponse> ResearchFiles { get; set; } = new();
+        public PatientInRecordResponse? Patient { get; set; }
     }
 
+    public class PatientInRecordResponse
+    {
+        public int Id { get; set; }
+        public string? Address { get; set; }
+        public PersonResponse? Person { get; set; }
+    }
+
+    // --- Record ---
     public class RecordResponse
     {
         public int Id { get; set; }
+        public int MedicalRecordId { get; set; }
+        public int CaseId { get; set; }
         public DateTime VisitDate { get; set; }
-        public string EntryType { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+
+        // Анамнез
         public string? Complaints { get; set; }
+        public string? HistoryOfIllness { get; set; }
+        public string? HistoryOfLife { get; set; }
+        public string? SocialHabits { get; set; }
+
+        // Вітальні показники
+        public string? Height { get; set; }
+        public string? Weight { get; set; }
+        public string? Temperature { get; set; }
+        public string? BloodPressure { get; set; }
+        public int? HeartRate { get; set; }
+        public int? Spo2 { get; set; }
+
+        // Об'єктивний статус
+        public string? GeneralCondition { get; set; }
+        public string? SkinStatus { get; set; }
+        public string? RespiratorySystem { get; set; }
+        public string? Cardiovascular { get; set; }
+
+        // Висновок
         public string? DoctorConclusion { get; set; }
         public string? TreatmentPlan { get; set; }
-        public DoctorInRecordResponse? Doctor { get; set; }
-        public ResearchInRecordResponse? Research { get; set; }
+
+        public DoctorInRecordResponse? Author { get; set; }
+        public List<RecordDiagnosisResponse> RecordDiagnoses { get; set; } = new();
+        public List<RecordMedicationResponse> RecordMedications { get; set; } = new();
+        public List<RecordResearchResponse> RecordResearches { get; set; } = new();
+        public List<RecordAllergyResponse> RecordAllergies { get; set; } = new();
+        public List<RecordDoctorResponse> RecordDoctors { get; set; } = new();
+
+        public string VisitDateDisplay => VisitDate.ToString("dd.MM.yyyy");
+        public string TypeDisplay => Type switch
+        {
+            "EXAM" => "Огляд",
+            "CONSILIUM" => "Консиліум",
+            "EPICRISIS" => "Епікриз",
+            _ => "—"
+        };
+        public string StatusDisplay => Status == "SIGNED" ? "Підписано" : "Чернетка";
+        public bool IsSigned => Status == "SIGNED";
     }
 
     public class DoctorInRecordResponse
@@ -32,16 +81,111 @@ namespace MedicalApp.Services
         public int Id { get; set; }
         public string Specialization { get; set; } = string.Empty;
         public PersonResponse? Person { get; set; }
-        public string FullName => Person?.FullName ?? string.Empty;
+        public string FullName => Person != null
+            ? $"{Person.LastName} {Person.FirstName?[0]}. {Person.MiddleName?[0]}."
+            : "—";
     }
 
-    public class ResearchInRecordResponse
+    // --- Record sub-models ---
+    public class RecordDiagnosisResponse
     {
         public int Id { get; set; }
-        public string ResearchType { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
+        public int RecordId { get; set; }
+        public bool IsFinal { get; set; }
+        public bool IsMain { get; set; }
+        public string? Description { get; set; }
+        public DiseaseResponse? Disease { get; set; }
     }
 
+    public class RecordMedicationResponse
+    {
+        public int Id { get; set; }
+        public int RecordId { get; set; }
+        public string? Dosage { get; set; }
+        public string? Frequency { get; set; }
+        public string? Duration { get; set; }
+        public string? Comment { get; set; }
+        public MedicationResponse? Medication { get; set; }
+    }
+
+    public class MedicationResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Form { get; set; }
+        public string? ActiveSubstance { get; set; }
+        public string? DosageUnit { get; set; }
+    }
+
+    public class RecordResearchResponse
+    {
+        public int Id { get; set; }
+        public int RecordId { get; set; }
+        public ResearchResponse? Research { get; set; }
+    }
+
+    public class RecordAllergyResponse
+    {
+        public int Id { get; set; }
+        public int RecordId { get; set; }
+        public string ReactionSeverity { get; set; } = string.Empty;
+        public string? ReactionDescription { get; set; }
+        public AllergenResponse? Allergen { get; set; }
+        public string AllergyDisplay => $"{Allergen?.Name} · {ReactionSeverity switch { "SEVERE" => "Важка", "MODERATE" => "Помірна", _ => "Легка" }}";
+    }
+
+    public class RecordDoctorResponse
+    {
+        public int Id { get; set; }
+        public int RecordId { get; set; }
+        public string Role { get; set; } = string.Empty;
+        public DoctorInRecordResponse? Doctor { get; set; }
+    }
+
+    // --- Research ---
+    public class ResearchResponse
+    {
+        public int Id { get; set; }
+        public int MedicalRecordId { get; set; }
+        public int? CaseId { get; set; }
+        public string ResearchType { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string? Results { get; set; }
+        public string? ExtractedText { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ProcessedAt { get; set; }
+
+        public string StatusDisplay => Status switch
+        {
+            "PENDING" => "Очікує",
+            "PROCESSING" => "Обробляється",
+            "PROCESSED" => "Оброблено",
+            "ERROR" => "Помилка",
+            _ => "—"
+        };
+        public string CreatedAtDisplay => CreatedAt.ToString("dd.MM.yyyy");
+    }
+
+    // --- Research File ---
+    public class ResearchFileResponse
+    {
+        public int Id { get; set; }
+        public int MedicalRecordId { get; set; }
+        public int? ResearchId { get; set; }
+        public string FilePath { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+
+        public string StatusDisplay => Status switch
+        {
+            "PENDING" => "Очікує",
+            "PROCESSED" => "Оброблено",
+            "ERROR" => "Помилка",
+            _ => "—"
+        };
+    }
+
+    // --- Patient Disease / Allergy ---
     public class PatientDiseaseResponse
     {
         public string Status { get; set; } = string.Empty;
@@ -70,40 +214,24 @@ namespace MedicalApp.Services
         public string Category { get; set; } = string.Empty;
     }
 
-    public class MedicalRecordService
+    // --- Services ---
+    public class MedicalRecordService : BaseApiService
     {
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
+        public async Task<FullMedicalRecordResponse?> GetFullRecordAsync(int medicalRecordId) =>
+            await GetAsync<FullMedicalRecordResponse>($"medical-records/{medicalRecordId}/full");
 
-        public MedicalRecordService()
-        {
-            _httpClient = new HttpClient
+        public async Task UpdateBloodInfoAsync(int medicalRecordId, string? bloodGroup, string? rhFactor) =>
+            await PatchAsync($"medical-records/{medicalRecordId}/blood-info", new
             {
-                BaseAddress = new Uri("http://localhost:3000/api/")
-            };
+                blood_group = bloodGroup,
+                rh_factor = rhFactor
+            });
 
-            _jsonOptions = new JsonSerializerOptions
+        public async Task UpdatePhysicalInfoAsync(int medicalRecordId, decimal? height, decimal? weight) =>
+            await PatchAsync($"medical-records/{medicalRecordId}/physical-info", new
             {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
-        }
-
-        private void ApplyAuth()
-        {
-            var token = TokenStorage.Load();
-            if (token != null)
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        public async Task<FullMedicalRecordResponse?> GetFullRecordAsync(int medicalRecordId)
-        {
-            ApplyAuth();
-            var response = await _httpClient.GetAsync($"medical-records/{medicalRecordId}/full");
-            response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<FullMedicalRecordResponse>(json, _jsonOptions);
-        }
+                height,
+                weight
+            });
     }
 }

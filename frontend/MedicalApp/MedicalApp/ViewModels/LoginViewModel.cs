@@ -11,6 +11,8 @@ public partial class LoginViewModel : ObservableObject
     private readonly AuthService _authService = new();
     private readonly DoctorService _doctorService = new();
 
+    public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+
     [ObservableProperty]
     private string _email = string.Empty;
 
@@ -22,6 +24,14 @@ public partial class LoginViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isLoading = false;
+
+    public bool IsNotLoading => !IsLoading;
+
+    partial void OnIsLoadingChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsNotLoading));
+        OnPropertyChanged(nameof(HasError));
+    }
 
     [RelayCommand]
     private async Task LoginAsync()
@@ -47,6 +57,14 @@ public partial class LoginViewModel : ObservableObject
                 {
                     SessionManager.Set(me.Id, me.PersonId, me.Email, me.Rights, me.Role);
 
+                    if (me.Rights == "ADMIN")
+                    {
+                        SessionManager.SetDoctorInfo(me.Email, "Адміністратор");
+                        var mainWindow = (MainWindow)App.Current.MainWindow;
+                        mainWindow.ShowApp(me.Email, "Адміністратор", me.Rights);
+                        return;
+                    }
+
                     var doctor = await _doctorService.GetByPersonIdAsync(me.PersonId);
                     if (doctor != null)
                     {
@@ -60,17 +78,30 @@ public partial class LoginViewModel : ObservableObject
                 }
             }
         }
+        catch (ApiException ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        catch (TaskCanceledException)
+        {
+            ErrorMessage = "Час очікування вичерпано. Перевірте підключення до сервера.";
+        }
         catch (HttpRequestException)
         {
-            ErrorMessage = "Невірний email або пароль";
+            ErrorMessage = "Не вдається підключитися до сервера.";
         }
         catch (Exception)
         {
-            ErrorMessage = "Помилка з'єднання з сервером";
+            ErrorMessage = "Невідома помилка. Спробуйте пізніше.";
         }
         finally
         {
             IsLoading = false;
         }
+    }
+
+    partial void OnErrorMessageChanged(string value)
+    {
+        OnPropertyChanged(nameof(HasError));
     }
 }

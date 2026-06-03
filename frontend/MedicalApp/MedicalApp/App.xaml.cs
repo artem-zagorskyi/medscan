@@ -12,7 +12,11 @@ namespace MedicalApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            Wpf.Ui.Appearance.ApplicationAccentColorManager.Apply(
+                System.Windows.Media.Color.FromRgb(0x18, 0x5F, 0xA5)
+            );
             new MainWindow().Show();
+
         }
     }
 
