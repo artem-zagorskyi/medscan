@@ -218,7 +218,7 @@
                        Foreground="#888780" VerticalAlignment="Center"/>
 
                                 <!-- Бейдж confidence -->
-                                <Border Grid.Column="1"
+                                <!--<Border Grid.Column="1"
                     Background="{Binding ConfidenceColor}"
                     CornerRadius="8" Padding="8,2" Margin="8,0,0,0"
                     VerticalAlignment="Center">
@@ -240,7 +240,7 @@
                                     </Border.Style>
                                     <TextBlock Text="{Binding ConfidenceDisplay}"
                            FontSize="10" Foreground="{Binding ConfidenceTextColor}"/>
-                                </Border>
+                                </Border>-->
 
                                 <!-- Кнопка класифікації -->
                                 <Button Grid.Column="3"

@@ -69,7 +69,7 @@ namespace MedicalApp.ViewModels
             }
         }
 
-        public string ClassifyButtonText => HasClassified ? "Класифікувати заново" : "Класифікувати";
+        public string ClassifyButtonText => HasClassified ? "Класифікувати" : "Класифікувати";
 
 
 

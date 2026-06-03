@@ -14,7 +14,7 @@ namespace MedicalApp.Services
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:3000/api/"),
+                BaseAddress = new Uri("https://medscan-app.site/api/"),
                 Timeout = TimeSpan.FromMinutes(10)
             };
 

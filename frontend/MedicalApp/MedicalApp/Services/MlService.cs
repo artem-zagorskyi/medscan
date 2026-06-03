@@ -38,7 +38,7 @@ namespace MedicalApp.Services
             // Окремий HttpClient з довшим таймаутом для ML-запитів
             _mlHttpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:3000/api/"),
+                BaseAddress = new Uri("https://medscan-app.site/api/"),
                 Timeout = TimeSpan.FromMinutes(10)
             };
         }
