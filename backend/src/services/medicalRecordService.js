@@ -1,114 +1,96 @@
 import prisma from '../config/prisma.js'
 import { AppError } from '../errors/AppError.js'
 
-// Get medical record by id
 export const getById = async (id) => {
-  try {
-    const medicalRecord = await prisma.medicalRecord.findUnique({
-      where: { id }
-    })
-
-    if (!medicalRecord) {
-      throw new AppError(`Medical record with id ${id} not found`, 404)
-    }
-
-    return medicalRecord
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to fetch medical record: ${error.message}`, 500)
-  }
+  const medicalRecord = await prisma.medicalRecord.findUnique({
+    where: { id }
+  })
+  if (!medicalRecord) throw new AppError(`Medical record with id ${id} not found`, 404)
+  return medicalRecord
 }
 
-// Get medical record by patient id
 export const getByPatientId = async (patientId) => {
-  try {
-    const patient = await prisma.patient.findUnique({
-      where: { id: patientId },
-      include: { medical_record: true }
-    })
-
-    if (!patient) {
-      throw new AppError(`Patient with id ${patientId} not found`, 404)
-    }
-
-    if (!patient.medical_record) {
-      throw new AppError(`Medical record for patient with id ${patientId} not found`, 404)
-    }
-
-    return patient.medical_record
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to fetch medical record by patient: ${error.message}`, 500)
-  }
+  const patient = await prisma.patient.findUnique({
+    where: { id: patientId },
+    include: { medical_record: true }
+  })
+  if (!patient) throw new AppError(`Patient with id ${patientId} not found`, 404)
+  if (!patient.medical_record) throw new AppError(`Medical record for patient ${patientId} not found`, 404)
+  return patient.medical_record
 }
 
-// Get full medical record with all related data
 export const getFullRecord = async (id) => {
-  try {
-    const medicalRecord = await prisma.medicalRecord.findUnique({
-      where: { id },
-      include: {
-        patient: {
-          include: { person: true }
-        },
-        records: {
-          include: {
-            doctor: {
-              include: { person: true }
+  const medicalRecord = await prisma.medicalRecord.findUnique({
+    where: { id },
+    include: {
+      patient: {
+        include: { person: true }
+      },
+      cases: {
+        include: {
+          records: {
+            include: {
+              author: { include: { person: true } },
+              record_diagnoses: { include: { disease: true } },
+              record_medications: { include: { medication: true } },
+              record_researches: { include: { research: true } },
+              record_allergies: { include: { allergen: true } },
+              record_doctors: { include: { doctor: { include: { person: true } } } },
             },
-            research: true
-          }
+            orderBy: { visit_date: 'desc' }
+          },
+          researches: true,
         },
-        patient_diseases: {
-          include: { disease: true }
-        },
-        patient_allergies: {
-          include: { allergen: true }
-        },
-        researches: true,
-        research_files: true
-      }
-    })
-
-    if (!medicalRecord) {
-      throw new AppError(`Medical record with id ${id} not found`, 404)
+        orderBy: { opening_date: 'desc' }
+      },
+      patient_diseases: {
+        include: { disease: true }
+      },
+      patient_allergies: {
+        include: { allergen: true }
+      },
+      researches: {
+        orderBy: { created_at: 'desc' }
+      },
+      research_files: true,
     }
-
-    return medicalRecord
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to fetch full medical record: ${error.message}`, 500)
-  }
+  })
+  if (!medicalRecord) throw new AppError(`Medical record with id ${id} not found`, 404)
+  return medicalRecord
 }
 
-// Create a new medical record
 export const create = async (data) => {
-  try {
-    const { blood_group, rh_factor } = data
-
-    return await prisma.medicalRecord.create({
-      data: {
-        blood_group: blood_group ?? null,
-        rh_factor: rh_factor ?? null
-      }
-    })
-  } catch (error) {
-    throw new AppError(`Failed to create medical record: ${error.message}`, 500)
-  }
+  const { blood_group, rh_factor, height, weight } = data
+  return await prisma.medicalRecord.create({
+    data: {
+      blood_group: blood_group ?? null,
+      rh_factor: rh_factor ?? null,
+      height: height ? parseFloat(height) : null,
+      weight: weight ? parseFloat(weight) : null,
+    }
+  })
 }
 
-// Update blood group and rh factor
 export const updateBloodInfo = async (id, data) => {
-  try {
-    await getById(id)
+  await getById(id)
+  const { blood_group, rh_factor } = data
+  return await prisma.medicalRecord.update({
+    where: { id },
+    data: {
+      blood_group: blood_group ?? undefined,
+      rh_factor: rh_factor ?? undefined,
+    }
+  })
+}
 
-    const { blood_group, rh_factor } = data
-
-    return await prisma.medicalRecord.update({
-      where: { id },
-      data: {
-        blood_group: blood_group ?? undefined,
-        rh_factor: rh_factor ?? undefined
-      }
-    })
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to update blood info: ${error.message}`, 500)
-  }
+export const updatePhysicalInfo = async (id, data) => {
+  await getById(id)
+  const { height, weight } = data
+  return await prisma.medicalRecord.update({
+    where: { id },
+    data: {
+      ...(height !== undefined && { height: height ? parseFloat(height) : null }),
+      ...(weight !== undefined && { weight: weight ? parseFloat(weight) : null }),
+    }
+  })
 }

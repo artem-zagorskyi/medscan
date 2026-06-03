@@ -104,6 +104,7 @@ vite.config.ts.timestamp-*
 !/backend/.env.example
 /backend/generated/prisma
 /backend/uploads/
+.tar
 
 # ─────────────────────────────────────────
 # DESKTOP (WPF / C#) SPECIFIC

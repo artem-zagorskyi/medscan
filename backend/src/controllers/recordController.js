@@ -1,91 +1,64 @@
 import * as recordService from '../services/recordService.js'
 
-// GET /api/records
-export const getAll = async (req, res) => {
+export const getAll = async (req, res, next) => {
   try {
-    const data = await recordService.getAll()
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const records = await recordService.getAllRecords()
+    res.json(records)
+  } catch (err) { next(err) }
 }
 
-// GET /api/records/:id
-export const getById = async (req, res) => {
+export const getById = async (req, res, next) => {
   try {
-    const data = await recordService.getById(Number(req.params.id))
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const found = await recordService.getRecordById(Number(req.params.id))
+    res.json(found)
+  } catch (err) { next(err) }
 }
 
-// GET /api/records/medical-record/:medicalRecordId
-export const getByMedicalRecord = async (req, res) => {
+export const getByMedicalRecord = async (req, res, next) => {
   try {
-    const data = await recordService.getByMedicalRecord(Number(req.params.medicalRecordId))
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const records = await recordService.getRecordsByMedicalRecord(Number(req.params.medicalRecordId))
+    res.json(records)
+  } catch (err) { next(err) }
 }
 
-// GET /api/records/doctor/:doctorId
-export const getByDoctor = async (req, res) => {
+export const getByCase = async (req, res, next) => {
   try {
-    const data = await recordService.getByDoctor(Number(req.params.doctorId))
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const records = await recordService.getRecordsByCase(Number(req.params.caseId))
+    res.json(records)
+  } catch (err) { next(err) }
 }
 
-// GET /api/records/entry-type/:entryType
-export const getByEntryType = async (req, res) => {
+export const getByDoctor = async (req, res, next) => {
   try {
-    const data = await recordService.getByEntryType(req.params.entryType)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const records = await recordService.getRecordsByDoctor(Number(req.params.doctorId))
+    res.json(records)
+  } catch (err) { next(err) }
 }
 
-// POST /api/records
-export const create = async (req, res) => {
+export const create = async (req, res, next) => {
   try {
-    const data = await recordService.create(req.body)
-    res.status(201).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const created = await recordService.createRecord(req.body)
+    res.status(201).json(created)
+  } catch (err) { next(err) }
 }
 
-// PATCH /api/records/:id
-export const update = async (req, res) => {
+export const update = async (req, res, next) => {
   try {
-    const data = await recordService.update(Number(req.params.id), req.body)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const updated = await recordService.updateRecord(Number(req.params.id), req.body)
+    res.json(updated)
+  } catch (err) { next(err) }
 }
 
-// DELETE /api/records/:id
-export const remove = async (req, res) => {
+export const sign = async (req, res, next) => {
   try {
-    await recordService.remove(Number(req.params.id))
-    res.status(200).json({ message: 'Record deleted successfully' })
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    const signed = await recordService.signRecord(Number(req.params.id))
+    res.json(signed)
+  } catch (err) { next(err) }
 }
 
-// PATCH /api/records/:id/attach-research
-export const attachResearch = async (req, res) => {
+export const remove = async (req, res, next) => {
   try {
-    const data = await recordService.attachResearch(Number(req.params.id), req.body.research_id)
-    res.status(200).json(data)
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message })
-  }
+    await recordService.deleteRecord(Number(req.params.id))
+    res.status(204).send()
+  } catch (err) { next(err) }
 }

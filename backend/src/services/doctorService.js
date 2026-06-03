@@ -2,10 +2,15 @@ import prisma from '../config/prisma.js'
 import { AppError } from '../errors/AppError.js'
 
 // Get all doctors with their person data
+// Get all doctors with their person data and account status
 export const getAll = async () => {
   try {
     return await prisma.doctor.findMany({
-      include: { person: true }
+      include: {
+        person: {
+          include: { account: true }
+        }
+      }
     })
   } catch (error) {
     throw new AppError(`Failed to fetch doctors: ${error.message}`, 500)
@@ -17,7 +22,11 @@ export const getById = async (id) => {
   try {
     const doctor = await prisma.doctor.findUnique({
       where: { id },
-      include: { person: true }
+      include: {
+        person: {
+          include: { account: true }
+        }
+      }
     })
 
     if (!doctor) {

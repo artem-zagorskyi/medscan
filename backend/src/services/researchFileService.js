@@ -139,24 +139,6 @@ export const classify = async (id, researchId) => {
   }
 }
 
-// TODO: ML classification — automatically classify a research file using ML model
-// This function should:
-//   1. Extract text from the PDF file (OCR or pdfjs)
-//   2. Send extracted text to the ML model (Python FastAPI or local model via onnxruntime)
-//   3. Receive predicted research type from the model
-//   4. Create a new Research record with the predicted type (status: PENDING)
-//   5. Link the file to the created Research via classify()
-//   6. Return the result so the doctor can confirm or correct it in the UI
-//
-// Example future implementation:
-// export const classifyWithML = async (id) => {
-//   const file = await getById(id)
-//   const extractedText = await extractTextFromPDF(file.file_path)
-//   const predicted = await callMLModel(extractedText)
-//   const research = await prisma.research.create({ data: { ...predicted, status: 'PENDING' } })
-//   return await classify(id, research.id)
-// }
-
 // Update research file status
 export const updateStatus = async (id, status) => {
   try {

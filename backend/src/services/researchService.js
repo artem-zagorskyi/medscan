@@ -1,135 +1,141 @@
 import prisma from '../config/prisma.js'
 import { AppError } from '../errors/AppError.js'
 
-const includeRelations = {
+const researchInclude = {
   medical_record: true,
-  research_files: true
-}
-
-// Get all researches
-export const getAll = async () => {
-  try {
-    return await prisma.research.findMany({
-      include: includeRelations,
-      orderBy: { created_at: 'desc' }
-    })
-  } catch (error) {
-    throw new AppError(`Failed to fetch researches: ${error.message}`, 500)
-  }
-}
-
-// Get research by id
-export const getById = async (id) => {
-  try {
-    const research = await prisma.research.findUnique({
-      where: { id },
-      include: includeRelations
-    })
-
-    if (!research) {
-      throw new AppError(`Research with id ${id} not found`, 404)
+  case: true,
+  doctor: { include: { person: true } },
+  research_files: true,
+  record_researches: {
+    include: {
+      record: {
+        select: { id: true, visit_date: true, type: true }
+      }
     }
-
-    return research
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to fetch research: ${error.message}`, 500)
   }
 }
 
-// Get all researches by medical record id
+export const getAll = async () => {
+  return await prisma.research.findMany({
+    include: researchInclude,
+    orderBy: { created_at: 'desc' }
+  })
+}
+
+export const getById = async (id) => {
+  const found = await prisma.research.findUnique({
+    where: { id },
+    include: researchInclude
+  })
+  if (!found) throw new AppError('Research not found', 404)
+  return found
+}
+
 export const getByMedicalRecord = async (medicalRecordId) => {
-  try {
-    return await prisma.research.findMany({
-      where: { medical_record_id: medicalRecordId },
-      include: { research_files: true },
-      orderBy: { created_at: 'desc' }
-    })
-  } catch (error) {
-    throw new AppError(`Failed to fetch researches by medical record: ${error.message}`, 500)
-  }
+  return await prisma.research.findMany({
+    where: { medical_record_id: medicalRecordId },
+    include: researchInclude,
+    orderBy: { created_at: 'desc' }
+  })
 }
 
-// Get all researches by status
-// PENDING | PROCESSING | PROCESSED | ERROR
+export const getByCase = async (caseId) => {
+  return await prisma.research.findMany({
+    where: { case_id: caseId },
+    include: researchInclude,
+    orderBy: { created_at: 'desc' }
+  })
+}
+
 export const getByStatus = async (status) => {
-  try {
-    return await prisma.research.findMany({
-      where: { status },
-      include: includeRelations,
-      orderBy: { created_at: 'desc' }
-    })
-  } catch (error) {
-    throw new AppError(`Failed to fetch researches by status: ${error.message}`, 500)
-  }
+  return await prisma.research.findMany({
+    where: { status },
+    include: researchInclude,
+    orderBy: { created_at: 'desc' }
+  })
 }
 
-// Create a new research draft
-// Called after RESEARCH_ORDERED visit
+export const getUnclassified = async () => {
+  return await prisma.research.findMany({
+    where: { case_id: null },
+    include: researchInclude,
+    orderBy: { created_at: 'desc' }
+  })
+}
+
 export const create = async (data) => {
-  try {
-    const { medical_record_id, research_type } = data
+  const { medical_record_id, case_id, doctor_id, research_type, results, extracted_text, status } = data
 
-    return await prisma.research.create({
-      data: {
-        medical_record_id,
-        research_type,
-        status: 'PENDING'
-      },
-      include: includeRelations
-    })
-  } catch (error) {
-    throw new AppError(`Failed to create research: ${error.message}`, 500)
+  if (case_id) {
+    const caseFound = await prisma.case.findUnique({ where: { id: case_id } })
+    if (!caseFound) throw new AppError('Case not found', 404)
+    if (caseFound.status === 'CLOSED') throw new AppError('Cannot add research to closed case', 400)
   }
+
+  return await prisma.research.create({
+    data: {
+      medical_record_id,
+      case_id: case_id ?? null,
+      doctor_id: doctor_id ?? null,
+      research_type,
+      status: status ?? 'PENDING',
+      results: results ?? null,
+      extracted_text: extracted_text ?? null,
+      ...(status === 'PROCESSED' && { processed_at: new Date() }),
+    },
+    include: researchInclude
+  })
 }
 
-// Update research results and extracted text
 export const update = async (id, data) => {
-  try {
-    await getById(id)
+  const found = await prisma.research.findUnique({ where: { id } })
+  if (!found) throw new AppError('Research not found', 404)
 
-    const { research_type, extracted_text, results } = data
+  const { research_type, results, extracted_text, case_id, doctor_id } = data
 
-    return await prisma.research.update({
-      where: { id },
-      data: {
-        research_type: research_type ?? undefined,
-        extracted_text: extracted_text ?? undefined,
-        results: results ?? undefined
-      },
-      include: includeRelations
-    })
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to update research: ${error.message}`, 500)
-  }
+  return await prisma.research.update({
+    where: { id },
+    data: {
+      ...(research_type && { research_type }),
+      ...(results !== undefined && { results }),
+      ...(extracted_text !== undefined && { extracted_text }),
+      ...(case_id !== undefined && { case_id }),
+      ...(doctor_id !== undefined && { doctor_id }),
+    },
+    include: researchInclude
+  })
 }
 
-// Update research status
-// PENDING → PROCESSING → PROCESSED | ERROR
 export const updateStatus = async (id, status) => {
-  try {
-    await getById(id)
+  const found = await prisma.research.findUnique({ where: { id } })
+  if (!found) throw new AppError('Research not found', 404)
 
-    // Set processed_at when research is marked as PROCESSED
-    const processed_at = status === 'PROCESSED' ? new Date() : undefined
-
-    return await prisma.research.update({
-      where: { id },
-      data: { status, processed_at }
-    })
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to update research status: ${error.message}`, 500)
-  }
+  return await prisma.research.update({
+    where: { id },
+    data: {
+      status,
+      ...(status === 'PROCESSED' && { processed_at: new Date() }),
+    },
+    include: researchInclude
+  })
 }
 
-// Delete research by id
-export const remove = async (id) => {
-  try {
-    await getById(id)
+export const assignToCase = async (id, caseId) => {
+  const found = await prisma.research.findUnique({ where: { id } })
+  if (!found) throw new AppError('Research not found', 404)
 
-    return await prisma.research.delete({
-      where: { id }
-    })
-  } catch (error) {
-    throw error instanceof AppError ? error : new AppError(`Failed to delete research: ${error.message}`, 500)
-  }
+  const caseFound = await prisma.case.findUnique({ where: { id: caseId } })
+  if (!caseFound) throw new AppError('Case not found', 404)
+
+  return await prisma.research.update({
+    where: { id },
+    data: { case_id: caseId },
+    include: researchInclude
+  })
+}
+
+export const remove = async (id) => {
+  const found = await prisma.research.findUnique({ where: { id } })
+  if (!found) throw new AppError('Research not found', 404)
+  await prisma.research.delete({ where: { id } })
 }

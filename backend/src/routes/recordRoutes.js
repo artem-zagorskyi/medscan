@@ -5,31 +5,33 @@ import { requireRole } from '../middleware/rolesMiddleware.js'
 
 const router = Router()
 
-// GET /api/records — all authenticated users
-router.get('/', authenticate, recordController.getAll)
+router.use(authenticate)
 
-// GET /api/records/entry-type/:entryType — all authenticated users
-router.get('/entry-type/:entryType', authenticate, recordController.getByEntryType)
+// GET /api/records — всі записи
+router.get('/', recordController.getAll)
 
-// GET /api/records/medical-record/:medicalRecordId — all authenticated users
-router.get('/medical-record/:medicalRecordId', authenticate, recordController.getByMedicalRecord)
+// GET /api/records/:id — запис по id з усіма деталями
+router.get('/:id', recordController.getById)
 
-// GET /api/records/doctor/:doctorId — all authenticated users
-router.get('/doctor/:doctorId', authenticate, recordController.getByDoctor)
+// GET /api/records/medical-record/:medicalRecordId — записи пацієнта
+router.get('/medical-record/:medicalRecordId', recordController.getByMedicalRecord)
 
-// GET /api/records/:id — all authenticated users
-router.get('/:id', authenticate, recordController.getById)
+// GET /api/records/case/:caseId — записи кейсу
+router.get('/case/:caseId', recordController.getByCase)
 
-// POST /api/records — doctors and admins
-router.post('/', authenticate, requireRole('DOCTOR', 'ADMIN'), recordController.create)
+// GET /api/records/doctor/:doctorId — записи лікаря
+router.get('/doctor/:doctorId', recordController.getByDoctor)
 
-// PATCH /api/records/:id — doctors and admins
-router.patch('/:id', authenticate, requireRole('DOCTOR', 'ADMIN'), recordController.update)
+// POST /api/records — створити запис
+router.post('/', requireRole('DOCTOR', 'ADMIN'), recordController.create)
 
-// PATCH /api/records/:id/attach-research — doctors and admins
-router.patch('/:id/attach-research', authenticate, requireRole('DOCTOR', 'ADMIN'), recordController.attachResearch)
+// PATCH /api/records/:id — оновити запис (тільки DRAFT)
+router.patch('/:id', requireRole('DOCTOR', 'ADMIN'), recordController.update)
 
-// DELETE /api/records/:id — doctors and admins
-router.delete('/:id', authenticate, requireRole('DOCTOR', 'ADMIN'), recordController.remove)
+// PATCH /api/records/:id/sign — підписати запис
+router.patch('/:id/sign', requireRole('DOCTOR', 'ADMIN'), recordController.sign)
+
+// DELETE /api/records/:id — видалити запис (тільки DRAFT)
+router.delete('/:id', requireRole('DOCTOR', 'ADMIN'), recordController.remove)
 
 export default router

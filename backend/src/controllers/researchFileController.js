@@ -1,4 +1,7 @@
 import * as researchFileService from '../services/researchFileService.js'
+import path from 'path'
+import fs from 'fs'
+import prisma from '../config/prisma.js'
 
 // GET /api/research-files
 export const getAll = async (req, res) => {
@@ -101,4 +104,19 @@ export const remove = async (req, res) => {
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message })
   }
+}
+
+export async function downloadResearchFile(req, res) {
+  const id = Number(req.params.id)
+  const file = await prisma.researchFile.findUnique({ where: { id } })
+  if (!file) return res.status(404).json({ error: 'not found' })
+
+  const abs = path.resolve(process.cwd(), file.file_path)
+
+  if (!fs.existsSync(abs)) {
+    return res.status(404).json({ error: 'file missing on disk' })
+  }
+
+  res.contentType('application/pdf')
+  res.sendFile(abs)
 }
