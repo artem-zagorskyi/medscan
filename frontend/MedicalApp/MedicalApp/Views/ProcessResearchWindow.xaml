@@ -1,0 +1,579 @@
+﻿<Window x:Class="MedicalApp.Views.ProcessResearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:local="clr-namespace:MedicalApp.Helpers"
+        Title="Обробка PDF-файлу дослідження"
+        Width="1100" Height="700"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <local:InverseBoolConverter x:Key="InverseBool"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Ліва частина — PDF viewer -->
+            <ColumnDefinition Width="*"/>
+            <!-- Розділювач -->
+            <ColumnDefinition Width="5"/>
+            <!-- Права частина — класифікація -->
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══════════════════════════════════════
+             ЛІВА ЧАСТИНА — PDF VIEWER
+        ════════════════════════════════════════ -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Шапка PDF панелі -->
+            <Border Grid.Row="0" Background="White"
+                    BorderBrush="#E0DEDB" BorderThickness="0,0,0,1"
+                    Padding="16,10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="Document24" FontSize="16"
+                                   Foreground="#185FA5" Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding FileName}"
+                               FontSize="13" FontWeight="Medium"
+                               Foreground="#2C2C2A" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Border>
+
+            <!-- WebView2 PDF Viewer -->
+            <Border Grid.Row="1" Background="#525659">
+                <wv2:WebView2 x:Name="PdfViewer"
+                              NavigationStarting="PdfViewer_NavigationStarting"/>
+            </Border>
+        </Grid>
+
+        <!-- Розділювач -->
+        <GridSplitter Grid.Column="1"
+                      Width="5"
+                      HorizontalAlignment="Stretch"
+                      Background="#E0DEDB"
+                      ResizeDirection="Columns"/>
+
+        <!-- ═══════════════════════════════════════
+             ПРАВА ЧАСТИНА — КЛАСИФІКАЦІЯ
+        ════════════════════════════════════════ -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Шапка правої панелі -->
+            <Border Grid.Row="0" Background="White"
+                    BorderBrush="#E0DEDB" BorderThickness="0,0,0,1"
+                    Padding="20,14">
+                <StackPanel>
+                    <TextBlock Text="Класифікація дослідження"
+                               FontSize="15" FontWeight="SemiBold"
+                               Foreground="#2C2C2A"/>
+                    <TextBlock Text="{Binding CreatedAtDisplay}"
+                               FontSize="12" Foreground="#888780"
+                               Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Контент правої панелі -->
+            <!-- Контент правої панелі -->
+            <ScrollViewer Grid.Row="1"
+              VerticalScrollBarVisibility="Auto"
+              Padding="20">
+                <StackPanel>
+
+                    <!-- Інфо про файл -->
+                    <Border Background="White"
+                BorderBrush="#E0DEDB" BorderThickness="1"
+                CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock Text="ІНФОРМАЦІЯ ПРО ФАЙЛ"
+                           FontSize="11" FontWeight="SemiBold"
+                           Foreground="#888780" Margin="0,0,0,12"/>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Файл:" FontSize="12"
+                               Foreground="#888780" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1"
+                               Text="{Binding FileName}"
+                               FontSize="12" Foreground="#2C2C2A"
+                               TextWrapping="Wrap"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Пацієнт:" FontSize="12"
+                               Foreground="#888780" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1"
+                               Text="{Binding PatientName}"
+                               FontSize="12" Foreground="#2C2C2A"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Дата файлу:" FontSize="12"
+                               Foreground="#888780" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1"
+                               Text="{Binding CreatedAtDisplay}"
+                               FontSize="12" Foreground="#2C2C2A"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Прив'язка до кейсу -->
+                    <Border Background="White"
+                BorderBrush="#E0DEDB" BorderThickness="1"
+                CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock Text="ПРИВ'ЯЗКА ДО КЕЙСУ"
+                           FontSize="11" FontWeight="SemiBold"
+                           Foreground="#888780" Margin="0,0,0,12"/>
+                            <ComboBox ItemsSource="{Binding CaseOptions}"
+                          SelectedItem="{Binding SelectedCase}"
+                          DisplayMemberPath="DisplayName"
+                          FontSize="13"
+                          Height="36"/>
+                            <TextBlock Text="Необов'язково — можна залишити без кейсу"
+                           FontSize="11" Foreground="#888780"
+                           Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Індикатор класифікації -->
+                    <Border Background="#F0F7FF" BorderBrush="#B5D4F4"
+        BorderThickness="1" CornerRadius="8"
+        Padding="16,12" Margin="0,0,0,16">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsClassifying}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Спінер -->
+                            <ui:SymbolIcon Symbol="ArrowSync24" FontSize="16"
+                       Foreground="#185FA5" Margin="0,0,10,0"
+                       RenderTransformOrigin="0.5,0.5">
+                                <ui:SymbolIcon.RenderTransform>
+                                    <RotateTransform x:Name="SpinnerRotation"/>
+                                </ui:SymbolIcon.RenderTransform>
+                                <ui:SymbolIcon.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard RepeatBehavior="Forever">
+                                                <DoubleAnimation
+                                Storyboard.TargetName="SpinnerRotation"
+                                Storyboard.TargetProperty="Angle"
+                                From="0" To="360"
+                                Duration="0:0:1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </ui:SymbolIcon.Triggers>
+                            </ui:SymbolIcon>
+                            <TextBlock Text="{Binding ClassificationStatus}"
+                   FontSize="13" Foreground="#185FA5"
+                   VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Тип дослідження -->
+                    <Border Background="White"
+        BorderBrush="#E0DEDB" BorderThickness="1"
+        CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                        <StackPanel>
+                            <!-- Заголовок: назва + бейдж + кнопка -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="ТИП ДОСЛІДЖЕННЯ"
+                       FontSize="11" FontWeight="SemiBold"
+                       Foreground="#888780" VerticalAlignment="Center"/>
+
+                                <!-- Бейдж confidence -->
+                                <!--<Border Grid.Column="1"
+                    Background="{Binding ConfidenceColor}"
+                    CornerRadius="8" Padding="8,2" Margin="8,0,0,0"
+                    VerticalAlignment="Center">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Confidence}" Value="high">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Confidence}" Value="medium">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Confidence}" Value="low">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding ConfidenceDisplay}"
+                           FontSize="10" Foreground="{Binding ConfidenceTextColor}"/>
+                                </Border>-->
+
+                                <!-- Кнопка класифікації -->
+                                <Button Grid.Column="3"
+        Click="ClassifyButton_Click"
+        Height="28" Padding="10,0"
+        Cursor="Hand"
+        IsEnabled="{Binding IsClassifying, Converter={StaticResource InverseBool}}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#EAF3FB"/>
+                                            <Setter Property="Foreground" Value="#185FA5"/>
+                                            <Setter Property="BorderBrush" Value="#B5D4F4"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6" Padding="10,4">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#D6EAFA"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsEnabled" Value="False">
+                                                                <Setter Property="Background" Value="#F0EEEB"/>
+                                                                <Setter Property="Foreground" Value="#C0BEBC"/>
+                                                                <Setter Property="BorderBrush" Value="#E0DEDB"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon Symbol="ArrowSync24" FontSize="12"
+                       Foreground="#185FA5" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding ClassifyButtonText}"
+                   FontSize="11" Foreground="#185FA5"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <!-- TextBox для типу -->
+                            <TextBox Text="{Binding SelectedResearchType, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize="13" Height="36" Padding="10,0"
+                 BorderBrush="#D3D1C7" BorderThickness="1"
+                 VerticalContentAlignment="Center"/>
+
+                            <!-- Акордеон кандидатів -->
+                            <Border BorderBrush="#E0DEDB" BorderThickness="1"
+                CornerRadius="8" Margin="0,10,0,0">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CandidateOptions.Count}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CandidateOptions.Count}" Value="2">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CandidateOptions.Count}" Value="3">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CandidateOptions.Count}" Value="4">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CandidateOptions.Count}" Value="5">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <!-- Заголовок акордеону -->
+                                    <Button Click="ToggleCandidates_Click2" Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="Padding" Value="12,10"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border Background="{TemplateBinding Background}"
+                                                Padding="{TemplateBinding Padding}"
+                                                CornerRadius="8">
+                                                                <ContentPresenter/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#F5F4F1"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Кандидати від ШІ"
+                                   FontSize="12" FontWeight="SemiBold"
+                                   Foreground="#5F5E5A"
+                                   VerticalAlignment="Center"/>
+                                            <ui:SymbolIcon Grid.Column="1" VerticalAlignment="Center">
+                                                <ui:SymbolIcon.Style>
+                                                    <Style TargetType="ui:SymbolIcon">
+                                                        <Setter Property="Symbol" Value="ChevronDown24"/>
+                                                        <Setter Property="FontSize" Value="14"/>
+                                                        <Setter Property="Foreground" Value="#888780"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsCandidatesExpanded}" Value="True">
+                                                                <Setter Property="Symbol" Value="ChevronUp24"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ui:SymbolIcon.Style>
+                                            </ui:SymbolIcon>
+                                        </Grid>
+                                    </Button>
+
+                                    <!-- Список кандидатів -->
+                                    <Border BorderBrush="#E0DEDB" BorderThickness="0,1,0,0">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCandidatesExpanded}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <ItemsControl ItemsSource="{Binding CandidateOptions}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Padding="12,8" Cursor="Hand"
+                                        MouseLeftButtonDown="Candidate_Click"
+                                        BorderBrush="#F0EEEB" BorderThickness="0,0,0,1">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#F0F7FF"/>
+                                                                    </Trigger>
+                                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                        <Setter Property="Background" Value="#EAF3FB"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding CommonName}"
+                                                   FontSize="12" Foreground="#2C2C2A"
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"/>
+                                                            <Border Grid.Column="1"
+                                                                    CornerRadius="4"
+                                                                    Padding="6,2" Margin="8,0,0,0"
+                                                                    VerticalAlignment="Center">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#F0EEEB"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                                <Setter Property="Background" Value="#D6EAFA"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Text="{Binding Score, StringFormat={}{0:P0}}"
+                                                                                    FontSize="11">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#5F5E5A"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#185FA5"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Результати -->
+                    <Border Background="White"
+                BorderBrush="#E0DEDB" BorderThickness="1"
+                CornerRadius="8" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="РЕЗУЛЬТАТИ / НОТАТКИ"
+                           FontSize="11" FontWeight="SemiBold"
+                           Foreground="#888780" Margin="0,0,0,12"/>
+                            <TextBox Text="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="13"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         MinHeight="100"
+                         MaxHeight="300"
+                         Padding="10"
+                         VerticalScrollBarVisibility="Auto"
+                         BorderBrush="#D3D1C7"
+                         BorderThickness="1"
+                         VerticalContentAlignment="Top"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Кнопки дій -->
+            <Border Grid.Row="2" Background="White"
+                    BorderBrush="#E0DEDB" BorderThickness="0,1,0,0"
+                    Padding="20,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Помилка -->
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding ErrorMessage}"
+                               FontSize="12" Foreground="#A32D2D"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"
+                               Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}"/>
+
+                    <!-- Скасувати -->
+                    <Button Grid.Column="1"
+                            Content="Скасувати"
+                            Click="CancelButton_Click"
+                            Height="36" Padding="16,0"
+                            Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="#5F5E5A"/>
+                                <Setter Property="BorderBrush" Value="#D3D1C7"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="{TemplateBinding Padding}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#F1EFE8"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Зберегти -->
+                    <Button Grid.Column="3"
+                            Click="SaveButton_Click"
+                            Height="36" Padding="16,0"
+                            Cursor="Hand"
+                            IsEnabled="{Binding CanSave}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#185FA5"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="{TemplateBinding Padding}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#1A6FB8"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Background" Value="#C0BEBC"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Save24" FontSize="14" Margin="0,0,6,0"/>
+                            <TextBlock Text="Зберегти" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

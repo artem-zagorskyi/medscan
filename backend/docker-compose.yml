@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: medscan_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: medscan_db
+      MYSQL_USER: medscan_user
+      MYSQL_PASSWORD: medscan_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpassword"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    image: medscan-backend:latest     
+    container_name: medscan_backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy     
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+
+  #ollama:
+  #  image: ollama/ollama:latest
+  #  container_name: medscan_ollama
+  #  restart: always
+  #  ports:
+  #    - "11434:11434"
+  #  volumes:
+  #    - ollama_data:/root/.ollama
+  #  environment:
+  #    - OLLAMA_KEEP_ALIVE=24h
+  #  entrypoint: >
+  #    sh -c "ollama serve & sleep 10 && ollama pull gemma3:4b && wait"
+
+volumes:
+  mysql_data:
+  #ollama_data:
